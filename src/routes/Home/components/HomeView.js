@@ -5,7 +5,7 @@ import './HomeView.scss'
 
 export const HomeView = () => (
   <div>
-    <Helmet title='Home' />
+    <Helmet title='Home432534' />
     <h4>Welcome!</h4>
     <img
       alt='This is a duck, because Redux!'

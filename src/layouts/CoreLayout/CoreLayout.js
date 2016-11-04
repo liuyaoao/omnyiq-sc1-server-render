@@ -1,14 +1,14 @@
 import React from 'react'
-import Header from '../../components/Header'
+import ReactTabBar from '../../components/ReactTabBar'
 import './CoreLayout.scss'
 import '../../styles/core.scss'
 
 export const CoreLayout = ({ children }) => (
   <div className='container text-center'>
-    <Header />
     <div className='mainContainer'>
       {children}
     </div>
+    <ReactTabBar />
   </div>
 )
 

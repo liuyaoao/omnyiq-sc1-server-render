@@ -1,23 +1,116 @@
-:global {
-  @import 'base';
-  @import '~normalize.css/normalize';
+/*@import './loading.css';*/
+/*@import './reactTabBar.css';
+@import './dashboard.css';
+@import './gridData.css';
+@import './devices.css';
+@import './locations.css';
+@import './network.css';
+@import './LocationsDetails.css';
+@import './community.css';
+@import './CreateCommunity.css';
+@import './Settings.css';
+@import './CommunityDetails.css';*/
+/*@font-face {
+  font-family: 'avenir',
+   src: url('fonts/avenir/avenir-light.eot'),
+  font-size: 14px
+}*/
+html{-webkit-text-size-adjust:none;}
+html{overflow-y:scroll;*overflow:auto;}
+body,div,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dd,dt,p,hr,blockquote,address,pre,code,form,fieldset,legend,textarea,input,button,th,td{margin:0;padding:0;}
+@font-face {
+  font-family: "avenir";
+  src: url("../static/fonts/avenir/avenir-light.eot") format("embedded-opentype"),
+       url("../static/fonts/avenir/avenir-light-webfont.woff") format("woff"),
+       url("../static/fonts/AvenirLT-35-Light.ttf") format("truetype"),
+       url("../static/fonts/avenir/avenir-light.svg#AvenirLT35LightRegular") format("svg");
+  font-size: 1rem;
+}
+html, body{
+  font-size: 12px;
+  background: #F1F1F3;
+  padding: 0;
+  margin: 0;
+}
+body{
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+	background: #F1F1F3;
+	font-family: "avenir","Helvetica Neue",Helvetica,Arial,sans-serif,"Hiragino Sans GB";
+	color: #222;
+  max-width: 1280px;
+  min-width: 320px;
+}
+@media screen and (max-width:320px){html{font-size:50%}}
+@media screen and (min-width:321px) and (max-width:375px){html{font-size:60%}}
+@media screen and (min-width:376px) and (max-width:414px){html{font-size:70%}}
+@media screen and (min-width:415px) and (max-width:639px){html{font-size:80%}}
+@media screen and (min-width:640px) and (max-width:719px){html{font-size:90%}}
+@media screen and (min-width:720px){html{font-size:100%;}}
+@media screen and (min-width:750px) and (max-width:799px){html{font-size:120%}}
+@media screen and (min-width:800px)and (max-width:1199px){html{font-size:25px}}
+@media screen and (min-width:1200px){html{font-size:30px}}
 
-  // Some best-practice CSS that's useful for most apps
-  // Just remove them if they're not what you want
-  html {
-    box-sizing: border-box;
-  }
-
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
+element{
+    /*iphone及ipad下输入框默认内阴影*/
+    -webkit-appearance: none;
+    /*-webkit-tap-highlight-color:rgba(255,255,255,0)*/
+    -webkit-tap-highlight-color:rgba(255,255,255,0);
+    /*border-width: thin;*/
+    border-width: thin;
+}
+/*去掉zingchart水印*/
+.zc-license {
+	display: none;
+}
+.dashboardContent{padding-top:52px;padding-bottom:49px;}
+ul,li{
+	list-style: none;
+}
+textarea {
+resize: none;
+}
+.clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.clearfix { *zoom:1; }
+/*react-bootstrap-css*/
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+.inline{display: inline-block;text-align: center;}
+.wi-slider {padding: 0 5px 0 5px;}
+.wi-slider .slider.slider-horizontal {width: 95%;}
+.wi-slider .slider-selection {background: #7cb5f4;}
+.wi-slider .controlBtn span{font-size:2.2rem;line-height: 2.2;}
+/*react-bootstrap-css end*/
+.flt{float:left;}
+.frt{float:right;}
+.pa{position:absolute;}
+.pr{position:relative;}
+.p-red {
+	color: #ff1508;
+}
+.p-green {
+	color: #0b9b10;
+}
+.p-bold {
+	font-weight: 800!important;
+}
+.timeSelection{margin-top: 6px;}
+.timeSelection ul{overflow: hidden;padding:0 20px;box-sizing:border-box;}
+.timeSelection ul li{float:left;width:16.66%}
+.timeSelection ul li p:first-child{margin: 0 auto;border-top: 2px solid transparent;box-sizing:content-box;width:35%;}
+.timeSelection ul li p:last-child{margin:5px 0;text-align: center;color:#888;}
+.timeSelection ul li.current p:first-child{border-top-color:#5F3DC3}
+.timeSelection ul li.current p:last-child{color:#000;}
+.scrollBackground{
+  margin:0;padding:0;
+  width:100%;
+  height:2000px;
+  z-index: 0;
+}
+.contentFixed{
+  position: fixed;top:0;left:0;z-index: 5;
 }

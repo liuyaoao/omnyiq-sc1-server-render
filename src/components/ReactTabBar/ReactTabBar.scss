@@ -1,0 +1,103 @@
+/*顶部导航*/
+.navbarDiv{
+  box-shadow: 0px 3px 4px #bbb;
+  position:fixed !important;
+  top:0px !important;
+  width:100%;
+  height:50px;
+  background-color: #fff;
+  z-index: 1000;
+}
+.navbarDiv .navbarRight{
+  padding-right: 20px;
+  float:right;
+  line-height: 50px;
+}
+.navbarDiv .navTitle{
+  position: absolute;
+  left:50%;
+  transform:translate(-50%,0);
+  font-size: 1.8rem;
+  line-height: 50px;
+  font-weight: 700;
+}
+.navbarDiv .navTitleText{
+  line-height: 25px;
+  text-align: center;
+}
+.navbarDiv .navTitleText .deviceInfoTitle{
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.navbarDiv .navTitle img{
+  height: 43px;
+  vertical-align: middle;
+}
+.navbarDiv .navbarLeft{
+  padding-left: 20px;
+  float:left;
+  line-height: 50px;
+}
+.navbarDiv .navbarRight img{
+  vertical-align: middle;
+  width:40px;
+}
+
+/*.navbarDiv .subNav li:first-child{
+  padding-left:10px;
+}
+.navbarDiv .subNav li:last-child{
+  padding-right:10px;
+}*/
+/*顶部导航结束*/
+
+/*底部菜单*/
+.appTabBar{
+  z-index: 1000;
+  height:49px;
+  padding:0px 0;
+  box-shadow: 0px -3px 4px #bbb;
+  position:fixed;
+  bottom:0px;
+  width:100%;
+  display: -webkit-flex;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+  background-color: #fff;
+}
+
+/*子选项*/
+.SubNavOption{
+  position:fixed;
+  top:50px;
+  width:100%;
+  background: #fff;
+  box-sizing: border-box;
+  z-index: 1100;
+}
+.SubNavOption ul,.SubNavOption li{
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
+.SubNavOption ul{
+  box-shadow: 0px 3px 4px #bbb;
+  overflow: hidden;
+}
+.SubNavOption li{
+  float:left;
+  line-height: 40px;
+  overflow: hidden;
+  text-align: center;
+  height:40px;
+  border-bottom: 3px solid transparent;
+  font-weight: 700;
+  color:#888;
+  font-size:1.5rem;
+  /*border-bottom: 3px solid red;*/
+}
+.SubNavOption li.current{
+  border-bottom-color:#69A3F0;
+  color:#69A3F0;
+}
