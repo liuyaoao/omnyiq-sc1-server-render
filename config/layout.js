@@ -17,7 +17,8 @@ export default Object.freeze({
     {name: 'apple-mobile-web-app-capable', content: 'yes'}
   ],
   link: [
-    {rel: 'shortcut icon', href: '/favicon.ico',type:'image/x-icon'}
+    {rel: 'shortcut icon', href: '/favicon.ico',type:'image/x-icon'},
+    {rel:'stylesheet', href:'/css/main.css'}
   ],
   script: [
     {type:'text/javascript', src:'/js/appConfig.js'},

@@ -1,0 +1,207 @@
+#myChart-top{left: 50%;transform: translate(-50%,0);}
+.dashboardHelpContainer{
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  margin:0;
+  padding:0;
+  z-index: 9999999;
+  font-size:1.6rem;
+  color:blue;
+}
+.dashboardHelpContainer .firstPageBack{
+  height:100%;
+  width:100%;
+}
+.dashboardHelpContainer .firstPageBack .imgFilter{
+  width:100%;
+  height:100%;
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+}
+.dashboardHelpContainer .pAbsolute{
+  position:absolute;
+}
+.dashboardHelpContainer .firstPageIcon{
+  top:0;
+  right:20px;
+  line-height:50px;
+}
+.dashboardHelpContainer .firstPageIcon img{
+  vertical-align: middle;
+  width: 40px;
+}
+.dashboardHelpContainer .firstPageArrow{
+    top:55px;
+    right:35px;
+}
+.dashboardHelpContainer .firstPageArrow>div{
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid #fff;
+}
+.dashboardHelpContainer .firstPageContent{
+  width:70%;
+  top:71px;
+  right:20px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+/*第二页*/
+.dashboardHelpContainer .secondPageBack0{
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  height:50px;
+}
+.dashboardHelpContainer .secondPageBack0 img,.dashboardHelpContainer .secondPageBack11 img{
+  width:100%;
+  height:100%;
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+
+}
+.dashboardHelpContainer .secondPageBack1{
+  width:100%;
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:50%;
+}
+.dashboardHelpContainer .secondPageBack11{
+  width:100%;
+  height:100%;
+  position:absolute;
+  bottom:0;
+  left:0;
+}
+.dashboardHelpContainer .secondPageArrow{
+    top:10px;
+    right:50%;
+}
+.dashboardHelpContainer .secondPageArrow>div{
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 22px solid #fff;
+}
+.dashboardHelpContainer .secondPageContent{
+  width:80%;
+  top:31px;
+  left:10%;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/*第三页*/
+.dashboardHelpContainer .threePageBack0{
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  height:50%;
+}
+.dashboardHelpContainer .threePageBack00{
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+}
+.dashboardHelpContainer .threePageBack1{
+  width:100%;
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:50px;
+}
+.dashboardHelpContainer .threePageBack00 img,.dashboardHelpContainer .threePageBack1 img{
+  width:100%;
+  height:100%;
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+
+}
+.dashboardHelpContainer .threePageArrow{
+    bottom:10px;
+    right:50%;
+}
+.dashboardHelpContainer .threePageArrow>div{
+  width: 0;
+  height: 0;
+  border-top: 22px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.dashboardHelpContainer .threePageContent{
+  width:80%;
+  bottom:31px;
+  left:10%;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+
+.Dashboard_content{margin: 0 10px;width:100%;box-sizing: border-box;margin-top: 55px;margin-bottom:50px;}
+.Dashboard_contentTop,.Dashboard_contentBottom{height:50%}
+.Dashboard_dashboardInfo{height:25%;overflow: hidden;}
+.Dashboard_dashboardInfo>p{margin:0;padding:0;text-align: center;font-size: 1.9rem;position: relative;font-weight: 700;}
+.Dashboard_dashboardInfo>p>img{position:absolute;right:5%;width:30px;height:30px;bottom:0px;}
+.Dashboard_dashboardInfo>p:first-child{color:#888;font-weight: normal;}
+.Dashboard_dashboardDetails{height:70%;overflow: hidden;position: relative;}
+.Dashboard_dashboardImg{height:100%;text-align: center;position:relative;}
+.Dashboard_dashboardImg img{height:100%;width: 50%;max-width: 315px;max-height: 288px;}
+.Dashboard_dashboardImg span{position: absolute;top:27%;left:40%;transform: translate(-50%,-50%);font-size: 4.8rem;color:#fff;}
+.Dashboard_HouseImg{height:100%;text-align: center;position:relative;}
+.Dashboard_HouseImg img{height:100%;}
+.Dashboard_HouseImg span{position: absolute;top: 60%;left: 50%;transform: translate(-50%,-50%);font-size: 4.8rem;color:#fff;}
+/*下半部分*/
+.Dashboard_contentBottom>div{width:50%;height:50%;float:left;box-sizing: border-box;}
+.Dashboard_contentBottom{position: relative;}
+.Dashboard_contentBottom>i{position: absolute;border-top: 1px solid #bbb;width:80%;top:50%;left:10%;}
+.Dashboard_contentBottom>s{position: absolute;border-left: 1px solid #bbb;height:80%;left:50%;top:10%;}
+.Dashboard_contentBottom>._dashboardButtomCenter{position: absolute;width:20%;height:30%;
+    background-color: #F1F1F3;top:50%;left:50%;transform: translate(-50%,-50%);z-index: 1000;text-align: center;border-radius: 50%;}
+.Dashboard_contentBottom>._dashboardButtomCenter>p{margin:0;font-size: 1.4rem;color:orange;height:20%;}
+.Dashboard_contentBottom>._dashboardButtomCenter>img{height:65%}
+.Dashboard_contentBottom>._dashboardButtomCenter>span{display: block;height:15%;color:grey;}
+._dashboardButtom1,._dashboardButtom2,._dashboardButtom3,._dashboardButtom4{
+  font-size: 1.3rem;color:grey;
+}
+._dashboardButtom1{padding-bottom: 3px;}
+._dashboardButtom1>p,._dashboardButtom2>p,._dashboardButtom4>p{margin: 0;text-align: center;width: 100%;float:left;height: 12%;}
+._dashboardButtom1>div,._dashboardButtom2>div,._dashboardButtom4>div{margin: 0;height: 86%;text-align: center;float:left;width:100%;position: relative}
+._dashboardButtom1>div>img,._dashboardButtom2>div>img,._dashboardButtom4>div>img{height:100%}
+._dashboardButtom1>div>p,._dashboardButtom2>div>p,._dashboardButtom4>div>p{position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);margin: 0px;}
+._dashboardButtom1>span,._dashboardButtom2>span,._dashboardButtom4>span{margin: 0;text-align: center;float:left;display: block;height: 12%;width: 100%;}
+._dashboardButtom2{padding-bottom: 3px;}
+._dashboardButtom3{padding-top: 3px;}
+._dashboardButtom4{padding-top: 3px;}
+/*图形*/
+._dashboardButtom3{position: relative;box-sizing: border-box;}
+._dashboardButtom3>div.ShapesLoad{height:86%;width:100%;position: relative;}
+._dashboardButtom3>div>p{position: absolute;top:56%;left:50%;transform: translate(-50%,-50%);margin: 0px;font-size: 2em;font-weight: 800}
+._dashboardButtom3>p{position: absolute;height: 12%;width: 100%;text-align: center;margin: 0;}

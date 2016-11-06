@@ -1,10 +1,10 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import ReactTabBar from '../../../components/ReactTabBar'
 import './WelcomeView.scss'
 import Welcome1Image from '../assets/Welcome1.png'
 
 // import * as TabBarAction from '../actions/ReactTabBar_action';
-
 var WelcomeView = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -18,7 +18,7 @@ var WelcomeView = React.createClass({
   },
   componentDidMount: function() {
     var _this = this;
-    // this.props.dispatch(TabBarAction.setTabBarIsShow(false));
+    this.props.setTabBarIsShow(false);
     var secondNum = 5; //显示几秒钟
     var intervalkey = setInterval(function(){
       secondNum--;
@@ -41,7 +41,7 @@ var WelcomeView = React.createClass({
   },
   _goIndex:function(){
     clearInterval(this.state.intervalkey);
-    // this.props.dispatch(TabBarAction.setTabBarIsShow(true));
+    this.props.setTabBarIsShow(true);
     this.context.router.push('/Locations');
   },
   componentWillUnmount:function(){
@@ -81,6 +81,10 @@ var WelcomeView = React.createClass({
             </span>
           </div>
         </div>
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     )
   }

@@ -86,7 +86,7 @@ export default getClientInfo => {
       // Internal server error
       // ----------------------------------
       if (err) {
-        handleError({status: 500, message: 'Internal server error', error: err})
+        handleError({status: 500, message: 'Internal server error...', error: err})
         return
       }
 
@@ -123,7 +123,7 @@ export default getClientInfo => {
             layout={layout} />
         )
       } catch (err) {
-        handleError({status: 500, message: 'Internal Server Error', error: err})
+        handleError({status: 500, message: 'Internal Server Error!!!', error: err})
         return
       }
 

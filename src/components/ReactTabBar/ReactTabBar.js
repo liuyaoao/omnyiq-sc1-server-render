@@ -4,19 +4,22 @@
 // 外面通过调用这句：this.props.dispatch(TabBarAction.setTabBarState(key));来设置底部tab选中哪一个。
 // key可为：'/Dashboard','/Community','/Locations','/Network'等等。
 
-//yonggang.wei  2016.08.28
-// import * as TabBarAction from '../../actions/ReactTabBar_action';
-// import { connect } from 'react-redux';
 import React from 'react';
 import './ReactTabBar.scss';
-import dashboardImg from './Dashboard.png'
-import dashboardImg_1 from './Dashboard-1.png'
+import dashboardImg from './assets/Dashboard.png'
+import dashboardImg_1 from './assets/Dashboard-1.png'
 
-import Community from './Community.png'
-import Community_1 from './Community-1.png'
+import Community from './assets/Community.png'
+import Community_1 from './assets/Community-1.png'
 
-import Locations from './Locations.png'
-import Locations_1 from './Locations-1.png'
+import Locations from './assets/Locations.png'
+import Locations_1 from './assets/Locations-1.png'
+
+import Network from './assets/Network.png'
+import Network_1 from './assets/Network-1.png'
+
+import Settings from './assets/Settings.png'
+import Settings_1 from './assets/Settings-1.png'
 
 const ReactTabBar = React.createClass({
   contextTypes: {
@@ -27,8 +30,8 @@ const ReactTabBar = React.createClass({
       {url:'/Dashboard',icon:dashboardImg,selectedIcon:dashboardImg_1,title:'Dashboard'},
       {url:'/Community',icon:Community,selectedIcon:Community_1,title:'Community'},
       {url:'/Locations',icon:Locations,selectedIcon:Locations_1,title:'Locations'},
-      {url:'/Network',icon:'../../static/icon/Network.png',selectedIcon:'../../static/icon/Network-1.png',title:'Network'},
-      {url:'/Settings',icon:'../../static/icon/Settings.png',selectedIcon:'../../static/icon/Settings-1.png',title:'Settings'}
+      {url:'/Network',icon:Network,selectedIcon:Network_1,title:'Network'},
+      {url:'/Settings',icon:Settings,selectedIcon:Settings_1,title:'Settings'}
     ];
     let tabBarMap = {};
     for(let obj of tabBarList){
@@ -47,7 +50,7 @@ const ReactTabBar = React.createClass({
   handleClick(e) {
     e.preventDefault(); //阻止滚动
     var toUrl = $(e.currentTarget).data('url');
-    // this.props.dispatch(TabBarAction.setTabBarState(toUrl));
+    this.props.setTabBarState(toUrl);
     this.context.router.push(toUrl);
   },
   createTabbar:function(tabBarList){

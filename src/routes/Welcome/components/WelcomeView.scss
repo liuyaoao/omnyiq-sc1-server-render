@@ -8,8 +8,6 @@
 .WelcomeOne .WelcomeOneIcon b{position: absolute;top: 90%;border-top: 1px solid #aaa;width: 95%;margin: 0 auto;display: block;left: 50%;transform: translate(-50%,0);}
 .WelcomeOne .WelcomeOneIcon b i{position: absolute;width: 180px;border-top: 1px solid #fff;bottom: 0;left: 50%;transform: translate(-50%,0);}
 .WelcomeOne .WelcomeOneIcon img{position: relative;z-index: 2001}
-@media screen and (max-width:319px) {.WelcomeOne .WelcomeOneIcon img{width:100%;height:100%;padding-left:27%;padding-right:27%;}}
-/*@media screen and (min-width:376px) and (max-width:414px){.WelcomeOne .WelcomeOneIcon img{width:100%;height:100%;}}*/
 
 .WelcomeOne p{text-align: center;color:#7050C7;font-size: 1.5rem;margin:5px 0;}
 .WelcomeOne>s{display: block;width:94%;margin:0 auto;border-top: 1px solid #aaa;margin-top: 10px;}

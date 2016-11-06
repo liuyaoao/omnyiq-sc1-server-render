@@ -1,5 +1,6 @@
 import React from 'react'
-import ReactTabBar from '../../components/ReactTabBar'
+
+// import Header from '../../components/Header'
 import './CoreLayout.scss'
 import '../../styles/core.scss'
 
@@ -8,7 +9,6 @@ export const CoreLayout = ({ children }) => (
     <div className='mainContainer'>
       {children}
     </div>
-    <ReactTabBar />
   </div>
 )
 
