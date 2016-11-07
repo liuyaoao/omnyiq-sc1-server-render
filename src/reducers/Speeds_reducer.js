@@ -1,57 +1,55 @@
-import { combineReducers } from 'redux'
-import {
-        // SPEEDS_SIGNAL_FREQUENCY_TYPE,
-        SPEEDS_CURRENT_TAB_INDEX,
-        SPEEDS_CURRENT_TAB_KEY,
-        // SPEEDS_CURRENT_TIMENODES,
-        SPEEDS_CURRENT_TIMENODE_TYPES
-} from '../actions/speeds_action'
+const SET_SPEEDS_CURRENT_TAB_INDEX = 'SET_SPEEDS_CURRENT_TAB_INDEX' //当前的tab标签页的序号。
+const SET_SPEEDS_CURRENT_TAB_KEY = 'SET_SPEEDS_CURRENT_TAB_KEY' //当前的tab标签页的key值。
+const SET_SPEEDS_CURRENT_TIMENODE_TYPES = 'SET_SPEEDS_CURRENT_TIMENODE_TYPES';//当前的所选的要显示数据的时间点的类型24H,72H,1W。
 
-// function signalType(state = '2.4', action) {
-//   switch (action.type) {
-//     case SPEEDS_SIGNAL_FREQUENCY_TYPE:
-//       return action.signalType;
-//     default:
-//       return state;
-//   }
-// }
-function curTabIndex(state = 0, action) {
-  switch (action.type) {
-    case SPEEDS_CURRENT_TAB_INDEX:
-      return action.curTabIndex;
-    default:
-      return state;
+export function setCurTabIndex(curTabIndex) {
+    return {
+        type: SET_SPEEDS_CURRENT_TAB_INDEX,
+        curTabIndex
+    }
+}
+export function setCurTabKey(curTabKey) {
+    return {
+        type: SET_SPEEDS_CURRENT_TAB_KEY,
+        curTabKey
+    }
+}
+export function setCurTimeNodeTypes(curTimeNodeTypes) {//object,哪个tab对应哪个时间类型。
+    return {
+        type: SET_SPEEDS_CURRENT_TIMENODE_TYPES,
+        curTimeNodeTypes
+    }
+}
+
+
+export const actions = {
+  setCurTabIndex,
+  setCurTabKey,
+  setCurTimeNodeTypes
+}
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
+const ACTION_HANDLERS = {
+  [SET_SPEEDS_CURRENT_TAB_INDEX]: (state,action) => {
+    return ({...state, curTabIndex: action.curTabIndex})
+  },
+  [SET_SPEEDS_CURRENT_TAB_KEY]: (state,action) => {
+    return ({...state, curTabKey: action.curTabKey})
+  },
+  [SET_SPEEDS_CURRENT_TIMENODE_TYPES]: (state,action) => {
+    return ({...state, curTimeNodeTypes: action.curTimeNodeTypes})
   }
 }
-function curTabKey(state = 'wifiScan', action) { //当前tab的key值，值可为：'download','upload','dl_ul'
-  switch (action.type) {
-    case SPEEDS_CURRENT_TAB_KEY:
-      return action.curTabKey;
-    default:
-      return state;
-  }
+//=======================
+//  reducer
+//========================
+export const initialState = {
+  curTabIndex: 0,
+  curTabKey: 'dl_ul',  //当前tab的key值，值可为：'download','upload','dl_ul'
+  curTimeNodeTypes:{'download':'24H','upload':'24H','dl_ul':'24H'}
 }
-// function curTimeNodes(state = {'download':{'24H':0,'72H':0,'1W':0,'1M':0,'3M':0,'1Y':0},'upload':{'24H':0,'72H':0,'1W':0,'1M':0,'3M':0,'1Y':0}}, action) {  //所有Tab标签下所有时间点类型的当前时间点值
-//   switch (action.type) {
-//     case SPEEDS_CURRENT_TIMENODES:
-//       return action.curTimeNodes; //是个object对象,结构为：{'wifiScan':{'24H':0,'72H':0},'capacity':{'24H':0,'72H':0}}；
-//     default:
-//       return state;
-//   }
-// }
-function curTimeNodeTypes(state ={'download':'24H','upload':'24H','dl_ul':'24H'} , action) { //当前时间点的类型
-  switch (action.type) {
-    case SPEEDS_CURRENT_TIMENODE_TYPES:
-      return action.curTimeNodeTypes;
-    default:
-      return state;
-  }
+export default function (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
 }
-const SpeedsReducer = combineReducers({
-  // signalType,
-  curTabIndex,
-  curTabKey,
-  // curTimeNodes,
-  curTimeNodeTypes
-})
-export default SpeedsReducer;

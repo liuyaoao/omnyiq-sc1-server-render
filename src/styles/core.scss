@@ -1,44 +1,4 @@
-/*@import './loading.css';*/
-/*@import './reactTabBar.css';
-@import './dashboard.css';
-@import './gridData.css';
-@import './devices.css';
-@import './locations.css';
-@import './network.css';
-@import './LocationsDetails.css';
-@import './community.css';
-@import './CreateCommunity.css';
-@import './Settings.css';
-@import './CommunityDetails.css';*/
-/*@font-face {
-  font-family: 'avenir',
-   src: url('fonts/avenir/avenir-light.eot'),
-  font-size: 14px
-}*/
-html{-webkit-text-size-adjust:none;}
-html{overflow-y:scroll;*overflow:auto;}
-body,div,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dd,dt,p,hr,blockquote,address,pre,code,form,fieldset,legend,textarea,input,button,th,td{margin:0;padding:0;}
-@font-face {
-  font-family: "avenir";
-  src: url("../static/fonts/avenir/avenir-light.eot") format("embedded-opentype"),
-       url("../static/fonts/avenir/avenir-light-webfont.woff") format("woff"),
-       url("../static/fonts/AvenirLT-35-Light.ttf") format("truetype"),
-       url("../static/fonts/avenir/avenir-light.svg#AvenirLT35LightRegular") format("svg");
-  font-size: 1rem;
-}
 
-element{
-    /*iphone及ipad下输入框默认内阴影*/
-    -webkit-appearance: none;
-    /*-webkit-tap-highlight-color:rgba(255,255,255,0)*/
-    -webkit-tap-highlight-color:rgba(255,255,255,0);
-    /*border-width: thin;*/
-    border-width: thin;
-}
-/*去掉zingchart水印*/
-.zc-license {
-	display: none;
-}
 .dashboardContent{padding-top:52px;padding-bottom:49px;}
 ul,li{
 	list-style: none;

@@ -1,0 +1,53 @@
+
+.dashboardSpeedsContent{
+  overflow: hidden;
+  margin-top:50px;
+  margin-bottom: 50px;
+  width:100%;
+  box-sizing: border-box;
+}
+.timeSelectTab_speeds{position:absolute;bottom:0;width: 100%;}
+.speedsUl{border-top: 1px solid #ddd;border-bottom: 2px solid #ddd;overflow: hidden;box-sizing:border-box;}
+.speedsUl li{float: left;width:33.33%;padding:5px 0;}
+.speedsUl li p{text-align:center;margin: 0;font-size: 1.5rem;color:#AB9A9B;}
+.speedsUl li p.current{color:#69A3F0;font-weight:700;}
+.speedsUl li.speedsDLUL p,.speedsUl li.speedsUpload p{border-right: 2px solid #ddd}
+.speedsContentBox{display: none;}
+.speedsContentBox.current{display: block;}
+.speedsDownloadTitle{
+  width: 100%;
+  position:absolute;top:0;
+  display:table;
+}
+.speedsDownloadTitle>div{
+  display:table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.speedsDownloadTitle p{color:#69A3F0;text-align: center;font-size: 2rem;margin:0;padding:0 0 .3rem 0}
+.speedsDownloadTitle p:last-child{font-size: 1.4rem;color:#888;padding-top: .3rem;}
+
+.speedsUploadAndDownloadTitle{width: 100%;position:absolute;top:0;display:table;}
+.speedsUploadAndDownloadTitle>div{
+  display:table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.speedsUploadAndDownloadTitle p{color:#69A3F0;text-align: center;font-size: 2rem;margin:0;padding:0 0 0.3rem 0}
+.speedsUploadAndDownloadTitle p>span{display: inline-block;margin:0 1rem;}
+.speedsUploadAndDownloadTitle p:last-child{font-size: 1.4rem;color:#888;padding-top: .3rem;}
+.loadingSpinContainer{width:0;position:absolute;left:50%;}
+.noDataContainer{
+  width:100%;
+  height: 100%;
+  text-align: center;
+  position: relative;
+}
+.noDataContainer p{
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+  font-size:2.5rem;
+  line-height: 2.5;
+  text-align: center;
+}

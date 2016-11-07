@@ -1,3 +1,7 @@
+html{-webkit-text-size-adjust:none;}
+html{overflow-y:scroll;*overflow:auto;}
+body,div,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dd,dt,p,hr,blockquote,address,pre,code,form,fieldset,legend,textarea,input,button,th,td{margin:0;padding:0;}
+
 html, body{
   font-size: 12px;
   background: #F1F1F3;
@@ -13,6 +17,27 @@ body{
   max-width: 1280px;
   min-width: 320px;
 }
+@font-face {
+  font-family: "avenir";
+  src: url("../fonts/avenir/avenir-light.eot") format("embedded-opentype"),
+       url("../fonts/avenir/avenir-light-webfont.woff") format("woff"),
+       url("../fonts/AvenirLT-35-Light.ttf") format("truetype"),
+       url("../fonts/avenir/avenir-light.svg#AvenirLT35LightRegular") format("svg");
+  font-size: 1rem;
+}
+element{
+    /*iphone及ipad下输入框默认内阴影*/
+    -webkit-appearance: none;
+    /*-webkit-tap-highlight-color:rgba(255,255,255,0)*/
+    -webkit-tap-highlight-color:rgba(255,255,255,0);
+    /*border-width: thin;*/
+    border-width: thin;
+}
+/*去掉zingchart水印*/
+.zc-license {
+	display: none;
+}
+
 @media screen and (max-width:320px){html{font-size:50%}}
 @media screen and (min-width:321px) and (max-width:375px){html{font-size:60%}}
 @media screen and (min-width:376px) and (max-width:414px){html{font-size:70%}}
@@ -24,3 +49,25 @@ body{
 @media screen and (min-width:1200px){html{font-size:30px}}
 
 @media screen and (max-width:319px) {.WelcomeOne .WelcomeOneIcon img{width:100%;height:100%;padding-left:27%;padding-right:27%;}}
+
+/** dashboardHelp page  因为这个不能放在子页面的css文件里，在webpack构建打包的时候会把-webkit-前缀的那个去掉*/
+.dashboardHelpContainer .firstPageBack .imgFilter{
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+}
+.dashboardHelpContainer .secondPageBack0 img,.dashboardHelpContainer .secondPageBack11 img{
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+
+}
+.dashboardHelpContainer .threePageBack00 img,.dashboardHelpContainer .threePageBack1 img{
+  -webkit-filter: blur(6px);
+       -moz-filter:blur(6px);
+        -ms-filter: blur(6px);
+            filter: blur(6px);
+
+}

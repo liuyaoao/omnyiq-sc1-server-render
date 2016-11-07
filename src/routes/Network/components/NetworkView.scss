@@ -1,0 +1,102 @@
+.networkContainer{
+  margin: 50px 0;overflow: hidden; width:100%;box-sizing: border-box;
+}
+.networkTitleContainer{
+  box-sizing: border-box;
+}
+.networkTitle{
+    margin: 0;
+    padding: 5% 0;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    position: relative;
+  }
+.devicesContainer{
+      height:30%;
+      padding:0px 0;
+      bottom:0px;
+      width:100%;
+      display: -webkit-flex;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      align-items: center;
+}
+.row{
+    flex-basis: 100%;
+    height: 50%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.perIcon{
+    flex:0 0 20%;
+    height: 72%;
+    position:relative;
+    /*background: green;*/
+}
+.perIcon>p{
+    text-align: center;
+}
+.perIcon .perIconImg{
+  width:100%;
+}
+.perIcon .littleWifiIcon{
+  position: absolute;
+  width: 20px;
+  top:5px;
+  right: 0;
+}
+.routerIconContainer{
+  width: 100%;
+  height: 19%;
+  position: relative;
+  display: table;
+}
+
+.routerIconContainer .routerIcon{
+  display: table-cell;
+  text-align: center;
+  vertical-align: bottom;
+  width:100%;
+  height:49%;
+}
+.routerIconContainer .routerIconLine{
+  position: absolute;
+  left: 50%;
+  top:10px;
+  width:0;
+  height:30%;
+  border-left:2px dotted blue;
+}
+.routerIconContainer .routerIconLine:first-child{
+    left: 40%;
+    transform: rotate(-40deg);
+}
+.routerIconContainer .routerIconLine.lastLine{
+    left: 60%;
+    transform: rotate(40deg);
+}
+.internetIconContainer{
+    width:100%;
+    height:19%;
+    position:relative;
+    display: table;
+}
+.internetIconContainer .internetLine{
+    position: absolute;
+    left: 50%;
+    top:0;
+    width:0;
+    height:30%;
+    border-left:2px solid #0BBD11;
+}
+.internetIconContainer .internetIcon{
+  display: table-cell;
+  text-align: center;
+  vertical-align: bottom;
+  width:100%;
+  height:49%;
+}

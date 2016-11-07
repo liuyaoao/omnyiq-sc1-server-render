@@ -3,10 +3,9 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Welcome from './Welcome'
 import LocationsView from './Locations'
 import Dashboard from './Dashboard'
-
-// import Home from './Home'
-import CounterRoute from './Counter'
-import Zen from './Zen'
+import Network from './Network'
+import Settings from './Settings'
+import Speeds from './Speeds'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -18,8 +17,9 @@ export const createRoutes = (store) => ({
   childRoutes: [
     LocationsView(store),
     Dashboard(store),
-    CounterRoute(store),
-    Zen(store)
+    Network(store),
+    Settings(store),
+    Speeds(store)
   ]
 })
 

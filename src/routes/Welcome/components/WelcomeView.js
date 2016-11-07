@@ -4,13 +4,13 @@ import ReactTabBar from '../../../components/ReactTabBar'
 import './WelcomeView.scss'
 import Welcome1Image from '../assets/Welcome1.png'
 
-// import * as TabBarAction from '../actions/ReactTabBar_action';
 var WelcomeView = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
   },
   getInitialState:function(){
     return {
+      Welcome1Image:null,
       mySwiper:null,
       clientHeight:0,
       intervalKey:''
@@ -34,7 +34,12 @@ var WelcomeView = React.createClass({
         _this._goIndex();
       }
     });
-    this.setState({intervalkey:intervalkey,mySwiper:mySwiper,clientHeight:parseInt(document.documentElement.clientHeight)});
+    this.setState({
+      Welcome1Image:Welcome1Image,
+      intervalkey:intervalkey,
+      mySwiper:mySwiper,
+      clientHeight:parseInt(document.documentElement.clientHeight)
+    });
     $(window).resize(function(){
       _this.setState({clientHeight:parseInt(document.documentElement.clientHeight)});
     });
@@ -57,7 +62,7 @@ var WelcomeView = React.createClass({
                 <div id="WelcomeContent" className="WelcomeContent" style={{}}>
                   <div className="WelcomeOne">
                     <div className="WelcomeOneIcon">
-                      <img src={Welcome1Image} />
+                      <img src={this.state.Welcome1Image||''} />
                       <s><i></i></s>
                       <b><i></i></b>
                     </div>
@@ -83,6 +88,7 @@ var WelcomeView = React.createClass({
         </div>
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

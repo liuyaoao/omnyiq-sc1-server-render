@@ -43,7 +43,7 @@ const ReactTabBar = React.createClass({
     }
   },
   componentWillMount:function(){
-    // this.props.dispatch(TabBarAction.setTabBarIsShow(true));
+    this.props.setTabBarIsShow(true);
   },
   componentDidUpdate:function(){
   },
@@ -79,13 +79,4 @@ const ReactTabBar = React.createClass({
     )
   }
 });
-// test
 module.exports = ReactTabBar;
-// function mapReactTabBarState(state) {
-//   const { tabBarState,tabBarIsShow } = state.ReactTabBarReducer
-//   return {
-//     tabBarState,
-//   }
-// }
-//
-// export default connect(mapReactTabBarState)(ReactTabBar);

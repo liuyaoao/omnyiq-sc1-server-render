@@ -10,7 +10,7 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Welcome = require('./containers/WelcomeContainer').default
-      const ReactTabBar = require('./modules/ReactTabBar_reducer').default
+      const ReactTabBar = require('./../../reducers/ReactTabBar_reducer').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBar })

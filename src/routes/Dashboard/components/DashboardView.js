@@ -1,8 +1,8 @@
 import React from 'react';
 import './DashboardView.scss'
-
+import ReactTabBar from '../../../components/ReactTabBar'
 import {getDevicesChartData} from './DashboardChartData';
-// import DashboardHelp from './DashboardHelp';
+import DashboardHelp from './DashboardHelp';
 import logoImg from '../assets/logo.png'
 import shareIconImg from '../assets/shareIcon.png'
 import differenceImg from '../assets/difference.png'
@@ -67,6 +67,7 @@ var DashboardView = React.createClass({
     }
   },
   componentWillMount:function(){//请求数据
+    this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Dashboard');
   },
   componentDidMount:function(){
@@ -185,7 +186,7 @@ var DashboardView = React.createClass({
     $('.dashboardHelpContainer').removeClass('hide');
   },
   _getHouseImgHtml:function(device_Type,scoreLevel){
-    var houseImgColors = ['Grey.png','Red.png','Orange.png','Green.png'];
+    var houseImgColors = ['Grey','Red','Orange','Green'];
     var imgUrl = this.state[device_Type+"_"+houseImgColors[scoreLevel]];
     return <img src={imgUrl} />;
   },
@@ -260,11 +261,19 @@ var DashboardView = React.createClass({
             <i></i><s></s>
           </div>
         </div>
-
-
+        <DashboardHelp
+          device_Type={this.state.deviceInfo.deviceN}
+          scoreState0={this.state.scoreState0}
+          scoreState1={this.state.scoreState1}
+          scoreState2={this.state.scoreState2}
+          scoreState3={this.state.scoreState3} />
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }
 });
-// <DashboardHelp device_Type={this.state.deviceInfo.deviceN}/>
 module.exports = DashboardView;

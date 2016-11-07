@@ -1,5 +1,5 @@
-export const SET_LOCATIONS_CURRENT_TAB_INDEX = 'SET_LOCATIONS_CURRENT_TAB_INDEX';//当前的tab标签页的序号。
-export const SET_LOCATIONS_CURRENT_TAB_KEY = 'SET_LOCATIONS_CURRENT_TAB_KEY';//当前的tab标签页的key值。
+const SET_LOCATIONS_CURRENT_TAB_INDEX = 'SET_LOCATIONS_CURRENT_TAB_INDEX' //当前的tab标签页的序号。
+const SET_LOCATIONS_CURRENT_TAB_KEY = 'SET_LOCATIONS_CURRENT_TAB_KEY' //当前的tab标签页的key值。
 
 // export function setSignalType(signalType) {
 //     return {

@@ -18,6 +18,9 @@ export default Object.freeze({
   ],
   link: [
     {rel: 'shortcut icon', href: '/favicon.ico',type:'image/x-icon'},
+    {rel:'stylesheet', href:'/css/bootstrap.min.css'},
+    {rel:'stylesheet', href:'/css/bootstrap-slider.min.css'},
+    {rel:'stylesheet', href:'/css/swiper-3.3.1.min.css'},
     {rel:'stylesheet', href:'/css/main.css'}
   ],
   script: [

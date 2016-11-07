@@ -1,6 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import LocationsList from './LocationsList'
+import ReactTabBar from '../../../components/ReactTabBar'
 
 import logoImg from '../assets/logo.png'
 import searchImg from '../assets/search.png'
@@ -20,7 +21,8 @@ var LocationsView = React.createClass({
       totalPage:0
     }
   },
-  componentWillMount:function(){//请求数据
+  componentWillMount:function(){
+    this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Locations');
   },
   _getServerData:function(page,size,keywords){
@@ -136,6 +138,11 @@ var LocationsView = React.createClass({
             <div style={{position:'fixed',top:'50%',left:'50%',transform:'translateX(-50%)','background':'#F1F1F3'}}>Online On Version 2.</div>
           </div>
         </div>
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }

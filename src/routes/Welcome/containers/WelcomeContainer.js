@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setTabBarState,setTabBarIsShow } from './../modules/ReactTabBar_reducer'
+import { setTabBarState,setTabBarIsShow } from './../../../reducers/ReactTabBar_reducer'
 
 import WelcomeView from '../components/WelcomeView'
 

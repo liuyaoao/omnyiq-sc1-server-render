@@ -17,10 +17,7 @@
 .dashboardHelpContainer .firstPageBack .imgFilter{
   width:100%;
   height:100%;
-  -webkit-filter: blur(6px);
-       -moz-filter:blur(6px);
-        -ms-filter: blur(6px);
-            filter: blur(6px);
+  /*filter: blur(6px);*/ /* 这个模糊滤镜的移到main.css去了。*/
 }
 .dashboardHelpContainer .pAbsolute{
   position:absolute;
@@ -67,11 +64,7 @@
 .dashboardHelpContainer .secondPageBack0 img,.dashboardHelpContainer .secondPageBack11 img{
   width:100%;
   height:100%;
-  -webkit-filter: blur(6px);
-       -moz-filter:blur(6px);
-        -ms-filter: blur(6px);
-            filter: blur(6px);
-
+  /*filter: blur(6px);*/ /* 这个模糊滤镜的移到main.css去了。*/
 }
 .dashboardHelpContainer .secondPageBack1{
   width:100%;
@@ -109,7 +102,6 @@
   word-wrap: break-word;
   word-break: break-word;
 }
-
 /*第三页*/
 .dashboardHelpContainer .threePageBack0{
   width:100%;
@@ -135,11 +127,7 @@
 .dashboardHelpContainer .threePageBack00 img,.dashboardHelpContainer .threePageBack1 img{
   width:100%;
   height:100%;
-  -webkit-filter: blur(6px);
-       -moz-filter:blur(6px);
-        -ms-filter: blur(6px);
-            filter: blur(6px);
-
+  /*filter: blur(6px);*/ /* 这个模糊滤镜的移到main.css去了。*/
 }
 .dashboardHelpContainer .threePageArrow{
     bottom:10px;

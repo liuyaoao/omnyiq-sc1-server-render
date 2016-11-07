@@ -1,0 +1,120 @@
+.searchWithInput{
+    display: inline-block;
+    position: absolute;
+    right: 2%;
+    top: 5px;
+}
+.searchForm{
+  width:95%;
+  margin:8px auto;
+}
+.searchForm input{
+    background: #EFE8E8;
+    box-shadow: 1px 2px 4px #9E9A9A;
+}
+.networkListData{
+  padding:0 1rem 1rem 1rem;
+  /*background: lightgrey;*/
+}
+.networkListData .deviceList{
+  border-bottom: 1px solid #ddd;
+  height:60px;
+  overflow: hidden;
+  position:relative;
+}
+.networkListData .deviceList>p{
+  float:left;
+  margin: 0;
+  padding: 0;
+}
+.networkListData .deviceList .deviceIcon{
+  line-height: 60px;
+  height:60px;
+}
+.networkListData .deviceList .deviceIcon img{
+  height:50px;
+  vertical-align: middle;
+}
+.networkListData .deviceList .deviceScoreIcon{
+  /*float:right;*/
+  line-height: 60px;
+  position: absolute;
+  right: -4px;
+  top: 3px;
+}
+.networkListData .deviceList .deviceScoreIcon span{
+  float:right;
+  font-size: 2em;
+  width: 1.8em;
+  text-align: center;
+}
+.networkListData .deviceScoreIcon img{
+  width:40px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.networkListData .deviceTitle{
+  margin-left:.8rem !important;
+  line-height: 60px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  width: 60%;
+  overflow: hidden;
+  word-break: break-all;
+}
+.locationsTabLi{
+  width:50%;
+}
+.networkListData .deviceTitle span:last-child{
+  margin-left: 5px;
+}
+.locationsContentBox{
+  display: none;
+}
+.locationsContentBox.current{
+  display: block;
+}
+
+
+
+.subNavConnter{
+  padding:100px 15px 50px 15px;
+}
+.subNavConnter ul,.subNavConnter li{
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
+.subNavConnter li{
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+}
+.subNavConnter .liImg{
+  overflow: hidden;
+  float:left;
+  width:70px;
+  height:70px;
+  margin-right: 10px;
+}
+.subNavConnter .liConnter{
+  float:left;
+}
+.subNavConnter .liConnter b{
+  display: block;
+  font-size: 1.4em;
+}
+.subNavConnter .liConnter span{
+  color:#888;
+}
+.subNavConnter .liConnter p{
+  padding: 0;
+  margin: 0;
+}
+.subNavConnter .liConnter p img{
+  width: 81px;
+}
+.subNavConnter .liIcon{
+  font-size: 2em;
+  line-height: 70px;
+  float:right;
+}
