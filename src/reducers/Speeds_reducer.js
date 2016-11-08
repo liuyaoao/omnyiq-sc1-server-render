@@ -46,8 +46,8 @@ const ACTION_HANDLERS = {
 //========================
 export const initialState = {
   curTabIndex: 0,
-  curTabKey: 'dl_ul',  //当前tab的key值，值可为：'download','upload','dl_ul'
-  curTimeNodeTypes:{'download':'24H','upload':'24H','dl_ul':'24H'}
+  curTabKey: 'dl_ul',  //当前tab的key值，值可为：'dl_ul','download','upload'
+  curTimeNodeTypes:{'dl_ul':'24H','download':'24H','upload':'24H'}
 }
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

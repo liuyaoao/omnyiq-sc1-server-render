@@ -1,16 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import ReactNavbar from '../smallComponent/ReactNavbar';
-import * as TabBarAction from '../../actions/ReactTabBar_action';
+import ReactTabBar from '../../../components/ReactTabBar';
 import ConnectedDevicesSpeeds from './ConnectedDevicesSpeeds';
-// var ZingChart = require('zingchart-react').core;
-var DashboardConnectedDivices = React.createClass({
+
+import backImg from '../assets/back.png'
+import TV_UnknownImg from '../assets/TV_Unknown.png'
+import TV_OnlineImg from '../assets/TV_Online.png'
+import TV_OfflineImg from '../assets/TV_Offline.png'
+
+import scoreState0 from '../assets/scoreState0.png'
+import scoreState1 from '../assets/scoreState1.png'
+import scoreState2 from '../assets/scoreState2.png'
+import scoreState3 from '../assets/scoreState3.png'
+
+import './ConnectedDevicesView.scss'
+var ConnectedDevicesView = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
   },
   getInitialState:function(){
     return {
-      screenHeight:parseInt(document.documentElement.clientHeight),
+      scoreState0,
+      scoreState1,
+      scoreState2,
+      scoreState3,
+      deviceInfo:null,
+      screenHeight:0,
       timeType2Nodes:{'24H':24,'72H':24,'1W':7,'1M':30,'3M':30,'1Y':12},  //每个时间类型下的分的时间点的个数。
       tabKeyList:['unknown','online','speeds'],
       chooseShowSpeedsDevice:'',
@@ -24,7 +38,23 @@ var DashboardConnectedDivices = React.createClass({
     }
   },
   componentWillMount:function(){
-    this.props.dispatch(TabBarAction.setTabBarState('/Dashboard'));
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Dashboard');
+  },
+  componentDidMount:function(){
+    var _this = this;
+    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
+    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    _this.setState({
+      spinner:spinner,
+      screenHeight:parseInt(document.documentElement.clientHeight),
+      deviceInfo:deviceInfo
+    });
+    let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
+    $('.navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
+    this.getServerData();
+  },
+  getServerData:function(){
     var deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     var _this = this;
@@ -43,14 +73,6 @@ var DashboardConnectedDivices = React.createClass({
          _this.setState({allConnectedDevices:connectDevices,unknownList:_unknownList,knownList:_knownList,onlineList:onlineList,offlineList:offlineList});
        }
      });
-  },
-  componentDidMount:function(){
-    var _this = this;
-    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
-    _this.setState({spinner:spinner});
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
-    $('.navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
   },
   _onShowOneDeviceSpeeds:function(e){  //点击单个连接的设备去获取speed信息。
     var _this = this;
@@ -97,7 +119,7 @@ var DashboardConnectedDivices = React.createClass({
       }
       let li = <li key={i} onClick={this._onShowOneDeviceSpeeds} data-macaddrass={obj.stations.macAddress}>
         <div className='deviceItemContainer'>
-          <div className='DeviceListImg'><img src="./public/icon/TV_Unknown.png" /></div>
+          <div className='DeviceListImg'><img src={TV_UnknownImg} /></div>
           <div className='DeviceListContent'>
             <p className='contentTitle'>&lt; {DeviceList[i].stations.name} &gt;</p>
             <p>{DeviceList[i].stations.brand =='null'?'Unknown':DeviceList[i].stations.brand}</p>
@@ -148,7 +170,7 @@ var DashboardConnectedDivices = React.createClass({
       }
       let li = <li key={i} onClick={this._onShowOneDeviceSpeeds} data-macaddrass={obj.stations.macAddress}>
         <div className='deviceItemContainer'>
-          <div className='DeviceListImg'><img src="./public/icon/TV_Online.png" /></div>
+          <div className='DeviceListImg'><img src={TV_OnlineImg} /></div>
           <div className='DeviceListContent'>
             <p className='contentTitle'>&lt; {DeviceList[i].stations.name} &gt;</p>
             <p>{DeviceList[i].stations.brand =='null'?'Unknown':DeviceList[i].stations.brand}</p>
@@ -173,7 +195,7 @@ var DashboardConnectedDivices = React.createClass({
       }
       let li = <li key={i} onClick={this._onShowOneDeviceSpeeds} data-macaddrass={obj.stations.macAddress}>
         <div className='deviceItemContainer'>
-          <div className='DeviceListImg'><img src="./public/icon/TV_Offline.png" /></div>
+          <div className='DeviceListImg'><img src={TV_OfflineImg} /></div>
           <div className='DeviceListContent'>
             <p className='contentTitle'>&lt; {DeviceList[i].stations.name} &gt;</p>
             <p>{DeviceList[i].stations.brand =='null'?'Unknown':DeviceList[i].stations.brand}</p>
@@ -195,19 +217,19 @@ var DashboardConnectedDivices = React.createClass({
     this.context.router.push('/Locations');
   },
   render:function(){
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    let iconImg = this.state.deviceInfo ? this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';
     return (
       <div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
-            <a href='javascript:history.go(-1)'><img src='./public/icon/back.png' /></a>
+            <a href='javascript:history.go(-1)'><img src={backImg} /></a>
           </div>
           <div className='navTitle navTitleText'>
             <p>Connected Devices</p>
             <p className='deviceInfoTitle'></p>
           </div>
           <div className='navbarRight' onClick={this._onClickRightIcon}>
-            <img src={'./public/icon/scoreState'+deviceInfo.deviceScoreLevel+'.png'} />
+            <img src={iconImg} />
           </div>
           <div id="dashboardPopover">
           </div>
@@ -234,18 +256,16 @@ var DashboardConnectedDivices = React.createClass({
                 deviceName={this.state.chooseShowSpeedsDevice}
                 onClickCloseSingleSpeeds={this.onClickCloseSingleSpeeds}
                 screenHeight={this.state.screenHeight}
-                bandwidthList={this.state.bandwidthList}
-             />
+                bandwidthList={this.state.bandwidthList}/>
           </div>
         </div>
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
   )}
 });
 //
-function mapDashboardConnectedDivices(state) {
-  const { tabBarState } = state.ReactTabBarReducer;
-  return {
-    tabBarState
-  }
-}
-export default connect(mapDashboardConnectedDivices)(DashboardConnectedDivices);
+module.exports = ConnectedDevicesView;

@@ -27,8 +27,10 @@ var LocationsView = React.createClass({
   },
   _getServerData:function(page,size,keywords){
     var _this = this;
-    // var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
+    var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
+    // var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
+    let curTimeStamp = new Date()/1;
+    localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
     $.ajax({
        type: "GET",
        url: deviceListUrl+"/SearchAndDashboardMServlet?page="+page+"&size="+size+"&keywords="+keywords,  //先一次拿100条，相当于一次拿完。

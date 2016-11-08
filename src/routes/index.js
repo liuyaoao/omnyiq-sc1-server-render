@@ -3,9 +3,16 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Welcome from './Welcome'
 import LocationsView from './Locations'
 import Dashboard from './Dashboard'
+import Community from './Community'
 import Network from './Network'
 import Settings from './Settings'
 import Speeds from './Speeds'
+import WiFiInsight from './WiFiInsight'
+import ConnectedDevices from './ConnectedDevices'
+import RouterConditions from './RouterConditions'
+import SettingsPost from './SettingsPost'
+import SettingsDiagnostics from './SettingsDiagnostics'
+import SettingsContactUs from './SettingsContactUs'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -17,9 +24,16 @@ export const createRoutes = (store) => ({
   childRoutes: [
     LocationsView(store),
     Dashboard(store),
+    Community(store),
     Network(store),
     Settings(store),
-    Speeds(store)
+    Speeds(store),
+    WiFiInsight(store),
+    ConnectedDevices(store),
+    RouterConditions(store),
+    SettingsPost(store),
+    SettingsDiagnostics(store),
+    SettingsContactUs(store)
   ]
 })
 

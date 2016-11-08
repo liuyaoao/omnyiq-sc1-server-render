@@ -1,36 +1,30 @@
-import { combineReducers } from 'redux'
-import {DEVICE_INFORMATION,DASHBOARD_SPEEDS,CONNECT_DIVICES} from '../actions/Dashboard_action'
+const SET_DASHBOARD_CURRENT_TAB_INDEX = 'SET_DASHBOARD_CURRENT_TAB_INDEX' //当前的tab标签页的序号。
 
-function curDeviceInfo(state = {}, action) {
-  switch (action.type) {
-    case DEVICE_INFORMATION:
-      return action.curDeviceInfo;
-    default:
-      return state;
-  }
+export function setCurTabIndex(curTabIndex) {
+    return {
+        type: SET_DASHBOARD_CURRENT_TAB_INDEX,
+        curTabIndex
+    }
 }
 
-function dashboardSpeedsState(state = [],action){
-  switch (action.type) {
-    case DASHBOARD_SPEEDS:
-      return action.dashboardSpeedsState;
-    default:
-      return state;
+export const actions = {
+  setCurTabIndex
+}
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
+const ACTION_HANDLERS = {
+  [SET_DASHBOARD_CURRENT_TAB_INDEX]: (state,action) => {
+    return ({...state, curTabIndex: action.curTabIndex})
   }
 }
-
-function connectDivivesState(state = [],action){
-  switch (action.type) {
-    case CONNECT_DIVICES:
-      return action.connectDivivesState;
-    default:
-      return state;
-  }
+//=======================
+//  reducer
+//========================
+export const initialState = {
+  curTabIndex: 0
 }
-
-const DashboardReducer = combineReducers({
-  curDeviceInfo,
-  dashboardSpeedsState,
-  connectDivivesState
-})
-export default DashboardReducer;
+export default function (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
+}

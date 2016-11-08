@@ -1,13 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import ReactTabBar from '../smallComponent/ReactTabBar';
-import * as TabBarAction from '../../actions/ReactTabBar_action';
-import PrivacyPolicyInfo from './PrivacyPolicyInfo';
-var SettingsDiagnostics = React.createClass({
+import PrivacyPolicyInfo from './PrivacyPolicyInfo'
+import ReactTabBar from '../../../components/ReactTabBar'
+import backImg from '../assets/back.png'
+import logoImg from '../assets/logo.png'
+
+import diagnosticsIcon_off from '../assets/diagnosticsIcon_off.png'
+import diagnosticsIcon_on from '../assets/diagnosticsIcon_on.png'
+import './SettingsDiagnosticsView.scss'
+
+var SettingsDiagnosticsView = React.createClass({
   getInitialState:function(){
     return{
-      screenHeight:parseInt(document.documentElement.clientHeight),
-      diagnosticsIcon:'./public/icon/diagnosticsIcon_on.png',
+      diagnosticsIcon_off,
+      diagnosticsIcon_on,
+      screenHeight:0,
       sendFlag:'on',  //上报发送开关。
       isBackToSettings:true, //是否是返回Settings页面。
       navbarData:{//顶部导航
@@ -24,29 +30,29 @@ var SettingsDiagnostics = React.createClass({
     }
   },
   componentWillMount:function(){
-    var _this = this;
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    let deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    this.props.dispatch(TabBarAction.setTabBarState('/Settings'));
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+"/ReportStatusServlet?flag=check&id="+deviceInfo.deviceId,
-       success: function(data){
-         data = JSON.parse(data);
-         _this.setState({
-           sendFlag:data.result,
-           diagnosticsIcon:'./public/icon/diagnosticsIcon_'+data.result+'.png'
-         });
-       }
-    });
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Settings');
   },
   componentDidMount:function(){
     var _this = this;
+    this.setState({
+      screenHeight:parseInt(document.documentElement.clientHeight)
+    });
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     $(window).scroll(function(event){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    });
+    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    let deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
+    $.ajax({
+       type: "GET",
+       url: deviceListUrl+"/ReportStatusServlet?flag=check&id="+deviceInfo.deviceId,
+       success: function(data){
+         data = JSON.parse(data);
+         _this.setState({sendFlag:data.result});
+       }
     });
   },
   onClickDiagnosticsON_OFF:function(e){
@@ -72,10 +78,7 @@ var SettingsDiagnostics = React.createClass({
        success: function(data){
          callback && callback();
          data = JSON.parse(data);
-         _this.setState({
-           sendFlag:toFlag,
-           diagnosticsIcon:'./public/icon/diagnosticsIcon_'+toFlag+'.png'
-         });
+         _this.setState({sendFlag:toFlag});
        }
     });
   },
@@ -116,12 +119,12 @@ var SettingsDiagnostics = React.createClass({
       <div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
-            <a href='javascript:history.go(-1)'><img onClick={this.onClickBack} src='./public/icon/back.png' /></a>
+            <a href='javascript:history.go(-1)'><img onClick={this.onClickBack} src={backImg} /></a>
           </div>
-          <div className='navTitle'><img src="./public/icon/logo.png"/></div>
+          <div className='navTitle'><img src={{logoImg}}/></div>
         </div>
         <div className='SettingsDiagnosticsContainer' style={{height:this.state.screenHeight-110}}>
-          <p className='diagnosticsIcon'><img src={this.state.diagnosticsIcon} /></p>
+          <p className='diagnosticsIcon'><img src={this.state['diagnosticsIcon_'+this.state.sendFlag]} /></p>
           <p className='diagnosticsTitle'>Diagnostics</p>
           <p>To improve your connexted</p>
           <p>experience over your network and</p>
@@ -132,11 +135,9 @@ var SettingsDiagnostics = React.createClass({
           <div className={this.state.sendFlag=='off'?'diagnosticsOn current':'diagnosticsOn'} onClick={this.onClickDiagnosticsON_OFF} data-toflag='on'>send to Omny IQ</div>
           <div className={this.state.sendFlag=='on'?'diagnosticsOff current':'diagnosticsOff'} onClick={this.onClickDiagnosticsON_OFF} data-toflag='off'>don't send</div>
         </div>
-
         <div className='privacyPolicyInfo hide'>
           <PrivacyPolicyInfo />
         </div>
-
         <div className='dialogContainer sendOffConfirm hide'>
           <div className='dialogBack'></div>
           <div className='dialogContent'>
@@ -150,16 +151,14 @@ var SettingsDiagnostics = React.createClass({
             </div>
           </div>
         </div>
-
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }
 });
 
-function mapSettingsDiagnostics(state) {
-  const { tabBarState } = state.ReactTabBarReducer;
-  return {
-    tabBarState
-  }
-}
-export default connect(mapSettingsDiagnostics)(SettingsDiagnostics);
+module.exports = SettingsDiagnosticsView;

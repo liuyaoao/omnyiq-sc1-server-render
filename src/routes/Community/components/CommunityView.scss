@@ -1,0 +1,29 @@
+.communityList{
+  padding:90px 15px 50px 15px;
+}
+.CommunityListLi{
+  background-color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+}
+.CommunityListLi h5{
+  font-size: 1.3em;
+  font-weight: 800;
+}
+.CommunityListLi p{
+  padding:0;
+  margin:0;
+  color:#888;
+}
+.CommunityListFooter{
+  line-height: 40px;
+  color:#888;
+}
+.CommunityListFooter>span{
+  float:left;
+  width: 66%;
+}
+.CommunityListFooter>p{
+  float:left;
+  width: 17%;
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {getAvailCapacityChartData} from './WiFiInsightChartData';
 var AvailCapacityContent = React.createClass({
   getInitialState:function(){
@@ -62,7 +61,7 @@ var AvailCapacityContent = React.createClass({
     var bandWidthArr = this.state.bandWidthArr;
     var str = 'wiFiInsightAvailableCapacity';
     return(
-      <div className='wiFiInsightAvailableCapacityContainer' style={{height:this.props.screenHeight-260}}>
+      <div className='wiFiInsightAvailableCapacityContainer' style={{height:this.props.screenHeight-280}}>
         <div id={str+bandWidthArr[0]} style={{height:'33%',width:'98%',margin:'0 auto',borderBottom:'1px dotted grey'}}></div>
         <div id={str+bandWidthArr[1]} style={{height:'33%',width:'98%',margin:'0 auto',borderBottom:'1px dotted grey'}}></div>
         <div id={str+bandWidthArr[2]} style={{height:'33%',width:'98%',margin:'0 auto',borderBottom:'1px dotted grey'}}></div>

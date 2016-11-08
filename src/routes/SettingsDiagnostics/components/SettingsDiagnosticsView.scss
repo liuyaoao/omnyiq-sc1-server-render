@@ -1,120 +1,65 @@
-.searchWithInput{
-    display: inline-block;
-    position: absolute;
-    right: 2%;
-    top: 5px;
+.SettingsDiagnosticsContainer{
+  position:relative;
+  width:99%;
+  margin:55px auto;
 }
-.searchForm{
-  width:95%;
-  margin:8px auto;
+.SettingsDiagnosticsContainer p{text-align: center;font-size: 1.8rem;margin: 5px 0;}
+p.diagnosticsTitle{font-size: 2.3rem;font-weight: 700;text-align: center;margin:1rem 0 2rem 0;}
+p.diagnosticsFooter{margin:20px 0 30px 0;color:#0000FF;}
+
+.diagnosticsOn, .diagnosticsOff{
+  font-size: 2rem;
+  line-height: 2;
+  width:100%;
+  color: #ABA9AA;
+  font-weight: 400;
+  text-align: center;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
 }
-.searchForm input{
-    background: #EFE8E8;
-    box-shadow: 1px 2px 4px #9E9A9A;
-}
-.networkListData{
-  padding:0 1rem 1rem 1rem;
-  /*background: lightgrey;*/
-}
-.networkListData .deviceList{
-  border-bottom: 1px solid #ddd;
-  height:60px;
-  overflow: hidden;
+.diagnosticsOn{margin-bottom: 2rem;bottom:3rem;}
+.diagnosticsOff{bottom:0.5rem;}
+.diagnosticsOff.current, .diagnosticsOn.current{color:#0000FF}
+/**/
+.privacyPolicyInfoContent{
+  width:98%;
+  height:100%;
+  overflow: auto;
+  margin:53px auto;
   position:relative;
 }
-.networkListData .deviceList>p{
-  float:left;
-  margin: 0;
-  padding: 0;
+.privacyPolicyInfoContent article{
+  margin-top:1rem;
 }
-.networkListData .deviceList .deviceIcon{
-  line-height: 60px;
-  height:60px;
-}
-.networkListData .deviceList .deviceIcon img{
-  height:50px;
-  vertical-align: middle;
-}
-.networkListData .deviceList .deviceScoreIcon{
-  /*float:right;*/
-  line-height: 60px;
-  position: absolute;
-  right: -4px;
-  top: 3px;
-}
-.networkListData .deviceList .deviceScoreIcon span{
-  float:right;
-  font-size: 2em;
-  width: 1.8em;
+.privacyPolicyInfoContent article h1{
   text-align: center;
+  font-size:2.5rem;
+  font-weight: 700;
 }
-.networkListData .deviceScoreIcon img{
-  width:40px;
-  margin-right: 5px;
-  vertical-align: middle;
+.privacyPolicyInfoContent article p{
+  text-align: center;
+  font-size:1.7rem;
+  margin-bottom:2rem;
 }
-.networkListData .deviceTitle{
-  margin-left:.8rem !important;
-  line-height: 60px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  width: 60%;
-  overflow: hidden;
-  word-break: break-all;
+.privacyPolicyInfoContent section{
+  margin:0 2rem;
+  word-wrap: break-word;
+  word-break: keep-all;
+  text-align: left;
 }
-.locationsTabLi{
-  width:50%;
+.privacyPolicyInfoContent section h2{
+  font-size:1.5rem;
+  font-weight: 700;
 }
-.networkListData .deviceTitle span:last-child{
-  margin-left: 5px;
+.privacyPolicyInfoContent section p,.privacyPolicyInfoContent section div{
+  font-size:1.4rem;
+  text-align: justify;
+  margin-bottom: 2rem;
 }
-.locationsContentBox{
-  display: none;
+.privacyPolicyInfoContent section div ul{
+  margin-left:1.4rem;
 }
-.locationsContentBox.current{
-  display: block;
-}
-
-
-
-.subNavConnter{
-  padding:100px 15px 50px 15px;
-}
-.subNavConnter ul,.subNavConnter li{
-  list-style: none;
-  padding: 0;
-  margin:0;
-}
-.subNavConnter li{
-  border-bottom: 1px solid #ddd;
-  overflow: hidden;
-}
-.subNavConnter .liImg{
-  overflow: hidden;
-  float:left;
-  width:70px;
-  height:70px;
-  margin-right: 10px;
-}
-.subNavConnter .liConnter{
-  float:left;
-}
-.subNavConnter .liConnter b{
-  display: block;
-  font-size: 1.4em;
-}
-.subNavConnter .liConnter span{
-  color:#888;
-}
-.subNavConnter .liConnter p{
-  padding: 0;
-  margin: 0;
-}
-.subNavConnter .liConnter p img{
-  width: 81px;
-}
-.subNavConnter .liIcon{
-  font-size: 2em;
-  line-height: 70px;
-  float:right;
+.privacyPolicyInfoContent section div li{
+  list-style: initial;
 }

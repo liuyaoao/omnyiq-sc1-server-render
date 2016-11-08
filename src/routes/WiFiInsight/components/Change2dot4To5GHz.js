@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 var Change2dot4To5GHz = React.createClass({
   getInitialState:function(){
     return{

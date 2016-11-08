@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {getChannelScanChartData} from './WiFiInsightChartData';
 var ChannelScanContent = React.createClass({
   getInitialState:function(){
     return{
       monthData : null
-      ////////
     }
   },
   componentDidMount:function(){
@@ -135,7 +133,7 @@ var ChannelScanContent = React.createClass({
   },
   render:function(){
     return(
-        <div className='wiFiInsightChannelScanContainer' style={{height:this.props.screenHeight-260}}>
+        <div className='wiFiInsightChannelScanContainer' style={{height:this.props.screenHeight-280}}>
           <div id={'wiFiInsightChannelScanChart'} style={{height:'100%',width:'98%',margin:'0 auto'}}></div>
         </div>
     );

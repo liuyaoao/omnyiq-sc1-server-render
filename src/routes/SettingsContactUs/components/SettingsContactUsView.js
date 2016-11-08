@@ -1,10 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import * as TabBarAction from '../../actions/ReactTabBar_action';
+import ReactTabBar from '../../../components/ReactTabBar'
+import backImg from '../assets/back.png'
+import logoImg from '../assets/logo.png'
+import './SettingsContactUsView.scss'
 
-var SettingsContactUs = React.createClass({
+var SettingsContactUsView = React.createClass({
   componentWillMount:function(){
-    this.props.dispatch(TabBarAction.setTabBarState('/Settings'));
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Settings');
   },
   _onClickSubmit:function(e){
     var _this = this;
@@ -34,9 +37,9 @@ var SettingsContactUs = React.createClass({
       <div className='settingsContactUsContainer'>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
-            <a href='javascript:history.go(-1)'><img src='./public/icon/back.png' /></a>
+            <a href='javascript:history.go(-1)'><img src={backImg} /></a>
           </div>
-          <div className='navTitle'>Post</div>
+          <div className='navTitle'>Contact Us</div>
         </div>
 
         <div className='SettingsCounter'>
@@ -70,16 +73,14 @@ var SettingsContactUs = React.createClass({
             </div>
           </div>
         </div>
-
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }
 });
-function mapSettingsContactUs2State(state) {
-  const { tabBarState } = state.ReactTabBarReducer;
-  return {
-    tabBarState
-  }
-}
 
-export default connect(mapSettingsContactUs2State)(SettingsContactUs);
+module.exports = SettingsContactUsView;

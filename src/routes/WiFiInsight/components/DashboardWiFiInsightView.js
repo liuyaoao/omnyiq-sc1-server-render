@@ -1,22 +1,34 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import ReactNavbar from '../smallComponent/ReactNavbar';
-import TimeNodeSlider from '../smallComponent/TimeNodeSlider';
-import TimeSelectionTab from '../smallComponent/TimeSelectionTab';
+import TimeSelectionTab from '../../../components/TimeSelectionTab';
+import ReactTabBar from '../../../components/ReactTabBar';
+
+import TimeNodeSlider from '../../../components/TimeNodeSlider';
 import Change2dot4To5GHz from './Change2dot4To5GHz';
 import AvailCapacityContent from './AvailCapacityContent';
 import ChannelScanContent from './ChannelScanContent';
-import * as TabBarAction from '../../actions/ReactTabBar_action';
-import * as WifiInsightAction from '../../actions/wifiInsight_action';
-import ConnectedDevicesSpeeds from '../connectedDevices/ConnectedDevicesSpeeds';
+import ConnectedDevicesSpeeds from '../../ConnectedDevices/components/ConnectedDevicesSpeeds';
 
-var DashboardWiFiInsight = React.createClass({
+import backImg from '../assets/back.png'
+
+import scoreState0 from '../assets/scoreState0.png'
+import scoreState1 from '../assets/scoreState1.png'
+import scoreState2 from '../assets/scoreState2.png'
+import scoreState3 from '../assets/scoreState3.png'
+
+import './DashboardWiFiInsightView.scss'
+
+var DashboardWiFiInsightView = React.createClass({
   contextTypes: {
       router: React.PropTypes.object.isRequired
   },
   getInitialState:function(){
     return{
-      screenHeight:parseInt(document.documentElement.clientHeight),
+      scoreState0,
+      scoreState1,
+      scoreState2,
+      scoreState3,
+      deviceInfo:null,
+      screenHeight:0,
       timeType2Nodes:{'24H':24,'72H':24,'1W':7,'1M':30,'3M':30,'1Y':12},  //每个时间类型下的分的时间点的个数。
       tabKeyList:['wifiScan','capacity','speeds'],
       wifiscanList:[], //当前24H一个小时一条的数据。
@@ -27,10 +39,12 @@ var DashboardWiFiInsight = React.createClass({
     }
   },
   componentWillMount:function(){
-    this.props.dispatch(TabBarAction.setTabBarState('/Dashboard'));
-    this.props.dispatch(WifiInsightAction.setSignalType('2.4'));
-    this.props.dispatch(WifiInsightAction.setCurTabIndex(0)); //初始化数据
-    this.props.dispatch(WifiInsightAction.setCurTabKey(this.state.tabKeyList[0]));
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Dashboard');
+    this.props.setCurTabIndex(0); //初始化数据
+    this.props.setCurTabKey(this.state.tabKeyList[0]);
+    this.props.setSignalType('2.4');
+
     var curTimeNodes = {};
     var tab2TimeTypes = {};
     for(let key in this.props.curTimeNodes){
@@ -41,12 +55,16 @@ var DashboardWiFiInsight = React.createClass({
         curTimeNodes[key][i] = 0;
       }
     }
-    this.props.dispatch(WifiInsightAction.setCurTimeNodes(curTimeNodes));
-    this.props.dispatch(WifiInsightAction.setTab2TimeTypes(tab2TimeTypes));
+    this.props.setCurTimeNodes(curTimeNodes);
+    this.props.setTab2TimeTypes(tab2TimeTypes);
   },
   componentDidMount:function(){
     let deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    this.setState({
+      deviceInfo:deviceInfo,
+      screenHeight:parseInt(document.documentElement.clientHeight)
+    });
     let _this = this;
     let props = this.props;
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
@@ -103,14 +121,14 @@ var DashboardWiFiInsight = React.createClass({
     }
     let index = +that.data('index');
     let tabKey = this.state.tabKeyList[index];
-    this.props.dispatch(WifiInsightAction.setCurTabIndex(index));
-    this.props.dispatch(WifiInsightAction.setCurTabKey(tabKey));
+    this.props.setCurTabIndex(index);
+    this.props.setCurTabKey(tabKey);
     var timeNode = this.props.curTimeNodes[tabKey][this.props.tab2TimeTypes[tabKey]];
     this._updateState(index,this.props.signalType,timeNode);
   },
   changeSignalType:function(signalType){ //改变信号频率的类型。
     var _this = this,props = this.props;
-    this.props.dispatch(WifiInsightAction.setSignalType(signalType+''));
+    this.props.setSignalType(signalType+'');
     var timeNode = _this.props.curTimeNodes[props.curTabKey][props.tab2TimeTypes[props.curTabKey]];
     this._updateState(this.props.curTabIndex,signalType,timeNode);
   },
@@ -124,7 +142,7 @@ var DashboardWiFiInsight = React.createClass({
         }
       }
       curTimeNodes[tabKey][this.props.tab2TimeTypes[tabKey]] = timeNode;
-      this.props.dispatch(WifiInsightAction.setCurTimeNodes(curTimeNodes));
+      this.props.setCurTimeNodes(curTimeNodes);
       this._updateState(this.props.curTabIndex,this.props.signalType,timeNode);
   },
   _updateState:function(tabIndex, signalType, timeNode){ //更新数据
@@ -149,21 +167,21 @@ var DashboardWiFiInsight = React.createClass({
     $(window).off();
   },
   render:function(){
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    var signalType = this.props.signalType;
+    let iconImg = this.state.deviceInfo?this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';
+    let signalType = this.props.signalType;
     return(
       <div>
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
-            <a href='javascript:history.go(-1)'><img src='./public/icon/back.png' /></a>
+            <a href='javascript:history.go(-1)'><img src={backImg} /></a>
           </div>
           <div className='navTitle navTitleText'>
             <p>Wi-Fi Insight</p>
             <p className='deviceInfoTitle'></p>
           </div>
           <div className='navbarRight' onClick={this._onClickRightIcon}>
-            <img src={'./public/icon/scoreState'+deviceInfo.deviceScoreLevel+'.png'} />
+            <img src={iconImg} />
           </div>
         </div>
 
@@ -221,30 +239,19 @@ var DashboardWiFiInsight = React.createClass({
                   <ConnectedDevicesSpeeds
                       isAllDevices={true}
                       screenHeight={this.state.screenHeight}
-                      bandwidthList={''}
-                   />
+                      bandwidthList={''}/>
                </div>
           </div>
 
         </div>
-
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }
 });
-// export default connect(mapDashboardConnectedDivices)(DashboardWiFiInsight);
-function mapDashboard2State(state) {
-  const { tabBarState } = state.ReactTabBarReducer;
-  const { signalType,curTabIndex,curTabKey,tab2TimeTypes,curTimeNodes } = state.WifiInsightReducer;
 
-  return {
-    tabBarState,
-    curTabIndex,
-    curTabKey,
-    signalType,
-    tab2TimeTypes,
-    curTimeNodes
-  }
-}
-
-export default connect(mapDashboard2State)(DashboardWiFiInsight);
+module.exports = DashboardWiFiInsightView;

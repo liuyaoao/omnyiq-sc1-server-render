@@ -1,120 +1,30 @@
-.searchWithInput{
-    display: inline-block;
-    position: absolute;
-    right: 2%;
-    top: 5px;
-}
-.searchForm{
-  width:95%;
-  margin:8px auto;
-}
-.searchForm input{
-    background: #EFE8E8;
-    box-shadow: 1px 2px 4px #9E9A9A;
-}
-.networkListData{
-  padding:0 1rem 1rem 1rem;
-  /*background: lightgrey;*/
-}
-.networkListData .deviceList{
-  border-bottom: 1px solid #ddd;
-  height:60px;
-  overflow: hidden;
-  position:relative;
-}
-.networkListData .deviceList>p{
-  float:left;
-  margin: 0;
-  padding: 0;
-}
-.networkListData .deviceList .deviceIcon{
-  line-height: 60px;
-  height:60px;
-}
-.networkListData .deviceList .deviceIcon img{
-  height:50px;
-  vertical-align: middle;
-}
-.networkListData .deviceList .deviceScoreIcon{
-  /*float:right;*/
-  line-height: 60px;
-  position: absolute;
-  right: -4px;
-  top: 3px;
-}
-.networkListData .deviceList .deviceScoreIcon span{
-  float:right;
-  font-size: 2em;
-  width: 1.8em;
-  text-align: center;
-}
-.networkListData .deviceScoreIcon img{
-  width:40px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-.networkListData .deviceTitle{
-  margin-left:.8rem !important;
-  line-height: 60px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  width: 60%;
-  overflow: hidden;
-  word-break: break-all;
-}
-.locationsTabLi{
-  width:50%;
-}
-.networkListData .deviceTitle span:last-child{
-  margin-left: 5px;
-}
-.locationsContentBox{
-  display: none;
-}
-.locationsContentBox.current{
-  display: block;
-}
+.wiFiInsightContent{overflow: hidden;margin-top: 50px;margin-bottom: 50px;width:100%;box-sizing: border-box;}
+.wiFiInsightContentUl{border-bottom: 2px solid #ddd;overflow: hidden;padding: 0;}
+.wiFiInsightContentUl li{float: left;width:40%;padding: 0;margin:0;padding: 5px 0;}
+.wiFiInsightContentUl li:first-child{width:36%;}
+.wiFiInsightContentUl li:last-child{width:23%;}
 
+.wiFiInsightContentUl li p{margin: 0;text-align: center;font-size:1.4rem;color:#AB9A9B; }
+.wiFiInsightContentUl li p.current{font-weight: 700;color:#69A3F0}
+.wiFiInsightContentUl li.wiFiInsightChannelScan p,.wiFiInsightContentUl li.wiFiInsightAvailableCapacity p{border-right: 2px solid #ddd;}
 
+.wiFiInsightContentBox{display: none;}
+.wiFiInsightContentBox.current{display: block;}
+.ghzSignalTags{margin-top: 1rem;text-align: center;}
+.ghzSignalTags .ghzSignalTag{border:1px solid #B5A7A7;color:#9E9696;background-color: #fff;padding:4px 8px;
+  box-shadow: 1px 2px 4px 1px;font-size: 1.5rem;display:inline-block ;width: 13%;margin:0 5px;}
+  .ghzSignalTags .ghzSignalTag.current{box-shadow:0px 0px 1px 0px;border:1px solid #42AECE;color:#528EDE;font-weight: 800;background-color: #B5B5B5;}
+.ghzSignalTags .desc{color:#9E9696;font-size:1.5rem;}
 
-.subNavConnter{
-  padding:100px 15px 50px 15px;
-}
-.subNavConnter ul,.subNavConnter li{
-  list-style: none;
-  padding: 0;
-  margin:0;
-}
-.subNavConnter li{
-  border-bottom: 1px solid #ddd;
-  overflow: hidden;
-}
-.subNavConnter .liImg{
-  overflow: hidden;
-  float:left;
-  width:70px;
-  height:70px;
-  margin-right: 10px;
-}
-.subNavConnter .liConnter{
-  float:left;
-}
-.subNavConnter .liConnter b{
-  display: block;
-  font-size: 1.4em;
-}
-.subNavConnter .liConnter span{
-  color:#888;
-}
-.subNavConnter .liConnter p{
-  padding: 0;
-  margin: 0;
-}
-.subNavConnter .liConnter p img{
-  width: 81px;
-}
-.subNavConnter .liIcon{
-  font-size: 2em;
-  line-height: 70px;
-  float:right;
+/*speeds tag styles*/
+#devicesSpeeds{padding:1rem;}
+.devicesSpeedsTop>p{margin:0;}
+.devicesSpeedsTop .speedsTitle{font-size: 2em;color:#69A3F0;text-align: center;margin: 0.6rem 0;font-weight: 600}
+.devicesSpeedsTop .speedsState{font-size: 1.5rem;color:#888;text-align: center;}
+.devicesSpeedsTop .speedsGrade{display:inline-block;}
+.connectedDevicesSpeedsContainer{position:relative;}
+.closeSingleSpeedsBtn{
+  position:absolute;
+  font-size:1.7rem;
+  top:0;right:0;
 }

@@ -1,11 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import * as TabBarAction from '../../actions/ReactTabBar_action';
+import ReactTabBar from '../../../components/ReactTabBar'
 import './SettingsPostView.scss'
+import backImg from '../assets/back.png'
 
 var SettingsPostView = React.createClass({
   componentWillMount:function(){
-    this.props.dispatch(TabBarAction.setTabBarState('/Settings'));
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Settings');
   },
   _onClickSubmit:function(e){
     var _this = this;
@@ -34,7 +35,7 @@ var SettingsPostView = React.createClass({
       <div className='settingsPostContainer'>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
-            <a href='javascript:history.go(-1)'><img src='./public/icon/back.png' /></a>
+            <a href='javascript:history.go(-1)'><img src={backImg} /></a>
           </div>
           <div className='navTitle'>Post</div>
         </div>
@@ -69,16 +70,13 @@ var SettingsPostView = React.createClass({
             </div>
           </div>
         </div>
-
+        <ReactTabBar
+          setTabBarState={this.props.setTabBarState}
+          setTabBarIsShow={this.props.setTabBarIsShow}
+          tabBarState={this.props.tabBarState}
+          tabBarIsShow={this.props.tabBarIsShow} />
       </div>
     );
   }
 });
-function mapSettingsPost2State(state) {
-  const { tabBarState } = state.ReactTabBarReducer;
-  return {
-    tabBarState
-  }
-}
-
-export default connect(mapSettingsPost2State)(SettingsPost);
+module.exports = SettingsPostView;

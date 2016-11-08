@@ -1,7 +1,7 @@
 import { injectReducer } from '../../store/reducers'
 
 export default (store) => ({
-  path: 'Locations',
+  path: 'Dashboard/ConnectedDevices',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -9,16 +9,16 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const LocationsView = require('./containers/LocationsContainer').default
+      const ConnectedDevicesView = require('./containers/ConnectedDevicesContainer').default
       const ReactTabBarReducer = require('./../../reducers/ReactTabBar_reducer').default
-      const LocationsReducer = require('./../../reducers/Locations_reducer').default
+      // const ConnectedDevicesReducer = require('./../../reducers/ConnectedDevices_reducer').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBarReducer })
-      injectReducer(store, { key: 'LocationsReducer', reducer:LocationsReducer })
+      // injectReducer(store, { key: 'ConnectedDevicesReducer', reducer:ConnectedDevicesReducer })
 
       /*  Return getComponent   */
-      cb(null, LocationsView)
+      cb(null, ConnectedDevicesView)
 
     /* Webpack named bundle   */
     })

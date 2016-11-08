@@ -6,7 +6,9 @@ import { routerReducer as router } from 'react-router-redux'
 const initialReducers = {
   ReactTabBar: (state = require('../reducers/ReactTabBar_reducer').initialState) => state,
   LocationsReducer: (state = require('../reducers/Locations_reducer').initialState) => state,
-  SpeedsReducer: (state = require('../reducers/Speeds_reducer').initialState) => state
+  SpeedsReducer: (state = require('../reducers/Speeds_reducer').initialState) => state,
+  WiFiInsightReducer: (state = require('../reducers/WiFiInsight_reducer').initialState) => state,
+  RouterConditionsReducer: (state = require('../reducers/RouterConditions_reducer').initialState) => state
 }
 
 export const makeRootReducer = (asyncReducers) => {

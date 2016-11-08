@@ -1,21 +1,16 @@
 import { connect } from 'react-redux'
 import { setTabBarState,setTabBarIsShow } from './../../../reducers/ReactTabBar_reducer'
-import { setCurTabIndex, setCurTabKey } from './../../../reducers/Locations_reducer'
 
-import LocationsView from '../components/LocationsView'
+import SettingsContactUsView from '../components/SettingsContactUsView'
 
 const mapDispatchtoProps = {
   setTabBarState,
-  setTabBarIsShow,
-  setCurTabIndex,
-  setCurTabKey
+  setTabBarIsShow
 }
 
 const mapStateToProps = (state) => ({
   tabBarState: state.ReactTabBar.tabBarState,
-  tabBarIsShow: state.ReactTabBar.tabBarIsShow,
-  curTabIndex: state.LocationsReducer.curTabIndex,
-  curTabKey: state.LocationsReducer.curTabKey
+  tabBarIsShow: state.ReactTabBar.tabBarIsShow
 })
 
-export default connect(mapStateToProps, mapDispatchtoProps)(LocationsView)
+export default connect(mapStateToProps, mapDispatchtoProps)(SettingsContactUsView)

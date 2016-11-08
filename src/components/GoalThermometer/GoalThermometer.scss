@@ -1,0 +1,116 @@
+#goal-thermometer, #goal-thermometer_small{
+    position:relative;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+    // color:#fff;
+    font-weight: bold;
+    opacity:1;
+}
+
+#therm-numbers{
+    width:50px;
+    float:left;
+    opacity:.4;
+}
+
+.therm-number{
+    position:absolute;
+    text-align:right;
+    font-size:13px;
+}
+
+#therm-graphics, #therm-graphics_small{
+    float:left;
+    position:relative;
+    width:30px;
+}
+
+#therm-top, #therm-top_small{
+    position:absolute;
+    top:0;
+    left:7px;
+    width:24px;
+    height:13px;
+}
+
+#therm-body-bg, #therm-body-bg_small{
+     position:absolute;
+     top:13px;
+     left:8px;
+     width:24px;
+}
+
+#therm-body-mercury, #therm-body-mercury_small{
+     position:absolute;
+     bottom:51px;
+     left:14px;
+     width: 12px;
+     height:2px;
+}
+
+#therm-body-fore, #therm-body-fore_small{
+     position:absolute;
+     width:24px;
+     top:13px;
+     left:11px;
+     background-repeat:repeat-y;
+}
+
+#therm-bottom, #therm-bottom_small{
+    position:absolute;
+    left:4px;
+    width:32px;
+    height:34px;
+}
+
+#therm-tooltip{
+    position:absolute;
+    left:28px;
+    width:68px;
+}
+
+#therm-marker{
+    position:absolute;
+    left:0px;
+    width:90px;
+    color: #aeaeae;
+}
+
+#therm-tooltip .tip-left{
+    float:left;
+    width:16px;
+    height:32px;
+}
+
+#therm-tooltip .tip-middle{
+    float:left;
+    height:32px;
+    font-size:15px;
+    width:34px;
+}
+
+#therm-tooltip .tip-middle p{
+    position:relative;
+    margin:0;
+    padding-right:4px;
+    padding-left:0;
+    top:6px;
+    height:32px;
+    opacity:.7;
+    background-size:64px 64px;
+    -moz-background-size: 100%;
+}
+
+#therm-tooltip .tip-right{
+    float:left;
+    width:4px;
+    height:32px;
+}
+
+.clear {
+    clear: both;
+}
+
+#goal-thermometer img, #goal-thermometer_small img {
+  padding-bottom: 0px;
+}

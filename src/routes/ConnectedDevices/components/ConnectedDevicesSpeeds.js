@@ -1,13 +1,13 @@
 import React from 'react';
 import {getSpeedsChartData} from './ConnectedDevicesChartData';
-import TimeSelectionTab from '../smallComponent/TimeSelectionTab';
+import TimeSelectionTab from '../../../components/TimeSelectionTab';
 
 var ConnectedDevicesSpeeds = React.createClass({
   getInitialState:function(){
     return{
     }
   },
-  componentWillMount:function(){
+  componentDidMount:function(){
     let _this = this;
     let deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = localStorage.getItem('deviceInfo');
