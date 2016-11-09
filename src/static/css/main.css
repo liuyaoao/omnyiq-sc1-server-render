@@ -45,11 +45,23 @@ element{
 @media screen and (min-width:640px) and (max-width:719px){html{font-size:83%}}
 @media screen and (min-width:720px){html{font-size:90%;}}
 @media screen and (min-width:750px) and (max-width:799px){html{font-size:100%}}
-@media screen and (min-width:800px)and (max-width:1199px){html{font-size:25px}}
-@media screen and (min-width:1200px){html{font-size:30px}}
+@media screen and (min-width:800px){html{font-size:18px}}
 
-@media screen and (max-width:319px) {.WelcomeOne .WelcomeOneIcon img{width:100%;height:100%;padding-left:27%;padding-right:27%;}}
+@media screen and (max-height:379px) {.WelcomeOne .WelcomeOneIcon img{width:100%;height:100%;padding-left:27%;padding-right:27%;}}
 
+@media screen and (min-width:800px) and (min-height:700px){html{font-size:100%}}
+
+::-webkit-scrollbar{width:0px;opacity:0.1;}
+div {
+scrollbar-face-color: #F1F1F3;
+scrollbar-highlight-color: #F1F1F3;
+scrollbar-shadow-color: #F1F1F3;
+scrollbar-3dlight-color: #F1F1F3;
+scrollbar-arrow-color: #F1F1F3;
+scrollbar-track-color: #F1F1F3;
+scrollbar-darkshadow-color: #F1F1F3;
+scrollbar-base-color: #F1F1F3
+}
 /** dashboardHelp page  因为这个不能放在子页面的css文件里，在webpack构建打包的时候会把-webkit-前缀的那个去掉*/
 .dashboardHelpContainer .firstPageBack .imgFilter{
   -webkit-filter: blur(6px);

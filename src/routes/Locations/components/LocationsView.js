@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from 'axios'
+
 import Helmet from 'react-helmet'
 import LocationsList from './LocationsList'
 import ReactTabBar from '../../../components/ReactTabBar'
@@ -16,7 +18,6 @@ var LocationsView = React.createClass({
     return {
       device_Types:['House','Office'], //设备的类型。
       tabKeyList:['myLocations','publicLocations'],
-      deviceList:null,
       totalDevices:0,
       totalPage:0
     }
@@ -25,36 +26,34 @@ var LocationsView = React.createClass({
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Locations');
   },
+  componentDidMount:function(){
+    var _this = this;
+    $('.SubNavOption ul li').first().addClass('current');
+    let curTimeStamp = new Date()/1;
+    localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
+    if(!this.props.routersData.list){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this._getServerData(1,100,'');
+    }else{
+      this.updateStateProps(this.props.routersData,this.props.routersOnlineStatus);
+    }
+  },
   _getServerData:function(page,size,keywords){
     var _this = this;
     var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
     // var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
-    let curTimeStamp = new Date()/1;
-    localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+"/SearchAndDashboardMServlet?page="+page+"&size="+size+"&keywords="+keywords,  //先一次拿100条，相当于一次拿完。
-       success: function(data){
-         data = JSON.parse(data);
-         console.log('ajax----',data.list);
-         $.ajax({  //拿实时的是否在线的列表。
-           type:"GET",
-           url:deviceListUrl+"/GetOnlineStatusServlet",
-           success:function(res){
-             data.list = _this.formatDeviceList(data.list,JSON.parse(res));
-             _this.setState({deviceList:data.list || [],totalDevices:data.totaldevices,totalPage:data.totalpage});
-             //缓存第一条数据
-             let _data = data.list[0].value1;
-             let deviceId = _data.id;
-             let deviceName = _data.geoIp.city_Name;
-             let deviceScore = _data.score;
-             let deviceN = _data.device_Type;
-             let deviceInfo = {deviceId,deviceName,deviceScore,deviceN};
-             localStorage.setItem('deviceInfo',JSON.stringify(Object.assign({},deviceInfo,_data)));
-             //加载数据后把第一条数据缓存起来 作为默认
-           }
-         });
-       }
+    var tempUrl = deviceListUrl+"/SearchAndDashboardMServlet?page="+page+"&size="+size+"&keywords="+keywords;
+    axios.get(tempUrl).then(({data}) => {
+      console.log('axios--ajax----',data);
+      _this._getRouterDeviceOnlineState(data);
+    });
+  },
+  _getRouterDeviceOnlineState:function(routersData){
+    var _this = this;
+    var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
+    var tempUrl = deviceListUrl+"/GetOnlineStatusServlet?ids="+routersData.ids;
+    axios.get(tempUrl).then(({data}) => {
+      _this.updateStateProps(routersData,data);
     });
   },
   _getDeviceScoreLevel:function(score){
@@ -67,6 +66,21 @@ var LocationsView = React.createClass({
     }
     return 0;
   },
+  updateStateProps:function(routersData,onlineStatus){ //跟新待渲染的状态和属性。
+    let res = JSON.parse(JSON.stringify(routersData)); //如果是初始化的props里传过来的这个数据就要深度clone一份，因为props是只读的
+    res.list = this.formatDeviceList(res.list,onlineStatus);
+    this.props.setRoutersData(res);
+    this.setState({totalDevices:res.totaldevices,totalPage:res.totalpage});
+    //缓存第一条数据
+    let _data = res.list[0].value1;
+    let deviceId = _data.id;
+    let deviceName = _data.geoIp.city_Name;
+    let deviceScore = _data.score;
+    let deviceN = _data.device_Type;
+    let deviceInfo = {deviceId,deviceName,deviceScore,deviceN};
+    localStorage.setItem('deviceInfo',JSON.stringify(Object.assign({},deviceInfo,_data)));
+    //加载数据后把第一条数据缓存起来 作为默认
+  },
   formatDeviceList:function(list,onlineObj){ //前端重新解析一下后端数据,做兼容处理或者构造前端数据。
     if(!list || list.length <= 0){return []}
     for(let obj of list){
@@ -78,20 +92,18 @@ var LocationsView = React.createClass({
     }
     return list;
   },
-  componentDidMount:function(){
-    $('.SubNavOption ul li').first().addClass('current');
-    this._getServerData(1,100,'');
-  },
   onClickLocationsItem:function(deviceInfo,value1){
     this.props.setTabBarState('/Dashboard');
     this.context.router.push('/Dashboard');
     localStorage.setItem('deviceInfo',JSON.stringify(Object.assign({},deviceInfo,value1)));
   },
   _onClickRightIcon:function(e){
+    var searchImgEle = $('.navbarRight img').clone().addClass('searchImg');
     $('.navbarDiv').html('<div class="form-group searchForm">'+
         '<input type="text" class="form-control" />'+
-        '<span class="searchWithInput"><img class="searchImg" src='+searchImg+'/>'+
+        '<span class="searchWithInput">'+
         '</span></div>');
+    $('.navbarDiv .searchWithInput').append(searchImgEle);
     $('.searchForm input').focus();
   },
   _onClickSearch:function(e){  //搜索按钮（放大镜）的点击
@@ -118,10 +130,11 @@ var LocationsView = React.createClass({
   render() {
     return (
       <div>
+        <Helmet title='Locations' />
         <div className='navbarDiv' onClick={this._onClickSearch}>
           <div className='navTitle'><img src={logoImg}/></div>
           <div className='navbarRight' onClick={this._onClickRightIcon}>
-            <img src={searchImg}/>
+            <img className='searchImg' src={searchImg}/>
           </div>
         </div>
         <div className='SubNavOption' style={{backgroundColor:'#F1F1F3'}}>
@@ -134,7 +147,7 @@ var LocationsView = React.createClass({
             </li>
           </ul>
           <div className={this.props.curTabIndex == 0 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='0'>
-              <LocationsList deviceList={this.state.deviceList} onClickLocationsItem={this.onClickLocationsItem}/>
+              <LocationsList deviceList={this.props.routersData.list} onClickLocationsItem={this.onClickLocationsItem}/>
           </div>
           <div className={this.props.curTabIndex == 1 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='1'>
             <div style={{position:'fixed',top:'50%',left:'50%',transform:'translateX(-50%)','background':'#F1F1F3'}}>Online On Version 2.</div>

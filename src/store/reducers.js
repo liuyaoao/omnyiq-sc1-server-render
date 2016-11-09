@@ -4,6 +4,7 @@ import { routerReducer as router } from 'react-router-redux'
 // Fix: "React-Redux: Combining reducers: Unexpected Keys"
 // http://stackoverflow.com/a/33678198/789076
 const initialReducers = {
+  CommonReducer: (state = require('../reducers/Common_reducer').initialState) => state,
   ReactTabBar: (state = require('../reducers/ReactTabBar_reducer').initialState) => state,
   LocationsReducer: (state = require('../reducers/Locations_reducer').initialState) => state,
   SpeedsReducer: (state = require('../reducers/Speeds_reducer').initialState) => state,

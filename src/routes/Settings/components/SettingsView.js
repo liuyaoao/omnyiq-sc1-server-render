@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactTabBar from '../../../components/ReactTabBar'
-import logoImg from '../assets/logo.png';
+import logoImg from '../../../static/assets/logo.png';
 import './SettingsView.scss'
 
 var SettingsView = React.createClass({

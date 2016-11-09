@@ -19,7 +19,7 @@ resize: none;
 .wi-slider {padding: 0 5px 0 5px;}
 .wi-slider .slider.slider-horizontal {width: 95%;}
 .wi-slider .slider-selection {background: #7cb5f4;}
-.wi-slider .controlBtn span{font-size:2.2rem;line-height: 2.2;}
+.wi-slider .controlBtn span{font-size: 20px;line-height: 1;color: #0480be;}
 /*react-bootstrap-css end*/
 .flt{float:left;}
 .frt{float:right;}
@@ -115,7 +115,7 @@ resize: none;
 
 /*底部菜单*/
 .appTabBar{
-  z-index: 1000;
+  z-index: 9999;
   height:49px;
   padding:0px 0;
   box-shadow: 0px -3px 4px #bbb;

@@ -31,10 +31,10 @@ const TimeNodeSlider = React.createClass({
     var $icon = that.find('.glyphicon');
     if($icon.hasClass('glyphicon-play')){
       $icon.removeClass('glyphicon-play').addClass('glyphicon-pause');
-      _this._handleNextTime();
+      _this._handleNextTime(that);
       var interval = setInterval(function(){
         if(_this.props.curTabIndex == _this.props.tabIndex){
-          _this._handleNextTime();
+          _this._handleNextTime(that);
           if(_this.state.timeNode == 0){
             _this._stopAutoPlay($icon);
           }
@@ -48,11 +48,11 @@ const TimeNodeSlider = React.createClass({
   _stopAutoPlay:function($icon){
     $icon.removeClass('glyphicon-pause').addClass('glyphicon-play');
     clearInterval(this.state.interval);
-    that.closest('.wi-slider').find('.tooltip.tooltip-main.top').removeClass('in');
+    $icon.closest('.wi-slider').find('.tooltip.tooltip-main.top').removeClass('in');
   },
   _handleNextTime:function(e){
     var _this = this;
-    var that = $(e.currentTarget);
+    var that = e.currentTarget ? $(e.currentTarget) : e;
     var timeNode = this.state.timeNode;
     timeNode++;
     if(timeNode >= this.props.maxLength){
@@ -88,8 +88,8 @@ const TimeNodeSlider = React.createClass({
       <table style={{width:"94%",margin: '0 auto'}}>
           <tbody>
             <tr style={{textAlign: 'center'}}>
-              <td style={{width:"2rem"}}><a className='controlBtn' href="javascript:;" onClick={this._handlePlayTime}><span className="glyphicon glyphicon-play"></span></a></td>
-              <td style={{width:"3rem",paddingRight:"1.6rem"}}><a className='controlBtn' href="javascript:;" onClick={this._handleNextTime}><span className="glyphicon glyphicon-chevron-right"></span></a></td>
+              <td style={{width:"2rem"}}><div className='controlBtn' onClick={this._handlePlayTime}><span className="glyphicon glyphicon-play"></span></div></td>
+              <td style={{width:"3rem",paddingRight:"1.6rem"}}><div className='controlBtn' onClick={this._handleNextTime}><span className="glyphicon glyphicon-chevron-right"></span></div></td>
               <td style={{}}>
                 <ReactBootstrapSlider id={"wifistatusSlider" + this.props.sliderId}
                         value = { this.props.timeNode }

@@ -19,12 +19,6 @@ export function setCurTabKey(curTabKey) {
         curTabKey
     }
 }
-// export function setCurTimeNodes(curTimeNodes) {
-//     return {
-//         type: SPEEDS_CURRENT_TIMENODES,
-//         curTimeNodes
-//     }
-// }
 
 export const actions = {
   setCurTabIndex,

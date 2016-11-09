@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios'
+import Helmet from 'react-helmet'
 import './DashboardView.scss'
 import ReactTabBar from '../../../components/ReactTabBar'
 import {getDevicesChartData} from './DashboardChartData';
@@ -61,8 +63,6 @@ var DashboardView = React.createClass({
       capacityScore:null,
       routerConditionScore:null,
       signalScore:null, //中间wifi信号强度数据
-      speedsDL:'',
-      speedsUL:'',
       myConfig:getDevicesChartData(0,0,'#B5AFAF',0),
     }
   },
@@ -71,6 +71,7 @@ var DashboardView = React.createClass({
     this.props.setTabBarState('/Dashboard');
   },
   componentDidMount:function(){
+    var _this = this;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     console.log("deviceInfo:",deviceInfo);
     let screenHeight=parseInt(document.documentElement.clientHeight);
@@ -90,7 +91,6 @@ var DashboardView = React.createClass({
       routerConditionScore:this._getScoreLevel(deviceInfo.routerConditionScore),
       signalScore:this._getSignalScoreLevel(deviceInfo.signalScore)
     });
-    var _this = this;
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
@@ -98,12 +98,6 @@ var DashboardView = React.createClass({
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     zingchart.render({id : 'DashboradChart',data : this.state.myConfig,height: '98%' ,width: this.state.ZingChartH });
-    this._getServerData(deviceInfo.deviceId);
-  },
-  _getServerData:function(deviceId){
-    var _this = this;
-    // var deviceListUrl = APPCONFING.deviceListUrl;
-    var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
     let oldTimeStamp = parseInt(localStorage.getItem('dashboardTimeStamp') || 0);
     let curTimeStamp = new Date()/1;
     localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
@@ -111,26 +105,27 @@ var DashboardView = React.createClass({
       this.context.router.push('/Locations');
       return;
     }
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+'/GetSpeedAndConnectedByIdServlet?id='+deviceId,
-       success: function(data){
-           data = JSON.parse(data);
-           _this.setState({value3:data.value3});
-           //获取最近一次设备数据
-           let knownDevice = 0;
-           let unknownDevice = 0;
-           let deviceSum = 0;
-           let attached_Devices = data.value3.attached_Devices || [];
-           deviceSum = attached_Devices.length;
-           for(let v of attached_Devices){
-             (v.stations.type == 'unknown') ? unknownDevice++ : knownDevice++;
-           }
-          let knownDeviceColor = (knownDevice == 0) ? "#CBCBCB" : "#EDEDED";
-         _this.setState({
-             myConfig:getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice)
-         });
-       }
+    this._getServerData(deviceInfo.deviceId);
+  },
+  _getServerData:function(deviceId){
+    var _this = this;
+    var tempUrl = APPCONFING.deviceListUrl+'/GetSpeedAndConnectedByIdServlet?id='+deviceId;
+    axios.get(tempUrl).then(({data}) => {
+      _this._parseServerData(data);
+    });
+  },
+  _parseServerData:function(data){
+    let knownDevice = 0;
+    let unknownDevice = 0;
+    let deviceSum = 0;
+    let attached_Devices = data.value3.attached_Devices || [];
+    deviceSum = attached_Devices.length;
+    for(let v of attached_Devices){
+      (v.stations.type == 'unknown') ? unknownDevice++ : knownDevice++;
+    }
+    let knownDeviceColor = (knownDevice == 0) ? "#CBCBCB" : "#EDEDED";
+    this.setState({
+        myConfig:getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice)
     });
   },
   componentWillUnmount:function(){
@@ -200,6 +195,7 @@ var DashboardView = React.createClass({
     let iconUrl=this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel];
     return (
       <div>
+        <Helmet title='Dashboard' />
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navTitle' onClick={this._onClickNavTitle}><img src={logoImg}/></div>

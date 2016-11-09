@@ -61,8 +61,6 @@ var CommunityView = React.createClass({
 
   },
   render:function(){
-    // <img src={backImg} />
-
     return (
       <div>
           <div className='navbarDiv'>

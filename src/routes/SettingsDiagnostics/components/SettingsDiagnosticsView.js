@@ -2,7 +2,7 @@ import React from 'react';
 import PrivacyPolicyInfo from './PrivacyPolicyInfo'
 import ReactTabBar from '../../../components/ReactTabBar'
 import backImg from '../assets/back.png'
-import logoImg from '../assets/logo.png'
+import logoImg from '../../../static/assets/logo.png'
 
 import diagnosticsIcon_off from '../assets/diagnosticsIcon_off.png'
 import diagnosticsIcon_on from '../assets/diagnosticsIcon_on.png'
@@ -121,7 +121,7 @@ var SettingsDiagnosticsView = React.createClass({
           <div className='navbarLeft'>
             <a href='javascript:history.go(-1)'><img onClick={this.onClickBack} src={backImg} /></a>
           </div>
-          <div className='navTitle'><img src={{logoImg}}/></div>
+          <div className='navTitle'><img src={logoImg}/></div>
         </div>
         <div className='SettingsDiagnosticsContainer' style={{height:this.state.screenHeight-110}}>
           <p className='diagnosticsIcon'><img src={this.state['diagnosticsIcon_'+this.state.sendFlag]} /></p>

@@ -10,10 +10,13 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const LocationsView = require('./containers/LocationsContainer').default
+      // will use reducer
+      const CommonReducer = require('./../../reducers/Common_reducer').default
       const ReactTabBarReducer = require('./../../reducers/ReactTabBar_reducer').default
       const LocationsReducer = require('./../../reducers/Locations_reducer').default
 
       /*  Add the reducer to the store on key 'counter'  */
+      injectReducer(store, { key: 'CommonReducer', reducer:CommonReducer })
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBarReducer })
       injectReducer(store, { key: 'LocationsReducer', reducer:LocationsReducer })
 
