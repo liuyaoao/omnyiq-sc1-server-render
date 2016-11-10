@@ -1,7 +1,9 @@
 import React from 'react';
+import axios from 'axios'
+import Helmet from 'react-helmet'
 import PrivacyPolicyInfo from './PrivacyPolicyInfo'
 import ReactTabBar from '../../../components/ReactTabBar'
-import backImg from '../assets/back.png'
+import backImg from '../../../static/assets/back.png'
 import logoImg from '../../../static/assets/logo.png'
 
 import diagnosticsIcon_off from '../assets/diagnosticsIcon_off.png'
@@ -13,20 +15,9 @@ var SettingsDiagnosticsView = React.createClass({
     return{
       diagnosticsIcon_off,
       diagnosticsIcon_on,
-      screenHeight:0,
       sendFlag:'on',  //上报发送开关。
-      isBackToSettings:true, //是否是返回Settings页面。
-      navbarData:{//顶部导航
-        navbarLeft:{
-          url:'',
-          icon:'',
-        },
-        navbarRight:{
-          url:'',
-          icon:'',
-        },
-        navTitle:'Settings'
-      },
+      isBackToSettings:true //是否是返回Settings页面。
+
     }
   },
   componentWillMount:function(){
@@ -35,24 +26,11 @@ var SettingsDiagnosticsView = React.createClass({
   },
   componentDidMount:function(){
     var _this = this;
-    this.setState({
-      screenHeight:parseInt(document.documentElement.clientHeight)
-    });
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     let deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+"/ReportStatusServlet?flag=check&id="+deviceInfo.deviceId,
-       success: function(data){
-         data = JSON.parse(data);
-         _this.setState({sendFlag:data.result});
-       }
+    let tempUrl = APPCONFING.deviceListUrl+"/ReportStatusServlet?flag=check&id="+deviceInfo.deviceId;  //先一次拿100条，相当于一次拿完。
+    axios.get(tempUrl).then(({data}) => {
+      _this.setState({sendFlag:data.result});
     });
   },
   onClickDiagnosticsON_OFF:function(e){
@@ -71,15 +49,10 @@ var SettingsDiagnosticsView = React.createClass({
   _sendFlagToServer:function(toFlag,callback){
     let _this = this;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    let deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+"/ReportStatusServlet?flag="+toFlag+"&id="+deviceInfo.deviceId,  //先一次拿100条，相当于一次拿完。
-       success: function(data){
-         callback && callback();
-         data = JSON.parse(data);
-         _this.setState({sendFlag:toFlag});
-       }
+    let tempUrl = APPCONFING.deviceListUrl+"/ReportStatusServlet?flag="+toFlag+"&id="+deviceInfo.deviceId;  //先一次拿100条，相当于一次拿完。
+    axios.get(tempUrl).then(({data}) => {
+      callback && callback();
+      _this.setState({sendFlag:toFlag});
     });
   },
   onClickPrivacyInfo:function(e){
@@ -111,19 +84,17 @@ var SettingsDiagnosticsView = React.createClass({
       $('.sendOffConfirm').addClass('hide');
     });
   },
-  componentWillUnmount:function(){
-    $(window).off();
-  },
   render:function(){
     return(
       <div>
+        <Helmet title='Diagnostics' />
         <div className='navbarDiv'>
           <div className='navbarLeft'>
             <a href='javascript:history.go(-1)'><img onClick={this.onClickBack} src={backImg} /></a>
           </div>
           <div className='navTitle'><img src={logoImg}/></div>
         </div>
-        <div className='SettingsDiagnosticsContainer' style={{height:this.state.screenHeight-110}}>
+        <div className='SettingsDiagnosticsContainer' style={{}}>
           <p className='diagnosticsIcon'><img src={this.state['diagnosticsIcon_'+this.state.sendFlag]} /></p>
           <p className='diagnosticsTitle'>Diagnostics</p>
           <p>To improve your connexted</p>

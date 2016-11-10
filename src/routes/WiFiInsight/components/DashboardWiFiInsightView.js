@@ -1,4 +1,6 @@
 import React from 'react';
+import Helmet from 'react-helmet'
+import axios from 'axios'
 import TimeSelectionTab from '../../../components/TimeSelectionTab';
 import ReactTabBar from '../../../components/ReactTabBar';
 
@@ -8,12 +10,12 @@ import AvailCapacityContent from './AvailCapacityContent';
 import ChannelScanContent from './ChannelScanContent';
 import ConnectedDevicesSpeeds from '../../ConnectedDevices/components/ConnectedDevicesSpeeds';
 
-import backImg from '../assets/back.png'
+import backImg from '../../../static/assets/back.png'
 
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
 
 import './DashboardWiFiInsightView.scss'
 
@@ -38,13 +40,12 @@ var DashboardWiFiInsightView = React.createClass({
       availableCapacityGHz:null    //{'20M':[], '40M':[], '80M':[]}
     }
   },
-  componentWillMount:function(){
+  componentWillMount:function(){ //设置一些初始参数
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Dashboard');
     this.props.setCurTabIndex(0); //初始化数据
     this.props.setCurTabKey(this.state.tabKeyList[0]);
     this.props.setSignalType('2.4');
-
     var curTimeNodes = {};
     var tab2TimeTypes = {};
     for(let key in this.props.curTimeNodes){
@@ -57,61 +58,69 @@ var DashboardWiFiInsightView = React.createClass({
     }
     this.props.setCurTimeNodes(curTimeNodes);
     this.props.setTab2TimeTypes(tab2TimeTypes);
+    this.props.setWiFiInsightData({});
   },
   componentDidMount:function(){
-    let deviceListUrl = APPCONFING.deviceListUrl;
+    let _this = this;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
+    $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
     this.setState({
       deviceInfo:deviceInfo,
       screenHeight:parseInt(document.documentElement.clientHeight)
-    });
-    let _this = this;
-    let props = this.props;
-    let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
-    $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
-    $.ajax({
-      type: "GET",
-      url: deviceListUrl+'/GetWifiCapacityByIdServlet?id='+deviceInfo.deviceId,
-      success: function(data){
-        spinner.stop();
-        $('.loadingSpinContainer').remove();
-        data = JSON.parse(data);
-        console.log('WifiCapacity ajax--->',data);
-        //解析wifiscanList数据：
-        var wifiscanListGHz = null;
-        var timeIndex2saveTime = [];
-        if(!data.wifiscanList || data.wifiscanList.length<=0){
-          $('#wiFiInsightChannelScan .noDataContainer').removeClass('hide');
-        }else{
-          var timeNodeData = data.wifiscanList[_this.props.curTimeNodes[props.curTabKey][props.tab2TimeTypes[props.curTabKey]]];
-          wifiscanListGHz = timeNodeData.wifiscan[_this.props.signalType+'G'];
-          for(let obj of data.wifiscanList){
-            timeIndex2saveTime.push(obj.savetime);
-          }
-        }
-        //解析availableCapacity数据：
-        var availableCapacityGHz = null;
-        if(!data.availablecapacity || data.availablecapacity.length<=0){
-          $('#wiFiInsightAvailableCapacity .noDataContainer').removeClass('hide');
-        }else{
-          var timeNodeDataCapacity = data.availablecapacity[_this.props.curTimeNodes[props.curTabKey][props.tab2TimeTypes[props.curTabKey]]];
-          availableCapacityGHz = timeNodeDataCapacity[_this.props.signalType+'G'];
-        }
-        _this.setState({
-          wifiscanList:data.wifiscanList,
-          availableCapacityList:data.availablecapacity,
-          wifiscanListGHz:wifiscanListGHz,
-          availableCapacityGHz:availableCapacityGHz,
-          timeIndex2saveTime:timeIndex2saveTime
-        });
-      }
     });
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     $(window).scroll(function(event){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    });
+    if(!this.props.wiFiInsightData||!this.props.wiFiInsightData.wifiscanList){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this.getServerData();
+    }else{
+      this.updateStateProps(this.props.wiFiInsightData);
+    }
+  },
+  getServerData:function(){
+    var _this = this;
+    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
+    let tempUrl = APPCONFING.deviceListUrl+'/GetWifiCapacityByIdServlet';
+    axios.get(tempUrl).then(({data}) => {
+      spinner.stop();
+      $('.loadingSpinContainer').remove();
+      _this.updateStateProps(data);
+    });
+  },
+  updateStateProps:function(data){
+    var _this = this,props = this.props;
+    console.log('WifiCapacity ajax--->',data);
+    //解析wifiscanList数据：
+    var wifiscanListGHz = null;
+    var timeIndex2saveTime = [];
+    if(!data.wifiscanList || data.wifiscanList.length<=0){
+      $('#wiFiInsightChannelScan .noDataContainer').removeClass('hide');
+    }else{
+      var timeNodeData = data.wifiscanList[_this.props.curTimeNodes[props.curTabKey][props.tab2TimeTypes[props.curTabKey]]];
+      wifiscanListGHz = timeNodeData.wifiscan[_this.props.signalType+'G'];
+      for(let obj of data.wifiscanList){
+        timeIndex2saveTime.push(obj.savetime);
+      }
+    }
+    //解析availableCapacity数据：
+    var availableCapacityGHz = null;
+    if(!data.availablecapacity || data.availablecapacity.length<=0){
+      $('#wiFiInsightAvailableCapacity .noDataContainer').removeClass('hide');
+    }else{
+      var timeNodeDataCapacity = data.availablecapacity[_this.props.curTimeNodes[props.curTabKey][props.tab2TimeTypes[props.curTabKey]]];
+      availableCapacityGHz = timeNodeDataCapacity[_this.props.signalType+'G'];
+    }
+    _this.setState({
+      wifiscanList:data.wifiscanList,
+      availableCapacityList:data.availablecapacity,
+      wifiscanListGHz:wifiscanListGHz,
+      availableCapacityGHz:availableCapacityGHz,
+      timeIndex2saveTime:timeIndex2saveTime
     });
   },
   _showWiFiInsightDiv:function(e){
@@ -171,6 +180,7 @@ var DashboardWiFiInsightView = React.createClass({
     let signalType = this.props.signalType;
     return(
       <div>
+        <Helmet title='WiFiInsight'/>
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>

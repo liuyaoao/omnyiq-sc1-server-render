@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import axios from 'axios'
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
 import RouterNode from './routerNode';
 
-import logoImg from '../assets/logo.png';
+import logoImg from '../../../static/assets/logo.png';
 import InternetImg from '../assets/Internet.png';
 
 import wifiImg from '../assets/device/wifi.png';
@@ -31,16 +32,6 @@ var NetworkView = React.createClass({
   },
   componentDidMount:function(){
     var _this = this;
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    this._getServerData();
-  },
-  _getServerData:function(){
-    let deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = localStorage.getItem('deviceInfo');
     deviceInfo = JSON.parse(deviceInfo);
     this.setState({
@@ -54,30 +45,44 @@ var NetworkView = React.createClass({
       value3:null,
       attached_Devices:null
     });
-    let _this = this;
-    $.ajax({
-      type: "GET",
-      url: deviceListUrl+'/GetConnectedDeviceByIdServlet?id='+deviceInfo.deviceId,
-      success: function(data){
-        data = JSON.parse(data);
-        console.log('Network ajax--->',data);
-        var value3 = data.value3;
-        var valueObj = data.value3[0];
-        var deviceNum = valueObj.device_num;
-        var wiredDeviceNum = valueObj.wireddevice_num;
-        var attached_Devices = [];
-        for(let obj of valueObj.attached_Devices){
-          if(obj.stations && obj.stations.isOnline){
-            attached_Devices.push(obj);
-          }
-        }
-        _this.setState({
-          deviceNum:deviceNum,
-          wiredDeviceNum:wiredDeviceNum,
-          value3:value3,
-          attached_Devices:attached_Devices
-        });
+    $(window).resize(function(){
+      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    });
+    $(window).scroll(function(event){
+      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    });
+    if(!this.props.networkData||!this.props.networkData.value3){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this.getServerData();
+    }else{
+      this.updateStateProps(this.props.networkData);
+    }
+  },
+  getServerData:function(){
+    var _this = this;
+    let tempUrl = APPCONFING.deviceListUrl+'/GetConnectedDeviceByIdServlet';
+    axios.get(tempUrl).then(({data}) => {
+      console.log('Network ajax--->',data);
+      _this.updateStateProps(data);
+    });
+  },
+  updateStateProps:function(networkData){
+    var _this = this;
+    var value3 = networkData.value3;
+    var valueObj = networkData.value3[0];
+    var deviceNum = valueObj.device_num;
+    var wiredDeviceNum = valueObj.wireddevice_num;
+    var attached_Devices = [];
+    for(let obj of valueObj.attached_Devices){
+      if(obj.stations && obj.stations.isOnline){
+        attached_Devices.push(obj);
       }
+    }
+    _this.setState({
+      deviceNum:deviceNum,
+      wiredDeviceNum:wiredDeviceNum,
+      value3:value3,
+      attached_Devices:attached_Devices
     });
   },
   componentDidUpdate:function(){
@@ -153,6 +158,7 @@ var NetworkView = React.createClass({
   render() {
     return (
       <div>
+        <Helmet title='Network'/>
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navTitle'><img src={logoImg}/></div>

@@ -5,7 +5,7 @@ import './DashboardView.scss'
 import ReactTabBar from '../../../components/ReactTabBar'
 import {getDevicesChartData} from './DashboardChartData';
 import DashboardHelp from './DashboardHelp';
-import logoImg from '../assets/logo.png'
+import logoImg from '../../../static/assets/logo.png'
 import shareIconImg from '../assets/shareIcon.png'
 import differenceImg from '../assets/difference.png'
 import goodImg from '../assets/good.png'
@@ -15,10 +15,10 @@ import dashboard_bg1 from '../assets/dashboard_bg1.png'
 import dashboard_bg2 from '../assets/dashboard_bg2.png'
 import dashboard_bg4 from '../assets/dashboard_bg4.png'
 
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
 
 import wifiImg_1 from '../assets/wifi-1.png'
 import wifiImg_2 from '../assets/wifi-2.png'
@@ -203,7 +203,7 @@ var DashboardView = React.createClass({
             <img src={iconUrl} />
           </div>
         </div>
-        <div className='Dashboard_content contentFixed' style={{height:this.state.screenHeight-110}}>
+        <div className='middleContent Dashboard_content contentFixed' style={{height:this.state.screenHeight-110}}>
           <div className='Dashboard_contentTop'>
             <div className='Dashboard_dashboardInfo'>
               <p>OiQ Score</p>

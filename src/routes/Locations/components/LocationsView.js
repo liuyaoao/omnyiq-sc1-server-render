@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 import LocationsList from './LocationsList'
 import ReactTabBar from '../../../components/ReactTabBar'
 
-import logoImg from '../assets/logo.png'
+import logoImg from '../../../static/assets/logo.png'
 import searchImg from '../assets/search.png'
 
 import './LocationsView.scss'
@@ -18,6 +18,7 @@ var LocationsView = React.createClass({
     return {
       device_Types:['House','Office'], //设备的类型。
       tabKeyList:['myLocations','publicLocations'],
+      deviceList:null,
       totalDevices:0,
       totalPage:0
     }
@@ -25,13 +26,14 @@ var LocationsView = React.createClass({
   componentWillMount:function(){
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Locations');
+    this.props.setRoutersData({});
   },
   componentDidMount:function(){
     var _this = this;
     $('.SubNavOption ul li').first().addClass('current');
     let curTimeStamp = new Date()/1;
     localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
-    if(!this.props.routersData.list){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+    if(!this.props.routersData||!this.props.routersData.list){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
       // window.location.reload();
       this._getServerData(1,100,'');
     }else{
@@ -69,8 +71,7 @@ var LocationsView = React.createClass({
   updateStateProps:function(routersData,onlineStatus){ //跟新待渲染的状态和属性。
     let res = JSON.parse(JSON.stringify(routersData)); //如果是初始化的props里传过来的这个数据就要深度clone一份，因为props是只读的
     res.list = this.formatDeviceList(res.list,onlineStatus);
-    this.props.setRoutersData(res);
-    this.setState({totalDevices:res.totaldevices,totalPage:res.totalpage});
+    this.setState({deviceList:res.list,totalDevices:res.totaldevices,totalPage:res.totalpage});
     //缓存第一条数据
     let _data = res.list[0].value1;
     let deviceId = _data.id;
@@ -99,7 +100,7 @@ var LocationsView = React.createClass({
   },
   _onClickRightIcon:function(e){
     var searchImgEle = $('.navbarRight img').clone().addClass('searchImg');
-    $('.navbarDiv').html('<div class="form-group searchForm">'+
+    $('.navbarDiv').css("box-shadow",'0 0 0').html('<div class="form-group searchForm">'+
         '<input type="text" class="form-control" />'+
         '<span class="searchWithInput">'+
         '</span></div>');
@@ -137,20 +138,22 @@ var LocationsView = React.createClass({
             <img className='searchImg' src={searchImg}/>
           </div>
         </div>
-        <div className='SubNavOption' style={{backgroundColor:'#F1F1F3'}}>
-          <ul className=''>
-            <li className={this.props.curTabIndex == 0 ? 'locationsTabLi current' : 'locationsTabLi'} onClick={this._onClickTabDiv} data-index='0'>
-                <p className=''>My Locations</p>
-            </li>
-            <li className={this.props.curTabIndex == 1 ? 'locationsTabLi current' : 'locationsTabLi'} onClick={this._onClickTabDiv} data-index='1'>
-                <p className=''>Public Locations</p>
-            </li>
-          </ul>
-          <div className={this.props.curTabIndex == 0 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='0'>
-              <LocationsList deviceList={this.props.routersData.list} onClickLocationsItem={this.onClickLocationsItem}/>
-          </div>
-          <div className={this.props.curTabIndex == 1 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='1'>
-            <div style={{position:'fixed',top:'50%',left:'50%',transform:'translateX(-50%)','background':'#F1F1F3'}}>Online On Version 2.</div>
+        <div className='middleContent'>
+          <div className='SubNavOption'>
+            <ul className=''>
+              <li className={this.props.curTabIndex == 0 ? 'locationsTabLi current' : 'locationsTabLi'} onClick={this._onClickTabDiv} data-index='0'>
+                  <p className=''>My Locations</p>
+              </li>
+              <li className={this.props.curTabIndex == 1 ? 'locationsTabLi current' : 'locationsTabLi'} onClick={this._onClickTabDiv} data-index='1'>
+                  <p className=''>Public Locations</p>
+              </li>
+            </ul>
+            <div className={this.props.curTabIndex == 0 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='0'>
+                <LocationsList deviceList={this.state.deviceList} onClickLocationsItem={this.onClickLocationsItem}/>
+            </div>
+            <div className={this.props.curTabIndex == 1 ? 'locationsContentBox current' : 'locationsContentBox'} data-index='1'>
+              <div style={{position:'fixed',top:'50%',left:'50%',transform:'translateX(-50%)','background':'#F1F1F3'}}>Online On Version 2.</div>
+            </div>
           </div>
         </div>
         <ReactTabBar

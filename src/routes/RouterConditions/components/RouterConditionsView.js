@@ -5,11 +5,13 @@ import TimeSelectionTab from '../../../components/TimeSelectionTab';
 import {RectChart,TemperatureChart} from './OtherStatusComponents';
 import StatusChartComponent from './StatusChartComponent';
 
-import backImg from '../assets/back.png'
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+import backImg from '../../../static/assets/back.png'
+
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
+
 import './RouterConditionsView.scss'
 
 var RouterConditionsView = React.createClass({
@@ -23,7 +25,6 @@ var RouterConditionsView = React.createClass({
       scoreState2,
       scoreState3,
       deviceInfo:null,
-      islider:null,
       tabKeyList:['status','update','reboot'],
       screenHeight:0,
       cPU_0_Load:0,
@@ -47,6 +48,7 @@ var RouterConditionsView = React.createClass({
       tab2TimeTypes[key] = '24H';
     }
     this.props.setTab2TimeTypes(tab2TimeTypes);
+    this.props.setRouterConditionsData({});
   },
   componentDidMount:function(){
     let deviceListUrl = APPCONFING.deviceListUrl;
@@ -58,47 +60,39 @@ var RouterConditionsView = React.createClass({
     let _this = this;
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    $.ajax({
-      type: "GET",
-      url: deviceListUrl+'/GetRouterConditionByIdServlet?id='+deviceInfo.deviceId,
-      success: function(data){
-        data = JSON.parse(data);
-        console.log('RouterCondition ajax--->',data);
-        _this.setState({
-          cPU_0_Load:data.CurrentRouterCondition.cPU_0_Load,
-          // cPU_1_Load:data.CurrentRouterCondition.cPU_1_Load,
-          cPU_Total_Load:(data.CurrentRouterCondition.cPU_Total_Load).toFixed(2),
-          memory_Load:(data.CurrentRouterCondition.memory_Load).toFixed(2),
-          temperature:data.CurrentRouterCondition.temperature,
-          cpuLoadAreaChart:data.RouterSingleList,
-          memoryLoadAreaChart:data.RouterSingleList,
-          temperatureAreaChart:data.RouterSingleList,
-          rebootsAreaChart:data.RebootsList
-        });
-      }
-    });
-    // var islider = new iSlider({
-    //     dom: document.getElementById("iSlider-wrapper"),
-    //     data: [{
-    //         content:document.getElementById('routerStatus')
-    //       },{
-    //         content:document.getElementById('routerUpdate')
-    //       },{
-    //         content:document.getElementById('routerReboot')
-    //       }
-    //     ],
-    //     isLooping: true,
-    //     isAutoplay: false,
-    //     onSlideChanged:function(){
-    //       _this._goIndex(); //跳转页面
-    //     }
-    // });
-    // this.setState({islider:islider});
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     $(window).scroll(function(event){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    });
+    if(!this.props.routerConditionsData || !this.props.routerConditionsData.CurrentRouterCondition){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this.getServerData();
+    }else{
+      this.updateStateProps(this.props.routerConditionsData);
+    }
+  },
+  getServerData:function(){
+    var _this = this;
+    let tempUrl = APPCONFING.deviceListUrl+'/GetRouterConditionByIdServlet';
+    axios.get(tempUrl).then(({data}) => {
+      console.log('RouterCondition ajax--->',data);
+      _this.updateStateProps(data);
+    });
+  },
+  updateStateProps:function(data){
+    var _this = this,props = this.props;
+    _this.setState({
+      cPU_0_Load:data.CurrentRouterCondition.cPU_0_Load,
+      // cPU_1_Load:data.CurrentRouterCondition.cPU_1_Load,
+      cPU_Total_Load:(data.CurrentRouterCondition.cPU_Total_Load).toFixed(2),
+      memory_Load:(data.CurrentRouterCondition.memory_Load).toFixed(2),
+      temperature:data.CurrentRouterCondition.temperature,
+      cpuLoadAreaChart:data.RouterSingleList,
+      memoryLoadAreaChart:data.RouterSingleList,
+      temperatureAreaChart:data.RouterSingleList,
+      rebootsAreaChart:data.RebootsList
     });
   },
   _showRouterDiv:function(e){

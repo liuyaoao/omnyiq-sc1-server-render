@@ -1,13 +1,7 @@
 import React from 'react';
 
 var PrivacyPolicyInfo = React.createClass({
-  getInitialState:function(){
-    return{
-    }
-  },
   componentWillMount:function(){
-    var _this = this;
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
   },
   componentDidMount:function(){
   },

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { setTabBarState,setTabBarIsShow } from './../../../reducers/ReactTabBar_reducer'
 import { setCurTabIndex, setCurTabKey,setSignalType,setTab2TimeTypes,setCurTimeNodes } from './../../../reducers/WiFiInsight_reducer'
+import { setWiFiInsightData } from './../../../reducers/Common_reducer'
 
 import DashboardWiFiInsightView from '../components/DashboardWiFiInsightView'
 
@@ -11,7 +12,8 @@ const mapDispatchtoProps = {
   setCurTabKey,
   setSignalType,
   setTab2TimeTypes,
-  setCurTimeNodes
+  setCurTimeNodes,
+  setWiFiInsightData
 }
 
 const mapStateToProps = (state) => ({
@@ -21,7 +23,8 @@ const mapStateToProps = (state) => ({
   curTabKey: state.WiFiInsightReducer.curTabKey,
   signalType:state.WiFiInsightReducer.signalType,
   tab2TimeTypes:state.WiFiInsightReducer.tab2TimeTypes,
-  curTimeNodes:state.WiFiInsightReducer.curTimeNodes
+  curTimeNodes:state.WiFiInsightReducer.curTimeNodes,
+  wiFiInsightData:state.CommonReducer.wiFiInsightData
 })
 
 export default connect(mapStateToProps, mapDispatchtoProps)(DashboardWiFiInsightView)

@@ -1,11 +1,6 @@
 
-.dashboardContent{padding-top:52px;padding-bottom:49px;}
-ul,li{
-	list-style: none;
-}
-textarea {
-resize: none;
-}
+.middleContent{margin-top:50px;margin-bottom:50px;width:100%;box-sizing: border-box;}
+
 .clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
 .clearfix { *zoom:1; }
 /*react-bootstrap-css*/
@@ -47,9 +42,7 @@ resize: none;
   height:2000px;
   z-index: 0;
 }
-.contentFixed{
-  position: fixed;top:0;left:0;z-index: 5;
-}
+.contentFixed{position: fixed;top:0;left:0;z-index: 1000;}
 
 .loadingSpinContainer{width:0;position:absolute;left:50%;}
 .noDataContainer{
@@ -131,12 +124,12 @@ resize: none;
 
 /*子选项*/
 .SubNavOption{
-  position:fixed;
-  top:50px;
+  position:relative;
+  // top:50px;
   width:100%;
-  background: #fff;
+  // background: #fff;
   box-sizing: border-box;
-  z-index: 1100;
+  // z-index: 1100;
 }
 .SubNavOption ul,.SubNavOption li{
   list-style: none;
@@ -149,10 +142,10 @@ resize: none;
 }
 .SubNavOption li{
   float:left;
-  line-height: 40px;
+  line-height: 36px;
   overflow: hidden;
   text-align: center;
-  height:40px;
+  height:36px;
   border-bottom: 3px solid transparent;
   font-weight: 700;
   color:#888;
@@ -163,3 +156,169 @@ resize: none;
   border-bottom-color:#69A3F0;
   color:#69A3F0;
 }
+/*登录的弹窗 start*/
+.dialogContainer, .succFailDialog{
+  width:100%;height:100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+.dialogBack{
+    background: grey;
+    position:fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    z-index: -1;
+}
+.dialogContent{
+  width:80%;
+  margin:0 auto;
+  border:1px solid #fff;
+  border-radius: 1rem;
+  padding-top: 2rem;
+  background-color:#fff;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.dialogContent .dialogTitle{
+  font-size:2rem;
+  font-weight:600;
+  text-align:center;
+}
+.dialogContent .dialogTitleDesc{
+  font-size:1rem;
+  font-weight: 400;
+  margin: 6% 15%;
+  text-align: justify;
+}
+.dialogContent .input-group{
+  margin: 6% 10%;
+  display: block;
+}
+.dialogContent .input-group .form-control{
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 1.4rem;
+}
+.dialogContent .btn{
+  box-sizing: border-box;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color:#43A2E8;
+  display: inline-block;
+    width: 50%;
+    line-height: 2.3;
+    border-top: 0.2rem solid #D4CDCD;
+}
+.dialogContent .btn_Cancel,.dialogContent .btn_left{
+  background: #fff;
+  border-right: 0.1rem solid #D4CDCD;
+  border-radius: 0 0 0 1rem;
+}
+.dialogContent .btn_Ok,.dialogContent .btn_right{
+  background: #fff;
+  border-bottom-right-radius: 1rem;
+  border-left: 0.1rem solid #D4CDCD;
+  border-radius: 0 0 1rem 0;
+}
+/*登录的弹窗 end*/
+
+/*media qurey **/
+/*@media screen and (max-height:480px){
+	.middleContent{margin-top:35px;margin-bottom:35px;}
+	.navbarDiv{
+		height:35px;
+		.navbarRight,.navTitle,.navbarLeft{
+			line-height: 35px;
+		}
+		.navTitleText{
+			line-height: 17.5px;
+		}
+		.navTitleText .deviceInfoTitle{
+		  font-size: 10px;
+		}
+		.navTitle img,.navbarRight img{
+			height:30px;
+		}
+	}
+	.appTabBar{
+		height:34px;
+		img{width:20px;height:18px;}
+		p{font-size:10px;}
+	}
+}
+@media screen and (min-height:481px)and (max-height:580px){
+	.middleContent{margin-top:40px;margin-bottom:40px;}
+	.navbarDiv{
+		height:40px;
+		.navbarRight,.navTitle,.navbarLeft{
+			line-height: 40px;
+		}
+		.navTitleText{
+			line-height: 20px;
+		}
+		.navTitleText .deviceInfoTitle{
+		  font-size: 12px;
+		}
+		.navTitle img,.navbarRight img{
+			height:33px;
+		}
+	}
+	.appTabBar{
+		height:39px;
+		img{width:22px;height:20px;}
+		p{font-size:10px;}
+	}
+}
+@media screen and (min-height:581px)and (max-height:680px){
+	.middleContent{margin-top:45px;margin-bottom:45px;}
+	.navbarDiv{
+		height:45px;
+		.navbarRight,.navTitle,.navbarLeft{
+			line-height: 45px;
+		}
+		.navTitleText{
+			line-height: 22.5px;
+		}
+		.navTitleText .deviceInfoTitle{
+		  font-size: 14px;
+		}
+		.navTitle img,.navbarRight img{
+			height:37px;
+		}
+	}
+	.appTabBar{
+		height:44px;
+		img{width:23px;height:22px;}
+		p{font-size:11px;}
+	}
+}
+@media screen and (min-height:681px){
+	.middleContent{margin-top:50px;margin-bottom:50px;}
+	.navbarDiv{
+		height:50px;
+		.navbarRight,.navTitle,.navbarLeft{
+			line-height: 50px;
+		}
+		.navTitleText{
+			line-height: 25px;
+		}
+		.navTitleText .deviceInfoTitle{
+		  font-size: 15px;
+		}
+		.navTitle img,.navbarRight img{
+			height:42px;
+		}
+	}
+	.appTabBar{
+		height:49px;
+		img{width:24px;height:24px;}
+		p{font-size:12px;}
+	}
+}
+*/

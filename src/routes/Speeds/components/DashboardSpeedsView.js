@@ -1,15 +1,17 @@
 import React from 'react';
+import axios from 'axios'
+import Helmet from 'react-Helmet'
 import TimeSelectionTab from '../../../components/TimeSelectionTab';
 import ReactTabBar from '../../../components/ReactTabBar'
 
 import {getSpeedsDownloadChartData, getSpeedsUploadChartData, getSpeedsDL_ULChartData} from './SpeedsChartData';
 
-import backImg from '../assets/back.png'
+import backImg from '../../../static/assets/back.png'
 
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
 
 import './DashboardSpeedsView.scss'
 var DashboardSpeedsView = React.createClass({
@@ -37,7 +39,7 @@ var DashboardSpeedsView = React.createClass({
     this.props.setTabBarState('/Dashboard');
     this.props.setCurTabIndex(0); //初始化数据
     this.props.setCurTabKey(this.state.tabKeyList[0]);
-
+    this.props.setRouterSpeedsData({});
   },
   componentDidMount:function(){
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
@@ -46,74 +48,70 @@ var DashboardSpeedsView = React.createClass({
     let _this = this;
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    // var mySwiper = new Swiper('.swiper-container', {
-    //   speed:200,
-    //   onSlideChangeStart: function(swiper){
-    //     _this._changeCurrentTab(swiper.activeIndex);
-    //   },
-    //   onSlideChangeEnd: function(swiper){
-    //     let tabKey = _this.state.tabKeyList[swiper.activeIndex];
-    //     _this.props.dispatch(SpeedsAction.setCurTabIndex(swiper.activeIndex));
-    //     _this.props.dispatch(SpeedsAction.setCurTabKey(tabKey));
-    //   }
-    // });
-    // this.setState({mySwiper:mySwiper});
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     $(window).scroll(function(event){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
+    if(!this.props.routerSpeedsData||!this.props.routerSpeedsData.value4){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this.getServerData();
+    }else{
+      this.updateStateProps(this.props.routerSpeedsData);
+    }
+  },
+  getServerData:function(){
+    var _this = this;
     var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
-    // deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
-    $.ajax({
-      type: "GET",
-      url: deviceListUrl+'/GetInternetSpeedsByIdServlet?id='+deviceInfo.deviceId,
-      success: function(data){
-        spinner.stop();
-        $('.loadingSpinContainer').remove();
-        data = JSON.parse(data);
-        console.log('DashboardSpeeds ajax--->',data);
-        if(!data.value4 || data.value4.length<=0){
-          $('.noDataContainer').removeClass('hide');
-          return;
-        }
-        let dataList = data.value4;
-        let avg_download = [];//下载速度
-        let avg_wan_Latency = [];//延迟
-        let avg_upload = [];//上传速度
-        let avg_isp_Avg_Download = [];//下载平均（灰色线条）
-        let avg_isp_Avg_Upload = [];//上传平均（灰色线条）
-        let dateList = [];
-        let lastValue = data.value4[data.value4.length-1];
-        let newDownload = parseInt(lastValue.avg_download || 0);
-        let newUpload = parseInt(lastValue.avg_wan_Latency || 0);
-        let newLatency = parseInt(lastValue.avg_wan_Latency || 0);
-        for(let v of data.value4){
-          if(v.avg_download == null){
-            avg_download.push(null);
-            avg_wan_Latency.push(null);
-            avg_upload.push(null);
-            avg_isp_Avg_Download.push(null);
-            avg_isp_Avg_Upload.push(null);
-            dateList.push(null);
-          }else{
-            avg_download.push(parseInt(v.avg_download));
-            avg_wan_Latency.push(parseInt(v.avg_wan_Latency));
-            avg_upload.push(parseInt(v.avg_upload));
-            avg_isp_Avg_Download.push(parseInt(v.avg_isp_Avg_Download));
-            avg_isp_Avg_Upload.push(parseInt(v.avg_isp_Avg_Upload));
-            let date = new Date(v.savetime);
-            dateList.push(date.getHours());
-          }
-        }
-        _this.setState({newDownload:newDownload,newUpload:newUpload,newLatency:newLatency});
-        _this.setState({
-          downloadChartData:getSpeedsDownloadChartData(dateList,avg_download,avg_wan_Latency,avg_isp_Avg_Download),
-          uploadChartData:getSpeedsUploadChartData(dateList,avg_upload,avg_isp_Avg_Upload,avg_wan_Latency),
-          uploadAndDownload:getSpeedsDL_ULChartData(dateList,avg_upload,avg_download,avg_isp_Avg_Download,avg_isp_Avg_Upload,avg_wan_Latency)
-        });
+    let tempUrl = APPCONFING.deviceListUrl+'/GetInternetSpeedsByIdServlet';
+    axios.get(tempUrl).then(({data}) => {
+      spinner.stop();
+      console.log('DashboardSpeeds ajax--->',data);
+      $('.loadingSpinContainer').remove();
+      _this.updateStateProps(data);
+    });
+  },
+  updateStateProps:function(data){
+    var _this = this,props = this.props;
+    if(!data.value4 || data.value4.length<=0){
+      $('.noDataContainer').removeClass('hide');
+      return;
+    }
+    let dataList = data.value4;
+    let avg_download = [];//下载速度
+    let avg_wan_Latency = [];//延迟
+    let avg_upload = [];//上传速度
+    let avg_isp_Avg_Download = [];//下载平均（灰色线条）
+    let avg_isp_Avg_Upload = [];//上传平均（灰色线条）
+    let dateList = [];
+    let lastValue = data.value4[data.value4.length-1];
+    let newDownload = parseInt(lastValue.avg_download || 0);
+    let newUpload = parseInt(lastValue.avg_wan_Latency || 0);
+    let newLatency = parseInt(lastValue.avg_wan_Latency || 0);
+    for(let v of data.value4){
+      if(v.avg_download == null){
+        avg_download.push(null);
+        avg_wan_Latency.push(null);
+        avg_upload.push(null);
+        avg_isp_Avg_Download.push(null);
+        avg_isp_Avg_Upload.push(null);
+        dateList.push(null);
+      }else{
+        avg_download.push(parseInt(v.avg_download));
+        avg_wan_Latency.push(parseInt(v.avg_wan_Latency));
+        avg_upload.push(parseInt(v.avg_upload));
+        avg_isp_Avg_Download.push(parseInt(v.avg_isp_Avg_Download));
+        avg_isp_Avg_Upload.push(parseInt(v.avg_isp_Avg_Upload));
+        let date = new Date(v.savetime);
+        dateList.push(date.getHours());
       }
+    }
+    _this.setState({newDownload:newDownload,newUpload:newUpload,newLatency:newLatency});
+    _this.setState({
+      downloadChartData:getSpeedsDownloadChartData(dateList,avg_download,avg_wan_Latency,avg_isp_Avg_Download),
+      uploadChartData:getSpeedsUploadChartData(dateList,avg_upload,avg_isp_Avg_Upload,avg_wan_Latency),
+      uploadAndDownload:getSpeedsDL_ULChartData(dateList,avg_upload,avg_download,avg_isp_Avg_Download,avg_isp_Avg_Upload,avg_wan_Latency)
     });
   },
   _changeCurrentTab:function(curTabIndex){
@@ -152,7 +150,6 @@ var DashboardSpeedsView = React.createClass({
     this._updateState(index,timeNodeType);
   },
   _updateState:function(index,timeNodeType){
-    // this.state.mySwiper.slideTo(index);
   },
   shouldComponentUpdate:function(nextProps, nextState){
     let _this = this;
@@ -181,6 +178,7 @@ var DashboardSpeedsView = React.createClass({
     let iconImg = this.state.deviceInfo?this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';
     return (
       <div>
+        <Helmet title='speeds'/>
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>

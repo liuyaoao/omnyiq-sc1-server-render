@@ -1,16 +1,23 @@
 import React from 'react';
+import axios from 'axios'
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar';
 import ConnectedDevicesSpeeds from './ConnectedDevicesSpeeds';
 
-import backImg from '../assets/back.png'
+import backImg from '../../../static/assets/back.png'
 import TV_UnknownImg from '../assets/TV_Unknown.png'
 import TV_OnlineImg from '../assets/TV_Online.png'
 import TV_OfflineImg from '../assets/TV_Offline.png'
 
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
+
+import wifiImg_0 from '../../../static/assets/wifi-0.png'
+import wifiImg_1 from '../../../static/assets/wifi-1.png'
+import wifiImg_2 from '../../../static/assets/wifi-2.png'
+import wifiImg_3 from '../../../static/assets/wifi-3.png'
 
 import './ConnectedDevicesView.scss'
 var ConnectedDevicesView = React.createClass({
@@ -23,6 +30,10 @@ var ConnectedDevicesView = React.createClass({
       scoreState1,
       scoreState2,
       scoreState3,
+      wifiImg_0,
+      wifiImg_1,
+      wifiImg_2,
+      wifiImg_3,
       deviceInfo:null,
       screenHeight:0,
       timeType2Nodes:{'24H':24,'72H':24,'1W':7,'1M':30,'3M':30,'1Y':12},  //每个时间类型下的分的时间点的个数。
@@ -40,39 +51,41 @@ var ConnectedDevicesView = React.createClass({
   componentWillMount:function(){
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Dashboard');
+    this.props.setDevicesData({});
   },
   componentDidMount:function(){
     var _this = this;
-    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     _this.setState({
-      spinner:spinner,
       screenHeight:parseInt(document.documentElement.clientHeight),
       deviceInfo:deviceInfo
     });
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    this.getServerData();
+    if(!this.props.devicesData||!this.props.devicesData.value3){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+      // window.location.reload();
+      this.getServerData();
+    }else{
+      this.updateStateProps(this.props.devicesData);
+    }
   },
   getServerData:function(){
-    var deviceListUrl = APPCONFING.deviceListUrl;
-    let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     var _this = this;
-    $.ajax({
-       type: "GET",
-       url: deviceListUrl+'/GetConnectedDeviceByIdServlet?id='+deviceInfo.deviceId,
-       success: function(data){
-         _this.state.spinner && _this.state.spinner.stop();
-         data = JSON.parse(data);
-         let connectDevices = data.value3[0].attached_Devices;
-         let _unknownList = [],_knownList = [],onlineList=[],offlineList=[];
-         for(let obj of connectDevices){
-           (obj.stations.type == 'unknown')?_unknownList.push(obj):_knownList.push(obj);
-           (obj.stations.isOnline)?onlineList.push(obj):offlineList.push(obj);
-         }
-         _this.setState({allConnectedDevices:connectDevices,unknownList:_unknownList,knownList:_knownList,onlineList:onlineList,offlineList:offlineList});
-       }
-     });
+    var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
+    let tempUrl = APPCONFING.deviceListUrl+'/GetConnectedDeviceByIdServlet';
+    axios.get(tempUrl).then(({data}) => {
+      spinner.stop();
+      _this.updateStateProps(data);
+    });
+  },
+  updateStateProps:function(devicesData){
+    let connectDevices = devicesData.value3[0].attached_Devices;
+    let _unknownList = [],_knownList = [],onlineList=[],offlineList=[];
+    for(let obj of connectDevices){
+      (obj.stations.type == 'unknown')?_unknownList.push(obj):_knownList.push(obj);
+      (obj.stations.isOnline)?onlineList.push(obj):offlineList.push(obj);
+    }
+    this.setState({allConnectedDevices:connectDevices,unknownList:_unknownList,knownList:_knownList,onlineList:onlineList,offlineList:offlineList});
   },
   _onShowOneDeviceSpeeds:function(e){  //点击单个连接的设备去获取speed信息。
     var _this = this;
@@ -147,17 +160,17 @@ var ConnectedDevicesView = React.createClass({
     }
     let signalIcon = '';
     if(signalScore<25){
-      signalIcon = './public/icon/wifi-4.png';
+      signalIcon = this.state['wifiImg_'+0];
     }else if(signalScore<50){
-      signalIcon = './public/icon/wifi-3.png';
+      signalIcon = this.state['wifiImg_'+3];
     }else if(signalScore<75){
-      signalIcon = './public/icon/wifi-2.png';
+      signalIcon = this.state['wifiImg_'+2];
     }else{
-      signalIcon = './public/icon/wifi-1.png';
+      signalIcon = this.state['wifiImg_'+1];
     }
-    return <div className='DeviceListSignal'>
+    return (<div className='DeviceListSignal'>
       <p style={{color:'#888'}}>{signalScore}%</p>
-      <img src={signalIcon}/></div>;
+      <img src={signalIcon}/></div>);
   },
 
   _createOnlineDeviceList:function(DeviceList){//创建在线的设备列表
@@ -220,6 +233,7 @@ var ConnectedDevicesView = React.createClass({
     let iconImg = this.state.deviceInfo ? this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';
     return (
       <div>
+        <Helmet title='connectedDevices'/>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
             <a href='javascript:history.go(-1)'><img src={backImg} /></a>
@@ -231,18 +245,16 @@ var ConnectedDevicesView = React.createClass({
           <div className='navbarRight' onClick={this._onClickRightIcon}>
             <img src={iconImg} />
           </div>
-          <div id="dashboardPopover">
-          </div>
         </div>
         <div className='loadingSpinContainer' style={{marginTop:'60%'}}></div>
-        <div className='dashboardContent'>
+        <div className='middleContent connectedDevicesContent'>
           <ul className="devicesUl">
             <li className='devicesOnline' onClick={this._showDevicesDiv} data-index={'0'}><p className='current'>Online</p></li>
             <li className='devicesUnknown' onClick={this._showDevicesDiv} data-index={'1'}><p>Unknown</p></li>
             <li className='devicesOffline' onClick={this._showDevicesDiv} data-index={'2'}><p>Offline</p></li>
           </ul>
           <div id='devicesOnline' className='devicesContentBox current' data-index={'0'}>
-          {this._createOnlineDeviceList(this.state.onlineList)}
+            {this._createOnlineDeviceList(this.state.onlineList)}
           </div>
           <div id='devicesUnknown' className='devicesContentBox' data-index={'1'}>
             {this._createUnknownDeviceList(this.state.unknownList)}

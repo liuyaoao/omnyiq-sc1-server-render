@@ -12,10 +12,12 @@ export default (store) => ({
       const RouterConditionsView = require('./containers/RouterConditionsContainer').default
       const ReactTabBarReducer = require('./../../reducers/ReactTabBar_reducer').default
       const RouterConditionsReducer = require('./../../reducers/RouterConditions_reducer').default
+      const CommonReducer = require('./../../reducers/Common_reducer').default
 
       /*  Add the reducer to the store on key 'counter'  */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBarReducer })
       injectReducer(store, { key: 'RouterConditionsReducer', reducer:RouterConditionsReducer })
+      injectReducer(store, { key: 'CommonReducer', reducer:CommonReducer })
 
       /*  Return getComponent   */
       cb(null, RouterConditionsView)

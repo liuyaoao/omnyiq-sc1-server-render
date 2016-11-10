@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTabBar from '../../../components/ReactTabBar'
-import backImg from '../assets/back.png'
-import logoImg from '../assets/logo.png'
+import backImg from '../../../static/assets/back.png'
+import logoImg from '../../../static/assets/logo.png'
 import './SettingsContactUsView.scss'
 
 var SettingsContactUsView = React.createClass({
@@ -57,7 +57,7 @@ var SettingsContactUsView = React.createClass({
               <input type='text'/>
             </div>
             <div className='contactUsEmailOrTel'>
-              <span>Email Or PhoneNum:</span>
+              <span>Email or PhoneNum:</span>
               <input type='text'/>
             </div>
             <input className='SettingsButton' type='button' value='Submit' onClick={this._onClickSubmit}/>

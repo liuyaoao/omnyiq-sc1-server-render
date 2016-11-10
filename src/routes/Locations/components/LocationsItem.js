@@ -9,10 +9,15 @@ import Dashboard_Office1 from '../assets/Dashboard-Office1.png'
 import Dashboard_Office2 from '../assets/Dashboard-Office2.png'
 import Dashboard_Office3 from '../assets/Dashboard-Office3.png'
 
-import scoreState0 from '../assets/scoreState0.png'
-import scoreState1 from '../assets/scoreState1.png'
-import scoreState2 from '../assets/scoreState2.png'
-import scoreState3 from '../assets/scoreState3.png'
+// import scoreState0 from '../assets/scoreState0.png'
+// import scoreState1 from '../assets/scoreState1.png'
+// import scoreState2 from '../assets/scoreState2.png'
+// import scoreState3 from '../assets/scoreState3.png'
+
+import scoreState0 from '../../../static/assets/scoreState0.png'
+import scoreState1 from '../../../static/assets/scoreState1.png'
+import scoreState2 from '../../../static/assets/scoreState2.png'
+import scoreState3 from '../../../static/assets/scoreState3.png'
 
 var LocationsItem = React.createClass({
   getInitialState:function(){

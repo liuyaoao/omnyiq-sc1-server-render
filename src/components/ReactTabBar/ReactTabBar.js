@@ -60,8 +60,8 @@ const ReactTabBar = React.createClass({
     for(let obj of tabBarList){
       var icon = (obj.url == tabBarState) ? obj.selectedIcon : obj.icon;
       var elemStr = <div key={i} style={{textAlign:'center'}} onClick={this.handleClick} data-i = {i} data-url={obj.url}>
-                      <img style={{width:'24px',height:'24px'}} src={icon}/>
-                      <p style={{padding:'0',margin:'0',fontSize:'0.8em'}}>{obj.title}</p>
+                      <img src={icon}/>
+                      <p style={{padding:'0',margin:'0'}}>{obj.title}</p>
                     </div>;
       i++;
       newList.push(elemStr);

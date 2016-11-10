@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
-import logoImg from '../../../static/assets/logo.png';
+import logoImg from '../../../static/assets/logo.png'
 import './SettingsView.scss'
 
 var SettingsView = React.createClass({
@@ -13,8 +13,8 @@ var SettingsView = React.createClass({
     }
   },
   componentWillMount:function(){
-      this.props.setTabBarIsShow(true);
-      this.props.setTabBarState('/Settings');
+    this.props.setTabBarIsShow(true);
+    this.props.setTabBarState('/Settings');
   },
   _ProvideFeedback:function(){
     this.context.router.push('/Settings/Post');
@@ -40,6 +40,7 @@ var SettingsView = React.createClass({
   render:function(){
     return (
       <div>
+        <Helmet title='Settings' />
         <div className='navbarDiv'>
           <div className='navTitle'><img src={logoImg}/></div>
         </div>

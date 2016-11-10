@@ -12,10 +12,12 @@ export default (store) => ({
       const DashboardSpeedsView = require('./containers/DashboardSpeedsContainer').default
       const ReactTabBarReducer = require('./../../reducers/ReactTabBar_reducer').default
       const SpeedsReducer = require('./../../reducers/Speeds_reducer').default
+      const CommonReducer = require('./../../reducers/Common_reducer').default
 
       /*  Add the reducer to the store on key 'xxx'  */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBarReducer })
       injectReducer(store, { key: 'SpeedsReducer', reducer:SpeedsReducer })
+      injectReducer(store, { key: 'CommonReducer', reducer:CommonReducer })
 
       /*  Return getComponent   */
       cb(null, DashboardSpeedsView)

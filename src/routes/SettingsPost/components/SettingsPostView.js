@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTabBar from '../../../components/ReactTabBar'
 import './SettingsPostView.scss'
-import backImg from '../assets/back.png'
+import backImg from '../../../static/assets/back.png'
 
 var SettingsPostView = React.createClass({
   componentWillMount:function(){
