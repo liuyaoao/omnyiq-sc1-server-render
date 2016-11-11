@@ -155,7 +155,7 @@ var DashboardWiFiInsightView = React.createClass({
       this._updateState(this.props.curTabIndex,this.props.signalType,timeNode);
   },
   _updateState:function(tabIndex, signalType, timeNode){ //更新数据
-    if(!this.state.wifiscanList || this.state.wifiscanList.length<=0){
+    if(!this.state.wifiscanList || this.state.wifiscanList.length<=timeNode){
       return;
     }
     if(!this.state.availableCapacityList || this.state.availableCapacityList.length<=0){

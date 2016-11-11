@@ -44,16 +44,17 @@ var LocationsView = React.createClass({
     var _this = this;
     var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
     // var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
-    var tempUrl = deviceListUrl+"/SearchAndDashboardMServlet?page="+page+"&size="+size+"&keywords="+keywords;
+    var tempUrl = deviceListUrl+"/GetLocationsServlet?page="+page+"&size="+size+"&keywords="+keywords;
     axios.get(tempUrl).then(({data}) => {
       console.log('axios--ajax----',data);
+      _this.updateStateProps(data,{});
       _this._getRouterDeviceOnlineState(data);
     });
   },
   _getRouterDeviceOnlineState:function(routersData){
     var _this = this;
     var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    var tempUrl = deviceListUrl+"/GetOnlineStatusServlet?ids="+routersData.ids;
+    var tempUrl = deviceListUrl+"/CheckRouterStatusServlet?ids="+routersData.ids;
     axios.get(tempUrl).then(({data}) => {
       _this.updateStateProps(routersData,data);
     });
@@ -87,7 +88,7 @@ var LocationsView = React.createClass({
     for(let obj of list){
       obj.value1.geoIp = obj.value1.geoIp || {'city_Name':'unknown','area_Name':'','region_Name':'unknown','country_Name':'unknown'};
       // obj.value1.device_Type = obj.value1.geoIp.city_Name.indexOf('Changsha')==-1?'House':'Office';// 测试用数据,先写死。
-      obj.value1.onlineStatus = (onlineObj[obj.value1.id] || 'OFFLINE').toUpperCase();
+      obj.value1.onlineStatus = (onlineObj[obj.value1.id] || 'ONLINE').toUpperCase();
       obj.value1.deviceScoreLevel = this._getDeviceScoreLevel(obj.value1.score);
       obj.value1.deviceScoreLevel = (obj.value1.onlineStatus == "ONLINE") ? obj.value1.deviceScoreLevel : 0; //不在线的话就用第0张为灰色的图片。
     }

@@ -3,7 +3,7 @@ export function getCpuLoadAreaChartData(list){
     if(!list || list.length<=0){
       return '';
     }
-		var valueSeries = [],timeLabelList = [],valueSeriesObj = {};
+		var valueSeries = [],timeLabelList = [],valueSeriesObj = {},maxValueY=0;
 		for (var i = 0; i < list.length; i++) {
       var obj = list[i];
       timeLabelList.push((obj['savetime'].split('T')[1]).split(':')[0]+':00');
@@ -11,9 +11,14 @@ export function getCpuLoadAreaChartData(list){
         if(!valueSeriesObj[key]){
           valueSeriesObj[key] = [];
         }
-        valueSeriesObj[key].push((obj['cpu_load'][key] ||0).toFixed(1));
+        valueSeriesObj[key].push(+(obj['cpu_load'][key] ||0).toFixed(1));
+        if(+(obj['cpu_load'][key] ||0).toFixed(1)>+maxValueY){
+          maxValueY = +(obj['cpu_load'][key] ||0).toFixed(1);
+        }
       }
 		}
+    maxValueY = Math.floor((+maxValueY>=80) ? 100 : (maxValueY +20));
+
     for(let key in valueSeriesObj){
       var keyStrArr = key.split('_');
       var text = keyStrArr[0]+"_"+keyStrArr[1];
@@ -51,10 +56,12 @@ export function getCpuLoadAreaChartData(list){
 				"aspect":"spline"
 			},
 			"scale-y":{
-				// "max-value":"5",
-				// "step":1,
+        "values":"0:"+maxValueY+":10",
+        // "min-value":"0",
+				// "max-value":maxValueY,
+				// "step":"10",
 				"format":"%v%",
-				"items-overlap":true,
+				// "items-overlap":true,
 			},
 			"tooltip":{
 				"text": "%t : %v%",
@@ -78,17 +85,21 @@ export function getCpuLoadAreaChartData(list){
     if(!list || list.length<=0){
         return '';
       }
-      var valueSeries = [],timeLabelList = [], text='memory_Load',values=[];
+      var valueSeries = [],timeLabelList = [], text='memory_Load',values=[],maxValueY=0,minValueY=1000;
   		for (var i = 0; i < list.length; i++) {
         var obj = list[i];
         var timeHour =(obj['savetime'].split('T')[1]).split(':')[0]+":00";
         timeLabelList.push(timeHour);
-  			values.push((obj[text]||0).toFixed(1));
+  			values.push(+(obj[text]||0).toFixed(1));
+        minValueY = (+(obj[text]||0).toFixed(1)<minValueY) ? (+(obj[text]||0).toFixed(1)) : +minValueY;//取最小值
+        maxValueY = (+(obj[text]||0).toFixed(1)>maxValueY) ? (+(obj[text]||0).toFixed(1)) : +maxValueY;//取最大值
   		}
       valueSeries.push({
         text:text,
         values:values
       });
+      minValueY = Math.floor(+minValueY);
+      maxValueY = Math.floor((+maxValueY>=90) ? 100 : (maxValueY +10));
   		var memoryLoadAreaChart = {
         "backgroundColor":"#F1F1F3",
   			"gui":{
@@ -121,10 +132,9 @@ export function getCpuLoadAreaChartData(list){
   				"aspect":"spline"
   			},
   			"scale-y":{
-  				// "max-value":"5",
-  				// "step":1,
+  				"values":"0:"+maxValueY+":10",
   				"format":"%v%",
-  				"items-overlap":true,
+  				// "items-overlap":true,
   			},
   			"tooltip":{
   				"text": "%t : %v%",
@@ -152,8 +162,8 @@ export function getCpuLoadAreaChartData(list){
       var obj = list[i];
       var timeHour =(obj['savetime'].split('T')[1]).split(':')[0]+":00";
       timeLabelList.push(timeHour);
-			values.push((obj[text]||0).toFixed(1));
-      if (obj[text] > maxVal) {
+			values.push(+(obj[text]||0).toFixed(1));
+      if (+obj[text] > maxVal) {
         maxVal = obj[text];
       }
 		}
@@ -161,6 +171,7 @@ export function getCpuLoadAreaChartData(list){
       text:text,
       values:values
     });
+    maxVal = Math.floor((+maxVal>=80) ? 100 : (maxVal +20));
     var temperatureAreaChartData = {
       "backgroundColor":"#F1F1F3",
       "gui":{
@@ -183,6 +194,7 @@ export function getCpuLoadAreaChartData(list){
         "labels":timeLabelList
       },
       "scale-y":{
+        "values":"0:"+maxVal+":10",
         "format":"%v°C",
         "items-overlap":true,
       },
@@ -228,11 +240,12 @@ export function getCpuLoadAreaChartData(list){
       var timeHour =(obj['savetime'].split('T')[1]).split(':')[0]+":00";
       timeLabelList.push(timeHour);
       obj[text] = +(obj[text]||0);
-			values.push([timeHour,obj[text].toFixed(1)]);
-      if (obj[text] > maxVal) {
+			values.push([timeHour,+obj[text].toFixed(1)]);
+      if (+obj[text] > maxVal) {
         maxVal = obj[text];
       }
 		}
+    maxVal+=20;
     var barWidth = null;
     if (values.length < 10) {
       barWidth = '20px';

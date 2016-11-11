@@ -16,6 +16,7 @@ import './NetworkView.scss'
 var NetworkView = React.createClass({
   getInitialState:function(){
     return{
+      InternetImg,
       NetworkImgs:NetworkImgs,
       screenHeight:0,
       deviceShortId:'',
@@ -172,7 +173,7 @@ var NetworkView = React.createClass({
             <div className='internetIconContainer'>
               <div className='internetLine' style={{}}></div>
               <div className='internetIcon'>
-                <img src={InternetImg}/>
+                <img src={this.state.InternetImg}/>
                 <p>Internet</p>
               </div>
             </div>

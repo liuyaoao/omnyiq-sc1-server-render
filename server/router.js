@@ -12,15 +12,15 @@ export default async function (ctx) {
   return new Promise((resolve, reject) => {
     let tempUrl = '';
     if (ctx.req.url == '/Locations') {
-      tempUrl = APPCONFINGS.deviceListUrl+"/SearchAndDashboardMServlet?page=1&size=100&keywords=";
+      tempUrl = APPCONFINGS.deviceListUrl+"/GetLocationsServlet?page=1&size=100&keywords=";
       axios.get(tempUrl).then(({data}) => {
-        let routersData = data,onlineUrl = APPCONFINGS.deviceListUrl+"/GetOnlineStatusServlet?ids="+data.ids;
+        let routersData = data,onlineUrl = APPCONFINGS.deviceListUrl+"/CheckRouterStatusServlet?ids="+data.ids;
         axios.get(onlineUrl).then(({data}) => {
           resolve({CommonReducer: { routersData: routersData, routersOnlineStatus:data} })
         });
       });
     }else if (ctx.req.url == '/Dashboard') {
-      tempUrl = APPCONFINGS.deviceListUrl+'/GetSpeedAndConnectedByIdServlet';
+      tempUrl = APPCONFINGS.deviceListUrl+'/GetDashboardByIdServlet';
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer: { dashboardData: data} })
       })

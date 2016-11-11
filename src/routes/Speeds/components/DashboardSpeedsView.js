@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios'
-import Helmet from 'react-Helmet'
-import TimeSelectionTab from '../../../components/TimeSelectionTab';
+import Helmet from 'react-helmet'
+import TimeSelectionTab from '../../../components/TimeSelectionTab'
 import ReactTabBar from '../../../components/ReactTabBar'
 
-import {getSpeedsDownloadChartData, getSpeedsUploadChartData, getSpeedsDL_ULChartData} from './SpeedsChartData';
+import {getSpeedsDownloadChartData, getSpeedsUploadChartData, getSpeedsDL_ULChartData} from './SpeedsChartData'
 
 import backImg from '../../../static/assets/back.png'
 
@@ -24,7 +24,6 @@ var DashboardSpeedsView = React.createClass({
       scoreState1,
       scoreState2,
       scoreState3,
-      mySwiper:null,
       deviceInfo:null,
       tabKeyList:['dl_ul','download','upload'],
       isNeedRender:{'dl_ul':true,'download':true,'upload':true},

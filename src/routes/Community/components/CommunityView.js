@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar';
 import SubNavOption from '../../../components/SubNavOption';
 import logoImg from '../assets/logo.png'
@@ -63,6 +63,7 @@ var CommunityView = React.createClass({
   render:function(){
     return (
       <div>
+        <Helmet title='Community'/>
           <div className='navbarDiv'>
             <div className='navTitle'><img src={logoImg}/></div>
             <div className='navbarRight' onClick={this._onClickRightIcon}>

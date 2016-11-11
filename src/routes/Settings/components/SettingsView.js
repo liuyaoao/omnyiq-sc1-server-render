@@ -60,6 +60,7 @@ var SettingsView = React.createClass({
         <div className='dialogContainer loginLogout hide'>
           <div className='dialogBack'></div>
           <div className='dialogContent'>
+            <div onClick={this._onClickCancel} className='closeBtn glyphicon glyphicon-remove'></div>
             <div className='dialogTitle'><p>Create an account</p></div>
             <div className='dialogTitleDesc'>
               <p>Enter password to save your data,see trends and join the Community.</p>

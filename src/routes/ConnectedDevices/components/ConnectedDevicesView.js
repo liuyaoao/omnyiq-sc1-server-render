@@ -94,10 +94,10 @@ var ConnectedDevicesView = React.createClass({
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     $.ajax({
        type: "GET",
-       url: deviceListUrl+'/GetSingleBandwithServlet?id='+deviceInfo.deviceId+'&mac='+macAddress,
+       url: deviceListUrl+'/GetBandwidthServlet?id='+deviceInfo.deviceId+'&mac='+macAddress,
        success: function(data){
          data = JSON.parse(data);
-        //  console.log("GetSingleBandwithServlet-->",data);
+        //  console.log("GetBandwidthServlet-->",data);
          for(let obj of data.SingleBandwithList){
             obj.total_bandwidth = +(+obj.total_bandwidth || 0).toFixed(2);
             obj.used = +(+obj.used || 0).toFixed(2);

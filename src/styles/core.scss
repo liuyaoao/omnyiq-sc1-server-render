@@ -184,6 +184,11 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  .closeBtn{
+    position:absolute;
+    top:5%;
+    right:6%;
+  }
 }
 .dialogContent .dialogTitle{
   font-size:2rem;

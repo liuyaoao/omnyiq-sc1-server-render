@@ -1,8 +1,8 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
-import './WelcomeView.scss'
 import Welcome1Image from '../assets/Welcome1.png'
+import './WelcomeView.scss'
 
 var WelcomeView = React.createClass({
   contextTypes: {
@@ -35,7 +35,7 @@ var WelcomeView = React.createClass({
       }
     });
     this.setState({
-      Welcome1Image:Welcome1Image,
+      Welcome1Image:Welcome1Image,  //这里需要这样写，不然刷新页面的时候会报一个checkSum不一致的警告。
       intervalkey:intervalkey,
       mySwiper:mySwiper,
       clientHeight:parseInt(document.documentElement.clientHeight)
@@ -96,11 +96,3 @@ var WelcomeView = React.createClass({
   }
 });
 module.exports = WelcomeView;
-// function mapWelcome2State(state) {
-//   const { tabBarIsShow } = state.ReactTabBarReducer
-//   return {
-//     tabBarIsShow
-//   }
-// }
-//
-// export default connect(mapWelcome2State)(Welcome);

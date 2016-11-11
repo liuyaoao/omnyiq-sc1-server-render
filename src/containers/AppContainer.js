@@ -16,11 +16,12 @@ class AppContainer extends React.Component {
 
   render () {
     const { layout, history, routes, routerKey, store } = this.props
-
+    let newDefaultLayout = clone(defaultLayout);
+    // delete newDefaultLayout.script;
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          <Helmet {...Object.assign(clone(defaultLayout), layout)} />
+          <Helmet {...Object.assign(newDefaultLayout, layout)} />
           <Router history={history} children={routes} key={routerKey} />
         </div>
       </Provider>

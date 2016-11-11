@@ -1,9 +1,11 @@
-import React from 'react';
-import ReactTabBar from '../../../components/ReactTabBar';
-import TimeSelectionTab from '../../../components/TimeSelectionTab';
+import React from 'react'
+import axios from 'axios'
+import Helmet from 'react-helmet'
+import ReactTabBar from '../../../components/ReactTabBar'
+import TimeSelectionTab from '../../../components/TimeSelectionTab'
 
-import {RectChart,TemperatureChart} from './OtherStatusComponents';
-import StatusChartComponent from './StatusChartComponent';
+import {RectChart,TemperatureChart} from './OtherStatusComponents'
+import StatusChartComponent from './StatusChartComponent'
 
 import backImg from '../../../static/assets/back.png'
 
@@ -120,6 +122,7 @@ var RouterConditionsView = React.createClass({
     var cPU_total_load = this.state.cPU_Total_Load,memory_Load=this.state.memory_Load,dash_temperature=this.state.temperature;
     return (
       <div>
+        <Helmet title='RouterConditions'/>
         <div className='scrollBackground'></div>
         <div className='navbarDiv'>
           <div className='navbarLeft'>

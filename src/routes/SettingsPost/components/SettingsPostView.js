@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
 import './SettingsPostView.scss'
 import backImg from '../../../static/assets/back.png'
@@ -33,6 +34,7 @@ var SettingsPostView = React.createClass({
   render:function(){
     return (
       <div className='settingsPostContainer'>
+        <Helmet title='Post'/>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
             <a href='javascript:history.go(-1)'><img src={backImg} /></a>

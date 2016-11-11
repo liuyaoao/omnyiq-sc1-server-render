@@ -1,5 +1,5 @@
 // 获取下载数据的函数
-export function getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice){
+export function getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice,unknownDeviceColor){
   var connectedDevicesChartData = {
      "globals": {
        "font-family":"Arial",
@@ -27,10 +27,20 @@ export function getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unkno
                          "shadow":true,
                          "shadow-color":"yellow",
                          "anchor": "c"
+                     },
+                     {
+                         "text": "total",
+                         "font-size": "12px",
+                         "font-family": "arial",
+                         "font-color": "#2F23D2",
+                         "x": "52%",
+                         "y": "65%",
+                         "anchor": "c"
                      }
                  ],
              "plot":{
-                 "slice":"80%",//中间空心大小
+                 "slice":"68%",//中间空心大小
+                 "borderWidth":"0",
                  "ref-angle":270,//圆的角度
                  "detach":false,
                  "value-box":{ //文字说明
@@ -47,25 +57,30 @@ export function getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unkno
                      "speed":"600",
                      "method":"0",
                      "sequence":"1"
+                 },
+                 "tooltip":{
+                   "text": "%v %t",
+                   "sticky":true,
+                   "timeout":3000
                  }
              },
              "series":[
                  {
+                     "text":"known",
                      "values":[knownDevice],//已知设备数
                      "background-color":knownDeviceColor,
-                     "border-color":"#9C9494",
-                     "border-width":"1px",
                      "value-box": {
                              visible:false,
                          }
                  },
                  {
+                     "text":"unknown",
                      "values":[unknownDevice],//未知设备
-                     "background-color":"#dadada",
-                     "alpha":"0.5",
-                     "border-color":"#907E7E",
-                     "border-width":"2px",
-                     "line-style": "dotted",
+                     "background-color":unknownDeviceColor,
+                    //  "alpha":"0.5",
+                    "tooltip":{
+                       "fontColor":"black"
+                     },
                      "shadow":0,
                      "value-box":{
                        "font-size":"16px"

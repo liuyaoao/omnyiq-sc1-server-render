@@ -15,7 +15,7 @@ var ConnectedDevicesSpeeds = React.createClass({
     if(this.props.isAllDevices){
       $.ajax({
          type: "GET",
-         url: deviceListUrl+'/GetSingleBandwithServlet?id='+deviceInfo.deviceId,
+         url: deviceListUrl+'/GetBandwidthServlet?id='+deviceInfo.deviceId,
          success: function(data){
            data = JSON.parse(data);
            let allBandwidthList = data.AllBandwidthList || [];

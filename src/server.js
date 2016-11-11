@@ -67,7 +67,7 @@ export default getClientInfo => {
         ...defaultLayout,
         link: links
       }
-
+      delete layoutWithLinks.script;
       // React-helmet will overwrite the layout once the client start running so that
       // we don't have to remove our unused styles generated on server side
       let layout = {
@@ -76,7 +76,7 @@ export default getClientInfo => {
           cssText: style.parts.map(part => `${part.css}\n`).join('\n')
         })),
         script: [
-          ...defaultLayout.script,
+          // ...defaultLayout.script,
           {type: 'text/javascript', innerHTML: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`},
           {type: 'text/javascript', innerHTML: `___LAYOUT__ = ${JSON.stringify(layoutWithLinks)}`}
         ]
@@ -108,6 +108,7 @@ export default getClientInfo => {
 
       // ----------------------------------
       // Everything went fine so far
+      // 获取config文件夹里的layout.js配置里的script脚本和webpack打包编译出来的(wendor和app)
       // ----------------------------------
       let scripts = Assetic
         .getScripts(([vendor, app]))

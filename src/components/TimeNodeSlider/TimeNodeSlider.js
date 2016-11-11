@@ -74,8 +74,8 @@ const TimeNodeSlider = React.createClass({
     this.setState({timeTipInterval:interval,curPlayDateTime:curPlayDateTime});
   },
   formatStatusValue: function(value){
-    if(!this.props.timeIndex2saveTime || this.props.timeIndex2saveTime.length<=0){
-      return;
+    if(!this.props.timeIndex2saveTime || this.props.timeIndex2saveTime.length<=value){
+      return 'no data';
     }
     var timeHour =((this.props.timeIndex2saveTime[value]).split('T')[1]).split(':')[0];
     // var timeHour = new Date(timeStr).getHours();

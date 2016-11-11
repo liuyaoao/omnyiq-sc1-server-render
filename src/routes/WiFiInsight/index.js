@@ -14,7 +14,7 @@ export default (store) => ({
       const WiFiInsightReducer = require('./../../reducers/WiFiInsight_reducer').default
       const CommonReducer = require('./../../reducers/Common_reducer').default
 
-      /*  Add the reducer to the store on key 'counter'  */
+      /*  Add the reducer to the store on key 'xxxx' 这里的key只需是和src/store/reducers.js文件里定义的一样 */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBarReducer })
       injectReducer(store, { key: 'WiFiInsightReducer', reducer:WiFiInsightReducer })
       injectReducer(store, { key: 'CommonReducer', reducer:CommonReducer })

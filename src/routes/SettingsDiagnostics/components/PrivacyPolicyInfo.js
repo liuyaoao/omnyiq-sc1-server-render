@@ -1,10 +1,6 @@
 import React from 'react';
 
 var PrivacyPolicyInfo = React.createClass({
-  componentWillMount:function(){
-  },
-  componentDidMount:function(){
-  },
   onClickBackToDiagnostics:function(){
     this.props.onClickBackToDiagnostics();
   },

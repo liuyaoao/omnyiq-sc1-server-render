@@ -4,15 +4,14 @@ import router1_Img from '../assets/router1.png';
 var RouterNode = React.createClass({
   getInitialState:function(){
     return{
-
+      router1_Img:''
     }
   },
-  componentWillMount:function(){
+  componentDidMount:function(){
+    this.setState({router1_Img:router1_Img});
     // let deviceListUrl = APPCONFING.deviceListUrl;
     // let deviceInfo = localStorage.getItem('deviceInfo');
     // deviceInfo = JSON.parse(deviceInfo);
-
-    let _this = this;
   },
   render() {
     return (
@@ -21,7 +20,7 @@ var RouterNode = React.createClass({
             <div className='routerIconLine'></div>
             <div className='routerIconLine lastLine'></div>
             <div className='routerIcon'>
-              <img src={router1_Img}/>
+              <img src={this.state.router1_Img}/>
             </div>
         </div>
     );

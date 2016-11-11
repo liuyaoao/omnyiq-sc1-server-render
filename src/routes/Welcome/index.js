@@ -1,7 +1,7 @@
 import { injectReducer } from '../../store/reducers'
 
 export default (store) => ({
-  // path: 'Welcome',
+  // path: 'Welcome',  //indexRoute don't need path.
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -12,7 +12,7 @@ export default (store) => ({
       const Welcome = require('./containers/WelcomeContainer').default
       const ReactTabBar = require('./../../reducers/ReactTabBar_reducer').default
 
-      /*  Add the reducer to the store on key 'counter'  */
+      /*  Add the reducer to the store on key 'xxxx'  */
       injectReducer(store, { key: 'ReactTabBar', reducer:ReactTabBar })
 
       /*  Return getComponent   */

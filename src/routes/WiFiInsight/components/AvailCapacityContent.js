@@ -6,13 +6,6 @@ var AvailCapacityContent = React.createClass({
       bandWidthArr : ['20M','40M','80M']
     }
   },
-  componentDidMount:function(){
-    let deviceListUrl = APPCONFING.deviceListUrl;
-    let deviceInfo = localStorage.getItem('deviceInfo');
-    deviceInfo = JSON.parse(deviceInfo);
-    let _this = this;
-
-  },
   componentDidUpdate:function(){
     var bandWidthArr = this.state.bandWidthArr;
     if(this.props.availableCapacityGHz){

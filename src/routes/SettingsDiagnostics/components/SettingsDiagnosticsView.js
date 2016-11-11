@@ -112,6 +112,7 @@ var SettingsDiagnosticsView = React.createClass({
         <div className='dialogContainer sendOffConfirm hide'>
           <div className='dialogBack'></div>
           <div className='dialogContent'>
+            <div onClick={this._onClickCancel} className='closeBtn glyphicon glyphicon-remove'></div>
             <div className='dialogTitle'><p>Confirm</p></div>
             <div className='dialogTitleDesc'>
               <p style={{'textAlign': 'justify','fontSize':'1.5rem'}}>Please confirm that you would not want your router to send diagnostics data to help improve your connected experience.</p>

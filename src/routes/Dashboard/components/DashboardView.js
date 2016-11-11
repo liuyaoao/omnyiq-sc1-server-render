@@ -63,7 +63,7 @@ var DashboardView = React.createClass({
       capacityScore:null,
       routerConditionScore:null,
       signalScore:null, //中间wifi信号强度数据
-      myConfig:getDevicesChartData(0,0,'#B5AFAF',0),
+      myConfig:getDevicesChartData(0,0,'#CDCDCD',0,'#CDCDCD'),
     }
   },
   componentWillMount:function(){//请求数据
@@ -109,12 +109,13 @@ var DashboardView = React.createClass({
   },
   _getServerData:function(deviceId){
     var _this = this;
-    var tempUrl = APPCONFING.deviceListUrl+'/GetSpeedAndConnectedByIdServlet?id='+deviceId;
+    var tempUrl = APPCONFING.deviceListUrl+'/GetDashboardByIdServlet?id='+deviceId;
     axios.get(tempUrl).then(({data}) => {
       _this._parseServerData(data);
     });
   },
   _parseServerData:function(data){
+    let onlineDeviceColors = ['#CDCDCD','#FF0000','#F48F0D','#209F02'];
     let knownDevice = 0;
     let unknownDevice = 0;
     let deviceSum = 0;
@@ -123,9 +124,10 @@ var DashboardView = React.createClass({
     for(let v of attached_Devices){
       (v.stations.type == 'unknown') ? unknownDevice++ : knownDevice++;
     }
-    let knownDeviceColor = (knownDevice == 0) ? "#CBCBCB" : "#EDEDED";
+    let unknownDeviceColor = '#CDCDCD';
+    let knownDeviceColor = (knownDevice == 0) ? unknownDeviceColor : onlineDeviceColors[this.state.deviceInfo.deviceScoreLevel];
     this.setState({
-        myConfig:getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice)
+        myConfig:getDevicesChartData(deviceSum,knownDevice,knownDeviceColor,unknownDevice,unknownDeviceColor)
     });
   },
   componentWillUnmount:function(){

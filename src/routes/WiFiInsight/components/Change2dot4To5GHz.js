@@ -2,14 +2,9 @@ import React from 'react';
 var Change2dot4To5GHz = React.createClass({
   getInitialState:function(){
     return{
-
     }
   },
   componentDidMount:function(){
-    let deviceListUrl = APPCONFING.deviceListUrl;
-    let deviceInfo = localStorage.getItem('deviceInfo');
-    deviceInfo = JSON.parse(deviceInfo);
-    let _this = this;
 
   },
   _changeSignalType:function(e){

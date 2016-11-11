@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
 import backImg from '../../../static/assets/back.png'
 import logoImg from '../../../static/assets/logo.png'
@@ -35,6 +36,7 @@ var SettingsContactUsView = React.createClass({
   render:function(){
     return (
       <div className='settingsContactUsContainer'>
+        <Helmet title='Contact Us'/>
         <div className='navbarDiv'>
           <div className='navbarLeft'>
             <a href='javascript:history.go(-1)'><img src={backImg} /></a>

@@ -3,18 +3,9 @@ import {getChannelScanChartData} from './WiFiInsightChartData';
 var ChannelScanContent = React.createClass({
   getInitialState:function(){
     return{
-      monthData : null
     }
   },
-  componentDidMount:function(){
-    let deviceListUrl = APPCONFING.deviceListUrl;
-    let deviceInfo = localStorage.getItem('deviceInfo');
-    deviceInfo = JSON.parse(deviceInfo);
-    let _this = this;
-
-  },
   shouldComponentUpdate:function(nextProps, nextState){
-
     // if(nextState.uploadChartData){
     //   zingchart.render({id : 'uploadChart',data : nextState.uploadChartData,height: 300,width: "98%"});
     // }
