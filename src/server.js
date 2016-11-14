@@ -18,8 +18,8 @@ import router from '../server/router'
 const debug = _debug('app:server:universal:render')
 
 export default getClientInfo => {
-  return async function (ctx, next) {
-    const initialState = await router(ctx)
+  return async function (ctx, next) { // 定义一个异步函数。
+    const initialState = await router(ctx) //在服务端通过promise对象异步去向服务器拿数据，返回初始化的store状态
 
     const memoryHistory = createMemoryHistory(ctx.req.url)
 

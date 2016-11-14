@@ -17,8 +17,12 @@ export function getCpuLoadAreaChartData(list){
         }
       }
 		}
-    maxValueY = Math.floor((+maxValueY>=80) ? 100 : (maxValueY +20));
 
+    maxValueY = (+maxValueY>=80) ? 100 : (maxValueY +maxValueY*0.25);
+    maxValueY = Math.ceil(maxValueY/10)*10;
+    // if(maxValueY<10){
+    //   maxValueY = 10;
+    // }
     for(let key in valueSeriesObj){
       var keyStrArr = key.split('_');
       var text = keyStrArr[0]+"_"+keyStrArr[1];
@@ -99,7 +103,8 @@ export function getCpuLoadAreaChartData(list){
         values:values
       });
       minValueY = Math.floor(+minValueY);
-      maxValueY = Math.floor((+maxValueY>=90) ? 100 : (maxValueY +10));
+      maxValueY = (+maxValueY>=80) ? 100 : (maxValueY +maxValueY*0.25);
+      maxValueY = Math.ceil(maxValueY/10)*10;
   		var memoryLoadAreaChart = {
         "backgroundColor":"#F1F1F3",
   			"gui":{
@@ -171,7 +176,8 @@ export function getCpuLoadAreaChartData(list){
       text:text,
       values:values
     });
-    maxVal = Math.floor((+maxVal>=80) ? 100 : (maxVal +20));
+    maxVal = (+maxVal>=80) ? 100 : (maxVal +maxVal*0.25);
+    maxVal = Math.ceil(maxVal/10)*10;
     var temperatureAreaChartData = {
       "backgroundColor":"#F1F1F3",
       "gui":{
@@ -245,7 +251,7 @@ export function getCpuLoadAreaChartData(list){
         maxVal = obj[text];
       }
 		}
-    maxVal+=20;
+    maxVal = Math.ceil((maxVal + maxVal*0.25)/10)*10;
     var barWidth = null;
     if (values.length < 10) {
       barWidth = '20px';

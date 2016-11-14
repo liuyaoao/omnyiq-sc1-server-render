@@ -7,6 +7,7 @@ import _debug from 'debug'
   const port = config.server_port
   const host = config.server_host
 
+//这里的server是一个es7语法里的async函数，然后通过返回promise对象实例，传出的是一个koa实例对象。
   let app = await server()
 
   app.listen(port)

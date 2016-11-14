@@ -16,7 +16,7 @@ var ChannelScanContent = React.createClass({
   },
   componentDidUpdate:function(){
     if(this.props.wifiscanList){
-      // zingchart.exec('wiFiInsightChannelScanChart', 'destroy');//不销毁的话会导致第二次加载这个路由页面的时候会报错。
+      zingchart.exec('wiFiInsightChannelScanChart', 'destroy');//不销毁的话会导致第二次加载这个路由页面的时候会报错。
       var data =this.getChartData();
       zingchart.render({id : 'wiFiInsightChannelScanChart',data : data,height: "100%",width: "100%"});
     }

@@ -6,6 +6,9 @@ import makeRootReducer from './reducers'
 export default (initialState = {}, history) => {
   // ======================================================
   // Middleware Configuration
+  //Middleware lets you wrap the store's dispatch method for fun and profit.
+  // redux-thunk lets the action creators invert control by dispatching functions.
+  // 中间件大部分是用来处理异步动作的
   // ======================================================
   const middleware = [thunk, routerMiddleware(history)]
 
@@ -26,7 +29,7 @@ export default (initialState = {}, history) => {
   const store = createStore(
     makeRootReducer(),
     initialState,
-    compose(
+    compose(   //To apply multiple store enhancers, you may use compose().
       applyMiddleware(...middleware),
       ...enhancers
     )

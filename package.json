@@ -1,6 +1,6 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.0-alpha.2",
+  "name": "omnyiq-sc1-server-render",
+  "version": "1.0.4-alpha.2",
   "description": "Get started with React, Redux, and React-Router!",
   "main": "index.js",
   "engines": {
@@ -88,10 +88,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/janoist1/universal-react-redux-starter-kit.git"
+    "url": "git+https://github.com/liuyaoao/omnyiq-sc1-server-render"
   },
-  "author": "Istvan Jano <janoist1@gmail.com> *universal feature",
-  "license": "MIT",
+  "author": "liuyaoao  *universal feature",
+  "license": "dragonflow",
   "dependencies": {
     "axios": "^0.15.2",
     "babel-cli": "^6.5.1",

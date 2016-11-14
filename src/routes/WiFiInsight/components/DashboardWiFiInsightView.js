@@ -213,7 +213,7 @@ var DashboardWiFiInsightView = React.createClass({
               className={this.props.curTabIndex == 0?'wiFiInsightContentBox current':'wiFiInsightContentBox'}
               style={{height:this.state.screenHeight-190}}>
               <div className='loadingSpinContainer' style={{marginTop:'20%'}}></div>
-              <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Speeds Data!!</p></div>
+              <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Wi-Fi Insight Data!!</p></div>
               <ChannelScanContent wifiscanList={this.state.wifiscanListGHz} signalType={this.props.signalType}  screenHeight={this.state.screenHeight}/>
               <TimeNodeSlider
                   tabIndex={0}
@@ -231,7 +231,7 @@ var DashboardWiFiInsightView = React.createClass({
               data-index='1'
               className={this.props.curTabIndex == 1?'wiFiInsightContentBox current':'wiFiInsightContentBox'}
               style={{height:this.state.screenHeight-190}}>
-              <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Speeds Data!!</p></div>
+              <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Wi-Fi Insight Data!!</p></div>
               <AvailCapacityContent availableCapacityGHz={this.state.availableCapacityGHz} signalType={this.props.signalType} screenHeight={this.state.screenHeight}/>
               <TimeNodeSlider
                   tabIndex={1}
