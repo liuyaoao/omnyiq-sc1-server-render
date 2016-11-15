@@ -1,5 +1,6 @@
 // 获取数据的函数
-export function getCpuLoadAreaChartData(list){
+export function getCpuLoadAreaChartData(data){
+    let list = JSON.parse(JSON.stringify(data)); //如果是初始化的props里传过来的这个数据就要深度clone一份，因为props是只读的
     if(!list || list.length<=0){
       return '';
     }
@@ -85,7 +86,8 @@ export function getCpuLoadAreaChartData(list){
 }
 
 //获取数据
-;export function getMemoryLoadAreaChartData(list){
+;export function getMemoryLoadAreaChartData(data){
+    let list = JSON.parse(JSON.stringify(data)); //如果是初始化的props里传过来的这个数据就要深度clone一份，因为props是只读的
     if(!list || list.length<=0){
         return '';
       }
@@ -158,7 +160,8 @@ export function getCpuLoadAreaChartData(list){
   return memoryLoadAreaChart;
 }
 //获取数据
-;export function getTemperatureAreaChartData(list){
+;export function getTemperatureAreaChartData(data){
+  let list = JSON.parse(JSON.stringify(data));
   if(!list || list.length<=0){
       return '';
     }
@@ -236,7 +239,8 @@ export function getCpuLoadAreaChartData(list){
   return temperatureAreaChartData;
 }
 //获取数据
-;export function getRebootsAreaChartData(list){
+;export function getRebootsAreaChartData(data){
+    let list = JSON.parse(JSON.stringify(data));
     if(!list || list.length<=0){
       return '';
     }

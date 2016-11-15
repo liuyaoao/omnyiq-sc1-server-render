@@ -86,15 +86,20 @@ var DashboardWiFiInsightView = React.createClass({
     var _this = this;
     var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
     let tempUrl = APPCONFING.deviceListUrl+'/GetWifiCapacityByIdServlet';
-    axios.get(tempUrl).then(({data}) => {
+    let CancelToken = axios.CancelToken;
+    axios.get(tempUrl,{
+      cancelToken:new CancelToken((c) => {
+        _this.axiosCancel = c;
+      })
+    }).then(({data}) => {
       spinner.stop();
       $('.loadingSpinContainer').remove();
       _this.updateStateProps(data);
-    });
+    }).catch((error) => {});
   },
   updateStateProps:function(data){
     var _this = this,props = this.props;
-    console.log('WifiCapacity ajax--->',data);
+    // console.log('WifiCapacity ajax--->',data);
     //解析wifiscanList数据：
     var wifiscanListGHz = null;
     var timeIndex2saveTime = [];
@@ -174,6 +179,7 @@ var DashboardWiFiInsightView = React.createClass({
   },
   componentWillUnmount:function(){
     $(window).off();
+    this.axiosCancel && this.axiosCancel();
   },
   render:function(){
     let iconImg = this.state.deviceInfo?this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';

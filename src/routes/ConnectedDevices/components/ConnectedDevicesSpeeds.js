@@ -93,7 +93,8 @@ var ConnectedDevicesSpeeds = React.createClass({
   render:function(){
     return(
         <div className='connectedDevicesSpeedsContainer' style={{height:this.props.screenHeight-245}}>
-          {this.props.isAllDevices?'':<div onClick={this.props.onClickCloseSingleSpeeds} className='closeSingleSpeedsBtn glyphicon glyphicon-remove'></div>}
+          <div onClick={this.props.onClickCloseSingleSpeeds} className={'closeSingleSpeedsBtn glyphicon glyphicon-remove '+this.props.isAllDevices?"hide":""}></div>
+
           <div className='devicesSpeedsTop'>
             {this.props.deviceName? <span>{this.props.deviceName} Devices</span>:<span>All Wi-Fi Devices</span>}
             <p className='speedsTitle'><span className='speedsNum'></span> Mbps</p>

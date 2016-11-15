@@ -20,7 +20,8 @@ var LocationsView = React.createClass({
       tabKeyList:['myLocations','publicLocations'],
       deviceList:null,
       totalDevices:0,
-      totalPage:0
+      totalPage:0,
+      axiosSource:null
     }
   },
   componentWillMount:function(){
@@ -42,22 +43,24 @@ var LocationsView = React.createClass({
   },
   _getServerData:function(page,size,keywords){
     var _this = this;
+    var axiosSource = axios.CancelToken.source();
+    this.setState({axiosSource});
     var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
     // var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
     var tempUrl = deviceListUrl+"/GetLocationsServlet?page="+page+"&size="+size+"&keywords="+keywords;
-    axios.get(tempUrl).then(({data}) => {
-      console.log('axios--ajax----',data);
+    axios.get(tempUrl,{cancelToken: axiosSource.token}).then(({data}) => {
+      // console.log('axios--ajax----',data);
       _this.updateStateProps(data,{});
       _this._getRouterDeviceOnlineState(data);
-    });
+    }).catch((error) => {});
   },
   _getRouterDeviceOnlineState:function(routersData){
     var _this = this;
     var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
     var tempUrl = deviceListUrl+"/CheckRouterStatusServlet?ids="+routersData.ids;
-    axios.get(tempUrl).then(({data}) => {
+    axios.get(tempUrl,{cancelToken: this.state.axiosSource.token}).then(({data}) => {
       _this.updateStateProps(routersData,data);
-    });
+    }).catch((error) => {});
   },
   _getDeviceScoreLevel:function(score){
     if(score <= 3.3){
@@ -128,6 +131,7 @@ var LocationsView = React.createClass({
   },
   componentWillUnmount:function(){
     $(window).off();
+    this.state.axiosSource && this.state.axiosSource.cancel();
   },
   render() {
     return (

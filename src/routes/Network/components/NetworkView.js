@@ -27,6 +27,7 @@ var NetworkView = React.createClass({
   componentWillMount:function(){
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Network');
+    this.props.setNetworkData({});
   },
   shouldComponentUpdate:function(nextProps,nextState){
     return true;
@@ -62,10 +63,15 @@ var NetworkView = React.createClass({
   getServerData:function(){
     var _this = this;
     let tempUrl = APPCONFING.deviceListUrl+'/GetConnectedDeviceByIdServlet';
-    axios.get(tempUrl).then(({data}) => {
-      console.log('Network ajax--->',data);
+    let CancelToken = axios.CancelToken;
+    axios.get(tempUrl,{
+      cancelToken:new CancelToken((c) => {
+        _this.axiosCancel = c;
+      })
+    }).then(({data}) => {
+      // console.log('Network ajax--->',data);
       _this.updateStateProps(data);
-    });
+    }).catch((error) => {});
   },
   updateStateProps:function(networkData){
     var _this = this;
@@ -155,6 +161,7 @@ var NetworkView = React.createClass({
   },
   componentWillUnmount:function(){
     $(window).off();
+    this.axiosCancel && this.axiosCancel();
   },
   render() {
     return (

@@ -34,7 +34,7 @@
 ```bash
 $ git clone https://github.com/bodyno/react-starter-kit.git
 $ cd react-starter-kit
-$ npm install                   # Install project dependencies
+$ npm install                   # Install project dependencies, 这里其实最好可以用cnpm安装，安装完成后如果提示有几个还没安装成功的话，可以到package.json里找到对应的版本单独安装。
 $ npm start                     # Compile and launch
 ```
 
@@ -71,7 +71,7 @@ $ npm start                     # Compile and launch
 ├── build                    # 所有打包配置项
 │   └── webpack              # webpack的指定环境配置文件
 ├── config                   # 项目配置文件
-├── server                   # Koa 程序 (使用 webpack 中间件)
+├── server                   # Koa 程序 (使用 webpack 中间件)  
 │   └── main.js              # 服务端程序入口文件
 ├── src                      # 程序源文件
 │   ├── main.js              # 程序启动和渲染

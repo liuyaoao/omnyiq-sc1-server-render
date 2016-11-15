@@ -70,6 +70,7 @@ var TemperatureChart = React.createClass({
     return false;
 	},
 	componentWillReceiveProps: function(nextProps) {
+		$('#goal-thermometer').off();
 		if (nextProps.currentTemperature !== this.props.currentTemperature || nextProps.avgTemperature !== this.props.avgTemperature) {
 			var currentAmount = nextProps.currentTemperature;
 			var markerAmount = nextProps.avgTemperature;

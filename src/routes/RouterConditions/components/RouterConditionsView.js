@@ -26,6 +26,7 @@ var RouterConditionsView = React.createClass({
       scoreState1,
       scoreState2,
       scoreState3,
+      isGetting:true,
       deviceInfo:null,
       tabKeyList:['status','update','reboot'],
       screenHeight:0,
@@ -65,9 +66,9 @@ var RouterConditionsView = React.createClass({
     $(window).resize(function(){
       _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
+    // $(window).scroll(function(event){
+    //   _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    // });
     if(!this.props.routerConditionsData || !this.props.routerConditionsData.CurrentRouterCondition){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
       // window.location.reload();
       this.getServerData();
@@ -78,18 +79,24 @@ var RouterConditionsView = React.createClass({
   getServerData:function(){
     var _this = this;
     let tempUrl = APPCONFING.deviceListUrl+'/GetRouterConditionByIdServlet';
-    axios.get(tempUrl).then(({data}) => {
-      console.log('RouterCondition ajax--->',data);
+    let CancelToken = axios.CancelToken;
+    axios.get(tempUrl,{
+      cancelToken:new CancelToken((c) => {
+        _this.axiosCancel = c;
+      })
+    }).then(({data}) => {
+      // console.log('RouterCondition ajax--->',data);
       _this.updateStateProps(data);
-    });
+    }).catch((error)=>{});
   },
-  updateStateProps:function(data){
-    var _this = this,props = this.props;
-    _this.setState({
+  updateStateProps:function(routerConditionsData){
+    let data = JSON.parse(JSON.stringify(routerConditionsData)); //如果是初始化的props里传过来的这个数据就要深度clone一份，因为props是只读的
+    this.setState({
+      isGetting:false,
       cPU_0_Load:data.CurrentRouterCondition.cPU_0_Load,
       // cPU_1_Load:data.CurrentRouterCondition.cPU_1_Load,
-      cPU_Total_Load:(data.CurrentRouterCondition.cPU_Total_Load).toFixed(2),
-      memory_Load:(data.CurrentRouterCondition.memory_Load).toFixed(2),
+      cPU_Total_Load:+(data.CurrentRouterCondition.cPU_Total_Load).toFixed(2),
+      memory_Load:+(data.CurrentRouterCondition.memory_Load).toFixed(2),
       temperature:data.CurrentRouterCondition.temperature,
       cpuLoadAreaChart:data.RouterSingleList,
       memoryLoadAreaChart:data.RouterSingleList,
@@ -97,8 +104,9 @@ var RouterConditionsView = React.createClass({
       rebootsAreaChart:data.RebootsList
     });
   },
-  _showRouterDiv:function(e){
+  _showRouterConditionsDiv:function(e){
     let that = $(e.currentTarget);
+    e.preventDefault();
     if(that.find('p').hasClass('current')) {
       return;
     }
@@ -111,11 +119,12 @@ var RouterConditionsView = React.createClass({
   _updateState:function(tabIndex){
 
   },
-  _onClickRightIcon:function(){
+  _onClickRightIcon:function(e){
     this.context.router.push('/Locations');
   },
   componentWillUnmount:function(){
-    $(window).off();
+    // $(window).off();
+    this.axiosCancel && this.axiosCancel();
   },
   render:function(){
     let iconImg = this.state.deviceInfo ? this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';
@@ -138,13 +147,13 @@ var RouterConditionsView = React.createClass({
         </div>
         <div className='DashboardRouterConditionsContainer contentFixed' style={{height:this.state.screenHeight-102}}>
             <ul className="routerUl">
-              <li className='routerStatus' onClick={this._showRouterDiv} data-index='0'>
+              <li className='routerStatus' onClick={this._showRouterConditionsDiv} data-index='0'>
                   <p className={this.props.curTabIndex == 0 ? 'current' : ''}>Status</p>
               </li>
-              <li className='routerUpdate' onClick={this._showRouterDiv} data-index='1'>
+              <li className='routerUpdate' onClick={this._showRouterConditionsDiv} data-index='1'>
                   <p className={this.props.curTabIndex == 1 ? 'current' : ''}>Update</p>
               </li>
-              <li className='routerReboot' onClick={this._showRouterDiv} data-index='2'>
+              <li className='routerReboot' onClick={this._showRouterConditionsDiv} data-index='2'>
                   <p className={this.props.curTabIndex == 2 ? 'current' : ''}>Reboot</p>
               </li>
             </ul>
@@ -165,6 +174,7 @@ var RouterConditionsView = React.createClass({
                   </div>
                 </div>
                 <StatusChartComponent
+                    isGetting = {this.state.isGetting}
                     screenHeight={this.state.screenHeight}
                     cpuLoadAreaChart={this.state.cpuLoadAreaChart}
                     memoryLoadAreaChart={this.state.memoryLoadAreaChart}

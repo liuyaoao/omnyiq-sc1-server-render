@@ -73,10 +73,15 @@ var ConnectedDevicesView = React.createClass({
     var _this = this;
     var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
     let tempUrl = APPCONFING.deviceListUrl+'/GetConnectedDeviceByIdServlet';
-    axios.get(tempUrl).then(({data}) => {
+    let CancelToken = axios.CancelToken;
+    axios.get(tempUrl,{
+      cancelToken:new CancelToken((c) => {
+        _this.axiosCancel = c;
+      })
+    }).then(({data}) => {
       spinner.stop();
       _this.updateStateProps(data);
-    });
+    }).catch((error) => {});
   },
   updateStateProps:function(devicesData){
     let connectDevices = devicesData.value3[0].attached_Devices;
@@ -225,6 +230,7 @@ var ConnectedDevicesView = React.createClass({
   },
   componentWillUnmount:function(){
     $(window).off();
+    this.axiosCancel && this.axiosCancel();
   },
   _onClickRightIcon:function(){
     this.context.router.push('/Locations');

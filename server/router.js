@@ -29,7 +29,7 @@ export default async function (ctx) {
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer:{ devicesData:data } })
       })
-    }else if(ctx.req.url == '/Dashboard/WiFiInsight'){
+    }else if(ctx.req.url == '/Dashboard/WiFiInsight_99999999'){
       tempUrl = APPCONFINGS.deviceListUrl+'/GetWifiCapacityByIdServlet';
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer:{ wiFiInsightData:data } })
@@ -39,7 +39,7 @@ export default async function (ctx) {
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer:{ routerSpeedsData:data } })
       })
-    }else if(ctx.req.url == '/Dashboard/RouterConditions'){
+    }else if(ctx.req.url == '/Dashboard/RouterConditions_99999999'){
       tempUrl = APPCONFINGS.deviceListUrl+'/GetRouterConditionByIdServlet';
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer:{ routerConditionsData:data } })

@@ -64,12 +64,17 @@ var DashboardSpeedsView = React.createClass({
     var _this = this;
     var spinner = new Spinner({zIndex:999}).spin($('.loadingSpinContainer')[0]);
     let tempUrl = APPCONFING.deviceListUrl+'/GetInternetSpeedsByIdServlet';
-    axios.get(tempUrl).then(({data}) => {
+    let CancelToken = axios.CancelToken;
+    axios.get(tempUrl,{
+      cancelToken:new CancelToken((c) => {
+        _this.axiosCancel = c;
+      })
+    }).then(({data}) => {
       spinner.stop();
-      console.log('DashboardSpeeds ajax--->',data);
+      // console.log('DashboardSpeeds ajax--->',data);
       $('.loadingSpinContainer').remove();
       _this.updateStateProps(data);
-    });
+    }).catch((error) => {});
   },
   updateStateProps:function(data){
     var _this = this,props = this.props;
@@ -172,6 +177,7 @@ var DashboardSpeedsView = React.createClass({
   },
   componentWillUnmount:function(){
     $(window).off();
+    this.axiosCancel && this.axiosCancel();
   },
   render:function(){
     let iconImg = this.state.deviceInfo?this.state['scoreState'+this.state.deviceInfo.deviceScoreLevel]:'';

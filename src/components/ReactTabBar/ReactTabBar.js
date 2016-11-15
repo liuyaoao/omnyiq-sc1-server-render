@@ -48,7 +48,7 @@ const ReactTabBar = React.createClass({
   componentDidUpdate:function(){
   },
   handleClick(e) {
-    e.preventDefault(); //阻止滚动
+    // e.preventDefault(); //阻止滚动
     var toUrl = $(e.currentTarget).data('url');
     this.props.setTabBarState(toUrl);
     this.context.router.push(toUrl);
