@@ -1,19 +1,7 @@
-import React from 'react';
-import LocationsItem from './LocationsItem';
+import React from 'react'
+import LocationsItem from './LocationsItem'
+
 var LocationsList = React.createClass({
-  getInitialState:function(){
-    return{
-    }
-  },
-  componentDidMount:function(){
-  },
-  shouldComponentUpdate:function(nextProps, nextState){
-    return true;
-  },
-  componentDidUpdate:function(){
-  },
-  componentWillUnmount:function(){
-  },
   createNetworkList:function(datas){
     if(datas == null){
       return (<div>

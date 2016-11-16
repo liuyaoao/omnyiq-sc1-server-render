@@ -1,9 +1,5 @@
 //手机底部菜单导航， 依赖react JQ
-//需要父组件传值 变量 tabarList
-//数据结构 [{},{}]    {url:'#',icon:'icon.png',selectedIcon:'icon-1.png',title:'iconTitle'}
-// 外面通过调用这句：this.props.dispatch(TabBarAction.setTabBarState(key));来设置底部tab选中哪一个。
 // key可为：'/Dashboard','/Community','/Locations','/Network'等等。
-
 import React from 'react';
 import './ReactTabBar.scss';
 import dashboardImg from './assets/Dashboard.png'
@@ -45,10 +41,24 @@ const ReactTabBar = React.createClass({
   componentWillMount:function(){
     this.props.setTabBarIsShow(true);
   },
+  componentDidMount:function(){
+    let _this = this;
+    if(this.props.setScreenHeight){
+      this.props.setScreenHeight(parseInt(document.documentElement.clientHeight));
+      $(window).resize(function(){
+        _this.props.setScreenHeight(parseInt(document.documentElement.clientHeight));
+      });
+      $(window).scroll(function(event){
+        _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+      });
+    }
+  },
+  componentWillUnmount:function(){
+    $(window).off();
+  },
   componentDidUpdate:function(){
   },
   handleClick(e) {
-    // e.preventDefault(); //阻止滚动
     var toUrl = $(e.currentTarget).data('url');
     this.props.setTabBarState(toUrl);
     this.context.router.push(toUrl);

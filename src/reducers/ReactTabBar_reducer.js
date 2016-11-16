@@ -5,6 +5,7 @@
 //==============================
 export const SET_TABBAR_STATE = 'SET_TABBAR_STATE';//底部导航的选中状态
 export const SET_TABBAR_IS_SHOW = 'SET_TABBAR_IS_SHOW';//底部导航is show or not
+export const SET_SCREEN_CLIENT_HEIGHT = 'SET_SCREEN_CLIENT_HEIGHT';//设置屏幕当前可视高度
 
 export function setTabBarState(tabBarState) {
     return {
@@ -18,10 +19,17 @@ export function setTabBarIsShow(tabBarIsShow) {
         tabBarIsShow
     }
 }
+export function setScreenHeight(screenHeight) {
+    return {
+        type: SET_SCREEN_CLIENT_HEIGHT,
+        screenHeight
+    }
+}
 
 export const actions = {
   setTabBarState,
-  setTabBarIsShow
+  setTabBarIsShow,
+  setScreenHeight
 }
 
 // ------------------------------------
@@ -33,6 +41,9 @@ const ACTION_HANDLERS = {
   },
   [SET_TABBAR_IS_SHOW]: (state,action) => {
     return ({...state, tabBarIsShow: action.tabBarIsShow})
+  },
+  [SET_SCREEN_CLIENT_HEIGHT]: (state,action) => {
+    return ({...state, screenHeight: action.screenHeight})
   }
 }
 //=======================
@@ -40,7 +51,8 @@ const ACTION_HANDLERS = {
 //========================
 export const initialState = {
   tabBarState: '/Locations',
-  tabBarIsShow: true
+  tabBarIsShow: true,
+  screenHeight:480
 }
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

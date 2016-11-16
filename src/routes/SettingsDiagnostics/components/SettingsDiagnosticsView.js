@@ -17,7 +17,6 @@ var SettingsDiagnosticsView = React.createClass({
       diagnosticsIcon_on,
       sendFlag:'on',  //上报发送开关。
       isBackToSettings:true //是否是返回Settings页面。
-
     }
   },
   componentWillMount:function(){

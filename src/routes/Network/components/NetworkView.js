@@ -18,7 +18,6 @@ var NetworkView = React.createClass({
     return{
       InternetImg,
       NetworkImgs:NetworkImgs,
-      screenHeight:0,
       deviceShortId:'',
       deviceName:'',
       deviceN:''
@@ -38,7 +37,6 @@ var NetworkView = React.createClass({
     deviceInfo = JSON.parse(deviceInfo);
     this.setState({
       mySwiper:null,
-      screenHeight:parseInt(document.documentElement.clientHeight),
       deviceShortId:deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4),
       deviceName:deviceInfo.deviceName,
       deviceN:deviceInfo.deviceN,
@@ -46,12 +44,6 @@ var NetworkView = React.createClass({
       wiredDeviceNum:0,  //在线的有线设备的个数
       value3:null,
       attached_Devices:null
-    });
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     if(!this.props.networkData||!this.props.networkData.value3){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
       // window.location.reload();
@@ -171,7 +163,7 @@ var NetworkView = React.createClass({
         <div className='navbarDiv'>
           <div className='navTitle'><img src={logoImg}/></div>
         </div>
-        <div className='networkContainer contentFixed' style={{height:this.state.screenHeight-110}}>
+        <div className='networkContainer contentFixed' style={{height:this.props.screenHeight-110}}>
             <div className='networkTitleContainer'>
               <p className='networkTitle'>{this.state.deviceName} {this.state.deviceN} {this.state.deviceShortId}</p>
             </div>
@@ -188,6 +180,7 @@ var NetworkView = React.createClass({
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

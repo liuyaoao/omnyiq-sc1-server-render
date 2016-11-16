@@ -74,6 +74,8 @@
     "start:prod": {
       "command": "babel-node bin/server",
       "env": {
+        "HOST":"220.168.30.12",
+        "PORT":"3333",
         "NODE_ENV": "production",
         "DEBUG": "app:*"
       }

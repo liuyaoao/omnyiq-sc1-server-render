@@ -4,22 +4,13 @@ import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar';
 import ConnectedDevicesSpeeds from './ConnectedDevicesSpeeds';
 
-import backImg from '../../../static/assets/back.png'
 import TV_UnknownImg from '../assets/TV_Unknown.png'
 import TV_OnlineImg from '../assets/TV_Online.png'
 import TV_OfflineImg from '../assets/TV_Offline.png'
-
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
-
-import wifiImg_0 from '../../../static/assets/wifi-0.png'
-import wifiImg_1 from '../../../static/assets/wifi-1.png'
-import wifiImg_2 from '../../../static/assets/wifi-2.png'
-import wifiImg_3 from '../../../static/assets/wifi-3.png'
-
+import {backImg,scoreState0,scoreState1,scoreState2,scoreState3,
+        wifiImg_0,wifiImg_1,wifiImg_2,wifiImg_3} from '../../../components/ImagesAssets'
 import './ConnectedDevicesView.scss'
+
 var ConnectedDevicesView = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -35,7 +26,6 @@ var ConnectedDevicesView = React.createClass({
       wifiImg_2,
       wifiImg_3,
       deviceInfo:null,
-      screenHeight:0,
       timeType2Nodes:{'24H':24,'72H':24,'1W':7,'1M':30,'3M':30,'1Y':12},  //每个时间类型下的分的时间点的个数。
       tabKeyList:['unknown','online','speeds'],
       chooseShowSpeedsDevice:'',
@@ -56,14 +46,10 @@ var ConnectedDevicesView = React.createClass({
   componentDidMount:function(){
     var _this = this;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    _this.setState({
-      screenHeight:parseInt(document.documentElement.clientHeight),
-      deviceInfo:deviceInfo
-    });
+    _this.setState({deviceInfo:deviceInfo});
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
     if(!this.props.devicesData||!this.props.devicesData.value3){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
-      // window.location.reload();
       this.getServerData();
     }else{
       this.updateStateProps(this.props.devicesData);
@@ -229,7 +215,6 @@ var ConnectedDevicesView = React.createClass({
     return <ul className='DeviceListUl'>{list}</ul>;
   },
   componentWillUnmount:function(){
-    $(window).off();
     this.axiosCancel && this.axiosCancel();
   },
   _onClickRightIcon:function(){
@@ -273,17 +258,17 @@ var ConnectedDevicesView = React.createClass({
                 isAllDevices={false}
                 deviceName={this.state.chooseShowSpeedsDevice}
                 onClickCloseSingleSpeeds={this.onClickCloseSingleSpeeds}
-                screenHeight={this.state.screenHeight}
+                screenHeight={this.props.screenHeight}
                 bandwidthList={this.state.bandwidthList}/>
           </div>
         </div>
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>
   )}
 });
-//
 module.exports = ConnectedDevicesView;

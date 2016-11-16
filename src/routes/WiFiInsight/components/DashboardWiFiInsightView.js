@@ -3,20 +3,13 @@ import Helmet from 'react-helmet'
 import axios from 'axios'
 import TimeSelectionTab from '../../../components/TimeSelectionTab';
 import ReactTabBar from '../../../components/ReactTabBar';
-
 import TimeNodeSlider from '../../../components/TimeNodeSlider';
 import Change2dot4To5GHz from './Change2dot4To5GHz';
 import AvailCapacityContent from './AvailCapacityContent';
 import ChannelScanContent from './ChannelScanContent';
 import ConnectedDevicesSpeeds from '../../ConnectedDevices/components/ConnectedDevicesSpeeds';
 
-import backImg from '../../../static/assets/back.png'
-
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
-
+import {backImg,scoreState0,scoreState1,scoreState2,scoreState3} from '../../../components/ImagesAssets'
 import './DashboardWiFiInsightView.scss'
 
 var DashboardWiFiInsightView = React.createClass({
@@ -30,7 +23,6 @@ var DashboardWiFiInsightView = React.createClass({
       scoreState2,
       scoreState3,
       deviceInfo:null,
-      screenHeight:0,
       timeType2Nodes:{'24H':24,'72H':24,'1W':7,'1M':30,'3M':30,'1Y':12},  //每个时间类型下的分的时间点的个数。
       tabKeyList:['wifiScan','capacity','speeds'],
       wifiscanList:[], //当前24H一个小时一条的数据。
@@ -58,7 +50,6 @@ var DashboardWiFiInsightView = React.createClass({
     }
     this.props.setCurTimeNodes(curTimeNodes);
     this.props.setTab2TimeTypes(tab2TimeTypes);
-    this.props.setWiFiInsightData({});
   },
   componentDidMount:function(){
     let _this = this;
@@ -66,21 +57,9 @@ var DashboardWiFiInsightView = React.createClass({
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
     this.setState({
-      deviceInfo:deviceInfo,
-      screenHeight:parseInt(document.documentElement.clientHeight)
+      deviceInfo:deviceInfo
     });
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    if(!this.props.wiFiInsightData||!this.props.wiFiInsightData.wifiscanList){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
-      // window.location.reload();
-      this.getServerData();
-    }else{
-      this.updateStateProps(this.props.wiFiInsightData);
-    }
+    this.getServerData();
   },
   getServerData:function(){
     var _this = this;
@@ -163,7 +142,7 @@ var DashboardWiFiInsightView = React.createClass({
     if(!this.state.wifiscanList || this.state.wifiscanList.length<=timeNode){
       return;
     }
-    if(!this.state.availableCapacityList || this.state.availableCapacityList.length<=0){
+    if(!this.state.availableCapacityList || this.state.availableCapacityList.length<=timeNode){
       return;
     }
     var timeNodeData = this.state.wifiscanList[timeNode];
@@ -178,7 +157,6 @@ var DashboardWiFiInsightView = React.createClass({
     this.context.router.push('/Locations');
   },
   componentWillUnmount:function(){
-    $(window).off();
     this.axiosCancel && this.axiosCancel();
   },
   render:function(){
@@ -201,7 +179,7 @@ var DashboardWiFiInsightView = React.createClass({
           </div>
         </div>
 
-        <div className='wiFiInsightContent contentFixed' style={{height:this.state.screenHeight-110}}>
+        <div className='wiFiInsightContent contentFixed' style={{height:this.props.screenHeight-110}}>
           <ul className="wiFiInsightContentUl">
             <li className='wiFiInsightChannelScan' onClick={this._showWiFiInsightDiv} data-index='0'>
               <p className={this.props.curTabIndex == 0 ? 'current' : ''}>Channel Scan</p>
@@ -217,10 +195,10 @@ var DashboardWiFiInsightView = React.createClass({
           <div id='wiFiInsightChannelScan'
               data-index='0'
               className={this.props.curTabIndex == 0?'wiFiInsightContentBox current':'wiFiInsightContentBox'}
-              style={{height:this.state.screenHeight-190}}>
+              style={{height:this.props.screenHeight-190}}>
               <div className='loadingSpinContainer' style={{marginTop:'20%'}}></div>
               <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Wi-Fi Insight Data!!</p></div>
-              <ChannelScanContent wifiscanList={this.state.wifiscanListGHz} signalType={this.props.signalType}  screenHeight={this.state.screenHeight}/>
+              <ChannelScanContent wifiscanList={this.state.wifiscanListGHz} signalType={this.props.signalType}  screenHeight={this.props.screenHeight}/>
               <TimeNodeSlider
                   tabIndex={0}
                   timeIndex2saveTime = {this.state.timeIndex2saveTime}
@@ -236,9 +214,9 @@ var DashboardWiFiInsightView = React.createClass({
           <div id='wiFiInsightAvailableCapacity'
               data-index='1'
               className={this.props.curTabIndex == 1?'wiFiInsightContentBox current':'wiFiInsightContentBox'}
-              style={{height:this.state.screenHeight-190}}>
+              style={{height:this.props.screenHeight-190}}>
               <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Wi-Fi Insight Data!!</p></div>
-              <AvailCapacityContent availableCapacityGHz={this.state.availableCapacityGHz} signalType={this.props.signalType} screenHeight={this.state.screenHeight}/>
+              <AvailCapacityContent availableCapacityGHz={this.state.availableCapacityGHz} signalType={this.props.signalType} screenHeight={this.props.screenHeight}/>
               <TimeNodeSlider
                   tabIndex={1}
                   timeIndex2saveTime = {this.state.timeIndex2saveTime}
@@ -254,15 +232,15 @@ var DashboardWiFiInsightView = React.createClass({
               <div style={{padding:'1rem'}}>
                   <ConnectedDevicesSpeeds
                       isAllDevices={true}
-                      screenHeight={this.state.screenHeight}
+                      screenHeight={this.props.screenHeight}
                       bandwidthList={''}/>
                </div>
           </div>
-
         </div>
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

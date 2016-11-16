@@ -64,7 +64,7 @@ var DashboardHelp = React.createClass({
     let deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     let _this = this;
-    this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    this.setState({screenHeight:this.props.screenHeight});
     var mySwiper = new Swiper('.swiper-container', {
       speed:200,
       nextButton: '.swiper-button-next',
@@ -80,11 +80,14 @@ var DashboardHelp = React.createClass({
     });
     this.setState({mySwiper:mySwiper});
     $('.dashboardHelpContainer').addClass('hide');
-    $(window).resize(function(){
-      if(!$('.dashboardHelpContainer').hasClass('hide')){
-        _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-      }
-    });
+    // $(window).resize(function(){
+    //   if(!$('.dashboardHelpContainer').hasClass('hide')){
+    //     _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
+    //   }
+    // });
+  },
+  componentWillUnmount:function(){
+    // $(window).off();
   },
   onClickHideHelp:function(){
     $('.dashboardHelpContainer').addClass('hide');

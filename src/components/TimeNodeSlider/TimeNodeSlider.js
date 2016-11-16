@@ -1,7 +1,7 @@
-
 import React from 'react';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import './TimeNodeSlider.scss'
+
 const TimeNodeSlider = React.createClass({
   getInitialState() {
     return {
@@ -13,12 +13,6 @@ const TimeNodeSlider = React.createClass({
   },
   componentWillMount:function(){
     this.setState({timeNode:this.props.timeNode});
-  },
-  componentDidMount:function(){
-    // this.props.dispatch(TabBarAction.setTabBarState('/Locations'));
-  },
-  componentDidUpdate:function(){
-    // console.log('底部状态:',this.props.tabBarState);
   },
   _timeNodeValueChanged: function(e){
     // this.setState({timeNode: e.target.value});

@@ -5,7 +5,7 @@ import './DashboardView.scss'
 import ReactTabBar from '../../../components/ReactTabBar'
 import {getDevicesChartData} from './DashboardChartData';
 import DashboardHelp from './DashboardHelp';
-import logoImg from '../../../static/assets/logo.png'
+// import logoImg from '../../../static/assets/logo.png'
 import shareIconImg from '../assets/shareIcon.png'
 import differenceImg from '../assets/difference.png'
 import goodImg from '../assets/good.png'
@@ -15,14 +15,15 @@ import dashboard_bg1 from '../assets/dashboard_bg1.png'
 import dashboard_bg2 from '../assets/dashboard_bg2.png'
 import dashboard_bg4 from '../assets/dashboard_bg4.png'
 
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
+import {logoImg,scoreState0,scoreState1,scoreState2,scoreState3,
+        wifiImg_0,wifiImg_1,wifiImg_2,wifiImg_3
+        } from '../../../components/ImagesAssets'
 
-import wifiImg_1 from '../assets/wifi-1.png'
-import wifiImg_2 from '../assets/wifi-2.png'
-import wifiImg_3 from '../assets/wifi-3.png'
+// import scoreState0 from '../../../static/assets/scoreState0.png'
+// import scoreState1 from '../../../static/assets/scoreState1.png'
+// import scoreState2 from '../../../static/assets/scoreState2.png'
+// import scoreState3 from '../../../static/assets/scoreState3.png'
+
 
 import House_Grey from '../assets/House_Grey.png'
 import House_Green from '../assets/House_Green.png'
@@ -55,7 +56,7 @@ var DashboardView = React.createClass({
       Office_Red,
       Office_Orange,
       deviceInfo:null,
-      screenHeight:0,
+      // screenHeight:0,
       ZingChartH:null,
       ZingChartR:null,
       deviceScore:null,
@@ -81,7 +82,7 @@ var DashboardView = React.createClass({
     let zingChartR = zingChartH*40/122.54;  //圆心半径--->
 
     this.setState({
-      screenHeight:screenHeight,
+      // screenHeight:screenHeight,
       deviceInfo:deviceInfo,
       ZingChartH:zingChartH,
       ZingChartR:zingChartR,
@@ -90,12 +91,6 @@ var DashboardView = React.createClass({
       capacityScore:this._getScoreLevel(deviceInfo.capacityScore),
       routerConditionScore:this._getScoreLevel(deviceInfo.routerConditionScore),
       signalScore:this._getSignalScoreLevel(deviceInfo.signalScore)
-    });
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
     });
     zingchart.render({id : 'DashboradChart',data : this.state.myConfig,height: '98%' ,width: this.state.ZingChartH });
     let oldTimeStamp = parseInt(localStorage.getItem('dashboardTimeStamp') || 0);
@@ -132,12 +127,10 @@ var DashboardView = React.createClass({
     });
   },
   componentWillUnmount:function(){
-    $(window).off();
     zingchart.exec('DashboradChart', 'destroy');//不销毁的话会导致第二次加载这个路由页面的时候会报错。
     this.axiosSource && this.axiosSource.cancel();
   },
   shouldComponentUpdate:function(nextProps, nextState){
-    // console.log('nextState.myConfig',this.state.ZingChartH);
     if(this.state.myConfig != nextState.myConfig && nextState.myConfig) {
       zingchart.render({id : 'DashboradChart',data : nextState.myConfig,height: '98%' ,width: this.state.ZingChartH });
     }
@@ -207,7 +200,7 @@ var DashboardView = React.createClass({
             <img src={iconUrl} />
           </div>
         </div>
-        <div className='middleContent Dashboard_content contentFixed' style={{height:this.state.screenHeight-110}}>
+        <div className='middleContent Dashboard_content contentFixed' style={{height:this.props.screenHeight-110}}>
           <div className='Dashboard_contentTop'>
             <div className='Dashboard_dashboardInfo'>
               <p>OiQ Score</p>
@@ -262,7 +255,8 @@ var DashboardView = React.createClass({
           </div>
         </div>
         <DashboardHelp
-          device_Type={this.state.deviceInfo.deviceN}
+        device_Type={this.state.deviceInfo.deviceN}
+          screenHeight={this.props.screenHeight}
           scoreState0={this.state.scoreState0}
           scoreState1={this.state.scoreState1}
           scoreState2={this.state.scoreState2}
@@ -270,6 +264,7 @@ var DashboardView = React.createClass({
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

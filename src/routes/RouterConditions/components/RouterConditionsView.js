@@ -6,13 +6,7 @@ import TimeSelectionTab from '../../../components/TimeSelectionTab'
 
 import {RectChart,TemperatureChart} from './OtherStatusComponents'
 import StatusChartComponent from './StatusChartComponent'
-
-import backImg from '../../../static/assets/back.png'
-
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
+import {backImg,scoreState0,scoreState1,scoreState2,scoreState3} from '../../../components/ImagesAssets'
 
 import './RouterConditionsView.scss'
 
@@ -29,7 +23,6 @@ var RouterConditionsView = React.createClass({
       isGetting:true,
       deviceInfo:null,
       tabKeyList:['status','update','reboot'],
-      screenHeight:0,
       cPU_0_Load:0,
       cPU_1_Load:0,
       cPU_Total_Load:0,
@@ -51,30 +44,25 @@ var RouterConditionsView = React.createClass({
       tab2TimeTypes[key] = '24H';
     }
     this.props.setTab2TimeTypes(tab2TimeTypes);
-    this.props.setRouterConditionsData({});
+    // this.props.setRouterConditionsData({});
   },
   componentDidMount:function(){
     let deviceListUrl = APPCONFING.deviceListUrl;
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
     this.setState({
-      screenHeight:parseInt(document.documentElement.clientHeight),
       deviceInfo:deviceInfo
     });
     let _this = this;
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    // $(window).scroll(function(event){
-    //   _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    // });
-    if(!this.props.routerConditionsData || !this.props.routerConditionsData.CurrentRouterCondition){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
-      // window.location.reload();
-      this.getServerData();
-    }else{
-      this.updateStateProps(this.props.routerConditionsData);
-    }
+
+    this.getServerData();
+    // if(!this.props.routerConditionsData || !this.props.routerConditionsData.CurrentRouterCondition){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
+    //   // window.location.reload();
+    //   this.getServerData();
+    // }else{
+    //   this.updateStateProps(this.props.routerConditionsData);
+    // }
   },
   getServerData:function(){
     var _this = this;
@@ -123,7 +111,6 @@ var RouterConditionsView = React.createClass({
     this.context.router.push('/Locations');
   },
   componentWillUnmount:function(){
-    // $(window).off();
     this.axiosCancel && this.axiosCancel();
   },
   render:function(){
@@ -145,7 +132,7 @@ var RouterConditionsView = React.createClass({
             <img src={iconImg} />
           </div>
         </div>
-        <div className='DashboardRouterConditionsContainer contentFixed' style={{height:this.state.screenHeight-102}}>
+        <div className='DashboardRouterConditionsContainer contentFixed' style={{height:this.props.screenHeight-102}}>
             <ul className="routerUl">
               <li className='routerStatus' onClick={this._showRouterConditionsDiv} data-index='0'>
                   <p className={this.props.curTabIndex == 0 ? 'current' : ''}>Status</p>
@@ -175,7 +162,7 @@ var RouterConditionsView = React.createClass({
                 </div>
                 <StatusChartComponent
                     isGetting = {this.state.isGetting}
-                    screenHeight={this.state.screenHeight}
+                    screenHeight={this.props.screenHeight}
                     cpuLoadAreaChart={this.state.cpuLoadAreaChart}
                     memoryLoadAreaChart={this.state.memoryLoadAreaChart}
                     temperatureAreaChart={this.state.temperatureAreaChart}
@@ -194,6 +181,7 @@ var RouterConditionsView = React.createClass({
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

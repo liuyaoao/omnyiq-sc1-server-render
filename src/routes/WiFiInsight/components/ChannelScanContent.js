@@ -1,19 +1,6 @@
 import React from 'react';
 import {getChannelScanChartData} from './WiFiInsightChartData';
 var ChannelScanContent = React.createClass({
-  getInitialState:function(){
-    return{
-    }
-  },
-  shouldComponentUpdate:function(nextProps, nextState){
-    // if(nextState.uploadChartData){
-    //   zingchart.render({id : 'uploadChart',data : nextState.uploadChartData,height: 300,width: "98%"});
-    // }
-    // if(nextState.uploadChartData&&nextState.downloadChartData){
-    //   zingchart.render({id : 'UploadAndDownload',data : nextState.uploadAndDownload,height: 300,width: "98%"});
-    // }
-    return true;
-  },
   componentDidUpdate:function(){
     if(this.props.wifiscanList){
       zingchart.exec('wiFiInsightChannelScanChart', 'destroy');//不销毁的话会导致第二次加载这个路由页面的时候会报错。

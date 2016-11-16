@@ -5,13 +5,7 @@ import TimeSelectionTab from '../../../components/TimeSelectionTab'
 import ReactTabBar from '../../../components/ReactTabBar'
 
 import {getSpeedsDownloadChartData, getSpeedsUploadChartData, getSpeedsDL_ULChartData} from './SpeedsChartData'
-
-import backImg from '../../../static/assets/back.png'
-
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
+import {backImg,scoreState0,scoreState1,scoreState2,scoreState3} from '../../../components/ImagesAssets'
 
 import './DashboardSpeedsView.scss'
 var DashboardSpeedsView = React.createClass({
@@ -27,7 +21,6 @@ var DashboardSpeedsView = React.createClass({
       deviceInfo:null,
       tabKeyList:['dl_ul','download','upload'],
       isNeedRender:{'dl_ul':true,'download':true,'upload':true},
-      screenHeight:0,
       downloadChartData:null,
       uploadChartData:null,
       uploadAndDownload:null
@@ -38,27 +31,15 @@ var DashboardSpeedsView = React.createClass({
     this.props.setTabBarState('/Dashboard');
     this.props.setCurTabIndex(0); //初始化数据
     this.props.setCurTabKey(this.state.tabKeyList[0]);
-    this.props.setRouterSpeedsData({});
   },
   componentDidMount:function(){
     let deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
-    this.setState({screenHeight:parseInt(document.documentElement.clientHeight),deviceInfo:deviceInfo});
+    this.setState({deviceInfo:deviceInfo});
     let deviceListUrl = APPCONFING.deviceListUrl;
     let _this = this;
     let _id = deviceInfo.deviceId.substr(deviceInfo.deviceId.length-4);
     $('.navbarDiv .navTitleText .deviceInfoTitle').text(deviceInfo.deviceName+" "+deviceInfo.deviceN+" "+_id);
-    $(window).resize(function(){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    $(window).scroll(function(event){
-      _this.setState({screenHeight:parseInt(document.documentElement.clientHeight)});
-    });
-    if(!this.props.routerSpeedsData||!this.props.routerSpeedsData.value4){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
-      // window.location.reload();
-      this.getServerData();
-    }else{
-      this.updateStateProps(this.props.routerSpeedsData);
-    }
+    this.getServerData();
   },
   getServerData:function(){
     var _this = this;
@@ -111,12 +92,11 @@ var DashboardSpeedsView = React.createClass({
         dateList.push(date.getHours());
       }
     }
+    let downloadChartData = getSpeedsDownloadChartData(dateList,avg_download,avg_wan_Latency,avg_isp_Avg_Download);
+    let uploadChartData = getSpeedsUploadChartData(dateList,avg_upload,avg_isp_Avg_Upload,avg_wan_Latency);
+    let uploadAndDownload = getSpeedsDL_ULChartData(dateList,avg_upload,avg_download,avg_isp_Avg_Download,avg_isp_Avg_Upload,avg_wan_Latency);
     _this.setState({newDownload:newDownload,newUpload:newUpload,newLatency:newLatency});
-    _this.setState({
-      downloadChartData:getSpeedsDownloadChartData(dateList,avg_download,avg_wan_Latency,avg_isp_Avg_Download),
-      uploadChartData:getSpeedsUploadChartData(dateList,avg_upload,avg_isp_Avg_Upload,avg_wan_Latency),
-      uploadAndDownload:getSpeedsDL_ULChartData(dateList,avg_upload,avg_download,avg_isp_Avg_Download,avg_isp_Avg_Upload,avg_wan_Latency)
-    });
+    _this.setState({downloadChartData,uploadChartData,uploadAndDownload});
   },
   _changeCurrentTab:function(curTabIndex){
     $('.speedsUl li p.current').removeClass('current');
@@ -176,7 +156,6 @@ var DashboardSpeedsView = React.createClass({
     this.context.router.push('/Locations');
   },
   componentWillUnmount:function(){
-    $(window).off();
     this.axiosCancel && this.axiosCancel();
   },
   render:function(){
@@ -197,7 +176,7 @@ var DashboardSpeedsView = React.createClass({
             <img src={iconImg} />
           </div>
         </div>
-        <div className='dashboardSpeedsContent contentFixed' style={{height:this.state.screenHeight-110}}>
+        <div className='dashboardSpeedsContent contentFixed' style={{height:this.props.screenHeight-110}}>
           <ul className="speedsUl">
             <li className='speedsDLUL' onClick={this._showSpeedsDiv} data-index='0'>
                 <p className={this.props.curTabIndex == 0 ? 'current' : ''}>DL+UL</p>
@@ -209,7 +188,7 @@ var DashboardSpeedsView = React.createClass({
                 <p className={this.props.curTabIndex == 2 ? 'current' : ''}>Upload</p>
             </li>
           </ul>
-          <div className='swiper-container' style={{height:this.state.screenHeight-140}}>
+          <div className='swiper-container' style={{height:this.props.screenHeight-140}}>
               <div className={this.props.curTabIndex == 0 ? 'speedsContentBox current' : 'speedsContentBox'} data-index='0'>
                   <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Speeds Data!!</p></div>
                   <div className='speedsUploadAndDownloadTitle'>
@@ -221,7 +200,7 @@ var DashboardSpeedsView = React.createClass({
                     </div>
                   </div>
                   <div className='loadingSpinContainer' style={{marginTop:'40%'}}></div>
-                  <div id='UploadAndDownload' style={{marginTop:'65px',marginBottom:'70px',height:this.state.screenHeight-240}}></div>
+                  <div id='UploadAndDownload' style={{marginTop:'65px',marginBottom:'70px',height:this.props.screenHeight-240}}></div>
                   <div className='timeSelectTab_speeds'><TimeSelectionTab/></div>
               </div>
               <div className={this.props.curTabIndex == 1 ? 'speedsContentBox current' : 'speedsContentBox'} data-index='1'>
@@ -231,13 +210,13 @@ var DashboardSpeedsView = React.createClass({
                       <p><span className='download_Mbps'>{this.state.newDownload}</span> Mbps</p><p><span className='download_Latency'>{this.state.newLatency}</span>ms latency</p>
                     </div>
                   </div>
-                  <div id='downloadChart' style={{marginTop:'65px',marginBottom:'70px',height:this.state.screenHeight-240}}></div>
+                  <div id='downloadChart' style={{marginTop:'65px',marginBottom:'70px',height:this.props.screenHeight-240}}></div>
                   <div className='timeSelectTab_speeds'><TimeSelectionTab/></div>
               </div>
               <div className={this.props.curTabIndex == 2 ? 'speedsContentBox current' : 'speedsContentBox'} data-index='2' >
                   <div className='noDataContainer hide' style={{position:'absolute'}}><p style={{top:'40%'}}>No Speeds Data!!</p></div>
                   <div className='speedsDownloadTitle'><div><p><span className='upload_Mbps'>{this.state.newUpload}</span> Mbps</p><p><span className='upload_Latency'>{this.state.newLatency}</span>ms latency</p></div></div>
-                   <div id='uploadChart' style={{marginTop:'65px',marginBottom:'70px',height:this.state.screenHeight-240}}></div>
+                   <div id='uploadChart' style={{marginTop:'65px',marginBottom:'70px',height:this.props.screenHeight-240}}></div>
                    <div className='timeSelectTab_speeds'><TimeSelectionTab/></div>
               </div>
 
@@ -246,6 +225,7 @@ var DashboardSpeedsView = React.createClass({
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

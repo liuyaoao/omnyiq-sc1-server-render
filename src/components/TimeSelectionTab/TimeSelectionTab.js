@@ -1,17 +1,7 @@
-
 import React from 'react';
 import './TimeSelectionTab.scss'
+
 const TimeSelectionTab = React.createClass({
-  getInitialState() {
-    return {
-    };
-  },
-  componentWillMount:function(){
-  },
-  componentDidMount:function(){
-  },
-  componentDidUpdate:function(){
-  },
   _handleOnClick(e) {
     var that = $(e.currentTarget);
     var timeKey = that.data('timekey');
@@ -21,7 +11,6 @@ const TimeSelectionTab = React.createClass({
     // TODO，这里要调用父组件的一个回调,让父组件处理选中了那个时间段。
     that.closest('.timeSelection').find('.current').removeClass('current');
     that.addClass('current');
-    // this.props.dispatch(TabBarAction.setTabBarState(toUrl));
   },
   render() {
     var currentKey = this.props.timeKey || "24H"; //当前选中哪个tab

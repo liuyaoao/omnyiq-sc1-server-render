@@ -19,30 +19,10 @@ export default async function (ctx) {
           resolve({CommonReducer: { routersData: routersData, routersOnlineStatus:data} })
         });
       });
-    }else if (ctx.req.url == '/Dashboard') {
-      tempUrl = APPCONFINGS.deviceListUrl+'/GetDashboardByIdServlet';
-      axios.get(tempUrl).then(({data}) => {
-        resolve({CommonReducer: { dashboardData: data} })
-      })
     }else if(ctx.req.url == '/Dashboard/ConnectedDevices'){
       tempUrl = APPCONFINGS.deviceListUrl+'/GetConnectedDeviceByIdServlet';
       axios.get(tempUrl).then(({data}) => {
         resolve({CommonReducer:{ devicesData:data } })
-      })
-    }else if(ctx.req.url == '/Dashboard/WiFiInsight_99999999'){
-      tempUrl = APPCONFINGS.deviceListUrl+'/GetWifiCapacityByIdServlet';
-      axios.get(tempUrl).then(({data}) => {
-        resolve({CommonReducer:{ wiFiInsightData:data } })
-      });
-    }else if(ctx.req.url == '/Dashboard/Speeds'){
-      tempUrl = APPCONFINGS.deviceListUrl+'/GetInternetSpeedsByIdServlet';
-      axios.get(tempUrl).then(({data}) => {
-        resolve({CommonReducer:{ routerSpeedsData:data } })
-      })
-    }else if(ctx.req.url == '/Dashboard/RouterConditions_99999999'){
-      tempUrl = APPCONFINGS.deviceListUrl+'/GetRouterConditionByIdServlet';
-      axios.get(tempUrl).then(({data}) => {
-        resolve({CommonReducer:{ routerConditionsData:data } })
       })
     }else if(ctx.req.url == '/Network'){
       tempUrl = APPCONFINGS.deviceListUrl+'/GetConnectedDeviceByIdServlet';
@@ -54,3 +34,26 @@ export default async function (ctx) {
     }
   })
 }
+
+//  这几个不能在服务端获取数据渲染，因为zingchart这个插件不兼容在服务端渲染。
+// else if (ctx.req.url == '/Dashboard_9999') {
+//   tempUrl = APPCONFINGS.deviceListUrl+'/GetDashboardByIdServlet';
+//   axios.get(tempUrl).then(({data}) => {
+//     resolve({CommonReducer: { dashboardData: data} })
+//   })
+// }else if(ctx.req.url == '/Dashboard/WiFiInsight_99999999'){
+//   tempUrl = APPCONFINGS.deviceListUrl+'/GetWifiCapacityByIdServlet';
+//   axios.get(tempUrl).then(({data}) => {
+//     resolve({CommonReducer:{ wiFiInsightData:data } })
+//   });
+// }else if(ctx.req.url == '/Dashboard/Speeds_999999'){
+//   tempUrl = APPCONFINGS.deviceListUrl+'/GetInternetSpeedsByIdServlet';
+//   axios.get(tempUrl).then(({data}) => {
+//     resolve({CommonReducer:{ routerSpeedsData:data } })
+//   })
+// }else if(ctx.req.url == '/Dashboard/RouterConditions_99999999'){
+//   tempUrl = APPCONFINGS.deviceListUrl+'/GetRouterConditionByIdServlet';
+//   axios.get(tempUrl).then(({data}) => {
+//     resolve({CommonReducer:{ routerConditionsData:data } })
+//   })
+// }

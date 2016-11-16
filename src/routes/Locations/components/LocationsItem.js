@@ -1,27 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import Dashboard_House0 from '../assets/Dashboard-House0.png'
-import Dashboard_House1 from '../assets/Dashboard-House1.png'
-import Dashboard_House2 from '../assets/Dashboard-House2.png'
-import Dashboard_House3 from '../assets/Dashboard-House3.png'
-import Dashboard_Office0 from '../assets/Dashboard-Office0.png'
-import Dashboard_Office1 from '../assets/Dashboard-Office1.png'
-import Dashboard_Office2 from '../assets/Dashboard-Office2.png'
-import Dashboard_Office3 from '../assets/Dashboard-Office3.png'
-
-// import scoreState0 from '../assets/scoreState0.png'
-// import scoreState1 from '../assets/scoreState1.png'
-// import scoreState2 from '../assets/scoreState2.png'
-// import scoreState3 from '../assets/scoreState3.png'
-
-import scoreState0 from '../../../static/assets/scoreState0.png'
-import scoreState1 from '../../../static/assets/scoreState1.png'
-import scoreState2 from '../../../static/assets/scoreState2.png'
-import scoreState3 from '../../../static/assets/scoreState3.png'
+import {scoreState0,scoreState1,scoreState2,scoreState3,
+        Dashboard_House0,Dashboard_House1,Dashboard_House2,Dashboard_House3,
+      Dashboard_Office0,Dashboard_Office1,Dashboard_Office2,Dashboard_Office3} from '../../../components/ImagesAssets'
 
 var LocationsItem = React.createClass({
   getInitialState:function(){
     return{
+      scoreState0,
+      scoreState1,
+      scoreState2,
+      scoreState3,
       Dashboard_House0,
       Dashboard_House1,
       Dashboard_House2,
@@ -29,19 +18,8 @@ var LocationsItem = React.createClass({
       Dashboard_Office0,
       Dashboard_Office1,
       Dashboard_Office2,
-      Dashboard_Office3,
-      scoreState0,
-      scoreState1,
-      scoreState2,
-      scoreState3,
+      Dashboard_Office3
     }
-  },
-  componentDidMount:function(){
-  },
-  shouldComponentUpdate:function(nextProps, nextState){
-    return true;
-  },
-  componentDidUpdate:function(){
   },
   _onClickToDetails:function(e){
     var that = $(e.currentTarget);

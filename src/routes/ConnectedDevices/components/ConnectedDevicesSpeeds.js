@@ -15,7 +15,7 @@ var ConnectedDevicesSpeeds = React.createClass({
     if(this.props.isAllDevices){
       $.ajax({
          type: "GET",
-         url: deviceListUrl+'/GetBandwidthServlet?id='+deviceInfo.deviceId,
+         url: deviceListUrl+'/GetBandwidthServlet',
          success: function(data){
            data = JSON.parse(data);
            let allBandwidthList = data.AllBandwidthList || [];
@@ -27,15 +27,6 @@ var ConnectedDevicesSpeeds = React.createClass({
          }
        });
     }
-  },
-  shouldComponentUpdate:function(nextProps, nextState){
-    // if(nextState.uploadChartData){
-    //   zingchart.render({id : 'uploadChart',data : nextState.uploadChartData,height: 300,width: "98%"});
-    // }
-    // if(nextState.uploadChartData&&nextState.downloadChartData){
-    //   zingchart.render({id : 'UploadAndDownload',data : nextState.uploadAndDownload,height: 300,width: "98%"});
-    // }
-    return true;
   },
   _onClickChartCall:function(e){
     var data = zingchart.exec(e.id, 'getseriesvalues', {});
@@ -69,7 +60,6 @@ var ConnectedDevicesSpeeds = React.createClass({
       usedList.push(obj.used||0);
       i++;
     }
-    // timeLabelList.push(timeLabelList[0]);
     var chartData = getSpeedsChartData(timeLabelList,totalList,usedList);
     zingchart.render({id : 'ConnectDevicesSpeedsChart',data : chartData,height: "300",width: "100%"});
     zingchart.node_click = function(e){
@@ -93,8 +83,7 @@ var ConnectedDevicesSpeeds = React.createClass({
   render:function(){
     return(
         <div className='connectedDevicesSpeedsContainer' style={{height:this.props.screenHeight-245}}>
-          <div onClick={this.props.onClickCloseSingleSpeeds} className={'closeSingleSpeedsBtn glyphicon glyphicon-remove '+this.props.isAllDevices?"hide":""}></div>
-
+          {!this.props.isAllDevices?<div onClick={this.props.onClickCloseSingleSpeeds} className='closeSingleSpeedsBtn glyphicon glyphicon-remove'></div>:''}
           <div className='devicesSpeedsTop'>
             {this.props.deviceName? <span>{this.props.deviceName} Devices</span>:<span>All Wi-Fi Devices</span>}
             <p className='speedsTitle'><span className='speedsNum'></span> Mbps</p>

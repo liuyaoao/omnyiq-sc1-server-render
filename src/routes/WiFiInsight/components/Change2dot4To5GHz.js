@@ -1,12 +1,5 @@
 import React from 'react';
 var Change2dot4To5GHz = React.createClass({
-  getInitialState:function(){
-    return{
-    }
-  },
-  componentDidMount:function(){
-
-  },
   _changeSignalType:function(e){
     let that = $(e.currentTarget);
     if(that.hasClass('current')) {

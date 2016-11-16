@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import ReactTabBar from '../../../components/ReactTabBar'
-import Welcome1Image from '../assets/Welcome1.png'
+import {Welcome1Image} from '../../../components/ImagesAssets'
 import './WelcomeView.scss'
 
 var WelcomeView = React.createClass({
@@ -12,7 +12,6 @@ var WelcomeView = React.createClass({
     return {
       Welcome1Image:null,
       mySwiper:null,
-      clientHeight:0,
       intervalKey:''
     }
   },
@@ -22,7 +21,6 @@ var WelcomeView = React.createClass({
     var secondNum = 5; //显示几秒钟
     var intervalkey = setInterval(function(){
       secondNum--;
-      // $('.countDownNum').text(secondNum);
       if(secondNum <= 0){
         _this.state.mySwiper.slideTo(1); //跳转页面
       }
@@ -37,11 +35,7 @@ var WelcomeView = React.createClass({
     this.setState({
       Welcome1Image:Welcome1Image,  //这里需要这样写，不然刷新页面的时候会报一个checkSum不一致的警告。
       intervalkey:intervalkey,
-      mySwiper:mySwiper,
-      clientHeight:parseInt(document.documentElement.clientHeight)
-    });
-    $(window).resize(function(){
-      _this.setState({clientHeight:parseInt(document.documentElement.clientHeight)});
+      mySwiper:mySwiper
     });
   },
   _goIndex:function(){
@@ -49,14 +43,11 @@ var WelcomeView = React.createClass({
     this.props.setTabBarIsShow(true);
     this.context.router.push('/Locations');
   },
-  componentWillUnmount:function(){
-    $(window).off();
-  },
   render:function(){
     return (
       <div>
         <Helmet title='welcome' />
-        <div className="swiper-container" style={{width:"100%",height:this.state.clientHeight-10}} >
+        <div className="swiper-container" style={{width:"100%",height:this.props.screenHeight-10}} >
           <div className="swiper-wrapper">
             <div className="swiper-slide">
                 <div id="WelcomeContent" className="WelcomeContent" style={{}}>
@@ -89,6 +80,7 @@ var WelcomeView = React.createClass({
         <ReactTabBar
           setTabBarState={this.props.setTabBarState}
           setTabBarIsShow={this.props.setTabBarIsShow}
+          setScreenHeight={this.props.setScreenHeight}
           tabBarState={this.props.tabBarState}
           tabBarIsShow={this.props.tabBarIsShow} />
       </div>

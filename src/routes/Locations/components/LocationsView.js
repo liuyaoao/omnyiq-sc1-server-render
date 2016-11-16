@@ -1,13 +1,9 @@
 import React from 'react'
 import axios from 'axios'
-
 import Helmet from 'react-helmet'
 import LocationsList from './LocationsList'
 import ReactTabBar from '../../../components/ReactTabBar'
-
-import logoImg from '../../../static/assets/logo.png'
-import searchImg from '../assets/search.png'
-
+import {logoImg,searchImg} from '../../../components/ImagesAssets'
 import './LocationsView.scss'
 
 var LocationsView = React.createClass({
@@ -30,12 +26,10 @@ var LocationsView = React.createClass({
     this.props.setRoutersData({});
   },
   componentDidMount:function(){
-    var _this = this;
     $('.SubNavOption ul li').first().addClass('current');
     let curTimeStamp = new Date()/1;
     localStorage.setItem('dashboardTimeStamp',curTimeStamp+'');
     if(!this.props.routersData||!this.props.routersData.list){ //如果是通过前端路由跳转到改页面的则不会在服务端去拿数据。
-      // window.location.reload();
       this._getServerData(1,100,'');
     }else{
       this.updateStateProps(this.props.routersData,this.props.routersOnlineStatus);
@@ -45,19 +39,16 @@ var LocationsView = React.createClass({
     var _this = this;
     var axiosSource = axios.CancelToken.source();
     this.setState({axiosSource});
-    var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    // var deviceListUrl='http://dev.omnyiq.com/xmpp_es'; //测试用。
-    var tempUrl = deviceListUrl+"/GetLocationsServlet?page="+page+"&size="+size+"&keywords="+keywords;
+    var tempUrl = APPCONFING.deviceListUrl+"/GetLocationsServlet?page="+page+"&size="+size+"&keywords="+keywords;
     axios.get(tempUrl,{cancelToken: axiosSource.token}).then(({data}) => {
-      // console.log('axios--ajax----',data);
+      // console.log('axios--ajax--GetLocationsServlet--',data);
       _this.updateStateProps(data,{});
       _this._getRouterDeviceOnlineState(data);
     }).catch((error) => {});
   },
   _getRouterDeviceOnlineState:function(routersData){
     var _this = this;
-    var deviceListUrl = APPCONFING.deviceListUrl;//读取配置文件内容
-    var tempUrl = deviceListUrl+"/CheckRouterStatusServlet?ids="+routersData.ids;
+    var tempUrl = APPCONFING.deviceListUrl+"/CheckRouterStatusServlet?ids="+routersData.ids;
     axios.get(tempUrl,{cancelToken: this.state.axiosSource.token}).then(({data}) => {
       _this.updateStateProps(routersData,data);
     }).catch((error) => {});
@@ -130,7 +121,6 @@ var LocationsView = React.createClass({
     this.props.setCurTabKey(tabKey);
   },
   componentWillUnmount:function(){
-    $(window).off();
     this.state.axiosSource && this.state.axiosSource.cancel();
   },
   render() {

@@ -8,10 +8,6 @@ var SettingsView = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
   },
-  getInitialState:function(){
-    return{
-    }
-  },
   componentWillMount:function(){
     this.props.setTabBarIsShow(true);
     this.props.setTabBarState('/Settings');
